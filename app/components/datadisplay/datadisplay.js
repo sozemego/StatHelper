@@ -11,6 +11,7 @@ export default class DataDisplay extends React.Component {
 
 	constructor(props) {
 		super(props);
+		this.isItemSelected = this.isItemSelected.bind(this)
 	}
 
 	render() {
@@ -19,13 +20,12 @@ export default class DataDisplay extends React.Component {
 			return null;
 		}
 
-		const headers = data[0];
-
-		const cells = headers.map(function(item, index) {
+		const itemNames = data[0];
+		const cells = itemNames.map(function(item, index) {
 			return(
-				<Cell value = {item} key = {index}/>
+				<Cell value = {item} key = {index} index = {index} clickCallback = {this.props.clickCallback} isItemSelected = {this.isItemSelected}/>
 			);
-		});
+		}.bind(this));
 
 		return(
 			<div className = "container">
@@ -39,6 +39,13 @@ export default class DataDisplay extends React.Component {
 				</div>
 			</div>
 		);
+	}
+
+	isItemSelected(index) {
+		let selected = this.props.selectedItems.filter(function(i) {
+			return i === index;
+		})[0] !== undefined;
+		return selected;
 	}
 
 }

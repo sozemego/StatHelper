@@ -2,14 +2,16 @@
 import React from "react";
 
 // COMPONENTS
+import Infobar from "../../components/infobar/infobar";
 import Header from "../../components/header/header";
 import Separator from "../../components/separator/separator";
 import FileUpload from "../../components/fileupload/fileupload";
 import DataDisplay from "../../components/datadisplay/datadisplay";
-import Infobar from "../../components/infobar/infobar";
+import ScaleCreator from "../../components/scalecreator/scalecreator";
 
 //UTILS
 import FileParser from "../../fileparser/fileparser";
+import ExperimentalDesign from "../../experimentaldesign/experimentaldesign";
 
 
 export default class App extends React.Component {
@@ -18,15 +20,12 @@ export default class App extends React.Component {
 		super(props);
 		this.onFileUpload = this.onFileUpload.bind(this);
 		this.hideInfobar = this.hideInfobar.bind(this);
-		this.state = {};
-	}
-
-	componentWillMount() {
-
-	}
-
-	hideInfobar() {
-		this.setState({message: null});
+		this.clickCallback = this.clickCallback.bind(this);
+		this.onAddScale = this.onAddScale.bind(this);
+		this.state = {
+			design: new ExperimentalDesign(),
+			selectedItems: []
+		};
 	}
 
 	render() {
@@ -38,7 +37,9 @@ export default class App extends React.Component {
 				<Separator />
         <FileUpload onFileUpload = {this.onFileUpload}/>
 				<Separator />
-				<DataDisplay data = {data}/>
+				<DataDisplay data = {data} clickCallback = {this.clickCallback} ref="datadisplay" selectedItems = {this.state.selectedItems} />
+				<Separator />
+				<ScaleCreator data = {data} getScales = {this.state.design.getScales} onAddScale = {this.onAddScale} selectedItems = {this.state.selectedItems}/>
 				<Separator />
         <p>analyze file and display columns along with names. let user define which column belongs where</p>
         <p>also here, user will be able to define scales</p>
@@ -55,6 +56,12 @@ export default class App extends React.Component {
 		);
 	}
 
+	onAddScale(scale, parentScale) {
+		this.state.design.addScale(scale, parentScale);
+		this.state.selectedItems = [];
+		this.refs.datadisplay.forceUpdate();
+	}
+
 	onFileUpload(file, extension) {
 		FileParser.parseFile(file, extension, this.onParse.bind(this));
 	}
@@ -66,5 +73,30 @@ export default class App extends React.Component {
 			this.setState({data: result});
 		}
 	}
+
+	hideInfobar() {
+		this.setState({message: null});
+	}
+
+	clickCallback(cellIndex) {
+		const selectedItems = this.state.selectedItems;
+		const cells = selectedItems.filter(function(item) {
+			return item === cellIndex;
+		});
+
+		if(cells.length === 0) {
+			selectedItems.push(cellIndex);
+		} else {
+			for(var i = 0; i < selectedItems.length; i++) {
+				if(selectedItems[i] === cellIndex) {
+					selectedItems.splice(i, 1);
+				}
+			}
+		}
+
+		this.refs.datadisplay.forceUpdate();
+
+	}
+
 
 }
