@@ -8,6 +8,7 @@ import Separator from "../../components/separator/separator";
 import FileUpload from "../../components/fileupload/fileupload";
 import DataDisplay from "../../components/datadisplay/datadisplay";
 import ScaleCreator from "../../components/scalecreator/scalecreator";
+import ScaleConfigurer from "../../components/scaleconfigurer/scaleconfigurer";
 
 //UTILS
 import FileParser from "../../fileparser/fileparser";
@@ -41,6 +42,7 @@ export default class App extends React.Component {
 				<DataDisplay data = {data} clickCallback = {this.clickCallback} ref="datadisplay" selectedItems = {this.state.selectedItems} />
 				<Separator />
 				<ScaleCreator data = {data} getScales = {this.state.design.getScales} onAddScale = {this.onAddScale} selectedItems = {this.state.selectedItems}/>
+				<ScaleConfigurer getScales = {this.state.design.getScales}/>
 				<Separator />
         <p>Here display buttons for each scale</p>
 				<p>When clicked, a scale config will appear, where all configuration happens</p>

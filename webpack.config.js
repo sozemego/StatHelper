@@ -1,4 +1,6 @@
+/* eslint-disable */
 var path = require("path");
+var webpack = require("webpack");
 
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -20,7 +22,7 @@ module.exports = {
             {
               test: /\.css$/,
               loader: ExtractTextPlugin.extract("css?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]")
-            },
+						},
             {
                 test: /\.js$/,
                 //include: "./app/js/",
@@ -43,6 +45,16 @@ module.exports = {
           from: entryPath + "/img/*"
         }
       ])
+			//new webpack.optimize.OccurenceOrderPlugin(),
+			//new webpack.DefinePlugin({
+			//	"process.env": {
+			//		"NODE_ENV": JSON.stringify("production")
+			//	}
+			//}),
+			//new webpack.optimize.UglifyJsPlugin({
+      //	compressor: {
+      //  	warnings: false
+      //}
     ],
     resolve: {
       root: [
