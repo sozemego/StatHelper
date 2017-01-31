@@ -13,6 +13,7 @@ export default class ScaleCreator extends React.Component {
 		super(props);
 		this.createScale = this.createScale.bind(this);
 		this.createSubscale = this.createSubscale.bind(this);
+		this.createScaleObject = this.createScaleObject.bind(this);
 	}
 
 	render() {
@@ -42,15 +43,46 @@ export default class ScaleCreator extends React.Component {
 
 	createScale() {
 		const scaleName = this.refs.scalename.value;
-		this.props.onAddScale(scaleName);
+		const scaleObject = this.createScaleObject(scaleName);
+		if(!scaleObject) {
+			return;
+		}
+		this.props.onAddScale(scaleObject);
 		this.forceUpdate();
 	}
 
 	createSubscale() {
 		const scaleName = this.refs.scalename.value;
 		const parentScale = this.refs.selectedscale.selectedIndex;
-		this.props.onAddScale(scaleName, parentScale);
+		const scaleObject = this.createScaleObject(scaleName);
+		if(!scaleObject) {
+			return;
+		}
+		this.props.onAddScale(scaleObject, parentScale);
 		this.forceUpdate();
+	}
+
+	createScaleObject(scaleName) {
+		if(!scaleName || scaleName === null || scaleName === "") {
+			return;
+		}
+
+		const selectedItems = this.getSelectedItemsCopy();
+		if(selectedItems.length === 0) {
+			return;
+		}
+
+		return {
+			name: scaleName, items: selectedItems
+		};
+	}
+
+	getSelectedItemsCopy() {
+		const selectedItems = [];
+		for(var i = 0; i < this.props.selectedItems.length; i++) {
+			selectedItems.push(this.props.selectedItems[i]);
+		}
+		return selectedItems;
 	}
 
 	getScales() {

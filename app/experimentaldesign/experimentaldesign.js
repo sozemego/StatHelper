@@ -9,8 +9,12 @@ export default class ExperimentalDesign {
 		parentScale parameter should be the index of the scale, not its name
 	*/
 	addScale(scale, parentScale) {
+		if(!scale) {
+			return;
+		}
+
 		if(!parentScale) {
-			this.scales.push({name: scale});
+			this.scales.push(scale);
 			return;
 		}
 
