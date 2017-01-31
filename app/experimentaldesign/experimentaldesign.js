@@ -13,7 +13,7 @@ export default class ExperimentalDesign {
 			return;
 		}
 
-		if(!parentScale) {
+		if(parentScale === undefined) {
 			this.scales.push(scale);
 			return;
 		}
@@ -24,7 +24,7 @@ export default class ExperimentalDesign {
 			parentScaleObject.subscales = [];
 		}
 
-		parentScaleObject.subscales.push({name: scale});
+		parentScaleObject.subscales.push(scale);
 
 	}
 

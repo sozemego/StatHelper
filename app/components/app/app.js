@@ -22,6 +22,7 @@ export default class App extends React.Component {
 		this.hideInfobar = this.hideInfobar.bind(this);
 		this.clickCallback = this.clickCallback.bind(this);
 		this.onAddScale = this.onAddScale.bind(this);
+
 		this.state = {
 			design: new ExperimentalDesign(),
 			selectedItems: []
@@ -41,8 +42,8 @@ export default class App extends React.Component {
 				<Separator />
 				<ScaleCreator data = {data} getScales = {this.state.design.getScales} onAddScale = {this.onAddScale} selectedItems = {this.state.selectedItems}/>
 				<Separator />
-        <p>analyze file and display columns along with names. let user define which column belongs where</p>
-        <p>also here, user will be able to define scales</p>
+        <p>Here display buttons for each scale</p>
+				<p>When clicked, a scale config will appear, where all configuration happens</p>
         <p>----------</p>
         <p>based on what user picked, let him choose statistical tests</p>
         <p>let them choose as many as they want</p>
@@ -58,7 +59,7 @@ export default class App extends React.Component {
 
 	onAddScale(scale, parentScale) {
 		this.state.design.addScale(scale, parentScale);
-		this.state.selectedItems = [];
+		this.setState({selectedItems: []});
 		this.refs.datadisplay.forceUpdate();
 	}
 
@@ -94,7 +95,7 @@ export default class App extends React.Component {
 			}
 		}
 
-		this.refs.datadisplay.forceUpdate();
+		this.setState({selectedItems: selectedItems});
 
 	}
 

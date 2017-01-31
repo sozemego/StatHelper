@@ -11,7 +11,7 @@ export default class DataDisplay extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.isItemSelected = this.isItemSelected.bind(this)
+		this.isItemSelected = this.isItemSelected.bind(this);
 	}
 
 	render() {
