@@ -20,7 +20,7 @@ export default class Cell extends React.Component {
 
 		return(
 			<div onClick = {this.onClick} className = {cellClass}>
-					{this.props.value}
+					{this.props.value} [{this.props.index}]
 			</div>
 		);
 	}
