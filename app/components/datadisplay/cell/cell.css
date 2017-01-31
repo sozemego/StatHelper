@@ -8,8 +8,11 @@
   -ms-user-select: none; /* Internet Explorer/Edge */
   user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome and Opera */
+
+	border: 1px solid gray;
+	margin: 2px;
 }
 
 .cell_clicked {
-	background: gray;
+	background: #B0E0E6;
 }
