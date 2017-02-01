@@ -29,9 +29,9 @@ export default class ScaleCreator extends React.Component {
 			<div className = "container text-center">
 				<span>Name of the scale:</span>
 				<input className = {styles.input_field} type="text" size="40" placeholder="Name of the scale/subscale" ref="scalename"></input>
-				<button type="button" onClick={this.createScale}>Create a new scale</button>
+				<button type="button" onClick={this.createScale}>Create a scale</button>
 
-				<button type="button" onClick={this.createSubscale}>Create a subscale of selected scale</button>
+				<button type="button" onClick={this.createSubscale} title="Tip: subscales cannot have subscales.">Create a subscale of:</button>
 				<select ref="selectedscale">
 					{scaleNames}
 				</select>
