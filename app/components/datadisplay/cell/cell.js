@@ -8,7 +8,8 @@ export default class Cell extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.onClick = this.onClick.bind(this);
+		this.onMouseDown = this.onMouseDown.bind(this);
+		this.onMouseEnter = this.onMouseEnter.bind(this);
 	}
 
 	render() {
@@ -19,14 +20,20 @@ export default class Cell extends React.Component {
 		}
 
 		return(
-			<div onClick = {this.onClick} className = {cellClass}>
+			<div onMouseDown = {this.onMouseDown} className = {cellClass} onMouseEnter={this.onMouseEnter}>
 					{this.props.value} [{this.props.index}]
 			</div>
 		);
 	}
 
-	onClick() {
+	onMouseDown() {
 		this.props.clickCallback(this.props.index);
+	}
+
+	onMouseEnter() {
+		if(this.props.isMousePressed()) {
+			this.onMouseDown();
+		}
 	}
 
 }

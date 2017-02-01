@@ -12,6 +12,20 @@ export default class DataDisplay extends React.Component {
 	constructor(props) {
 		super(props);
 		this.isItemSelected = this.isItemSelected.bind(this);
+		this.isMousePressed = this.isMousePressed.bind(this);
+		this.onClick = this.onClick.bind(this);
+		this.onMouseUp = this.onMouseUp.bind(this);
+		this.state = {
+			drag: {
+				clicked: false
+			}
+		};
+
+		/** Since we're not changing the structure of the app dynamically,
+		these statements will only be executed once, i.e. this component's
+		constructor will only be called once. */
+		document.body.addEventListener("mousedown", this.onClick);
+		document.body.addEventListener("mouseup", this.onMouseUp);
 	}
 
 	render() {
@@ -23,7 +37,8 @@ export default class DataDisplay extends React.Component {
 		const itemNames = data[0];
 		const cells = itemNames.map(function(item, index) {
 			return(
-				<Cell value = {item} key = {index} index = {index} clickCallback = {this.props.clickCallback} isItemSelected = {this.isItemSelected}/>
+				<Cell value = {item} key = {index} index = {index} clickCallback = {this.props.clickCallback} isItemSelected = {this.isItemSelected}
+				isMousePressed = {this.isMousePressed} />
 			);
 		}.bind(this));
 
@@ -45,6 +60,22 @@ export default class DataDisplay extends React.Component {
 			return i === index;
 		})[0] !== undefined;
 		return selected;
+	}
+
+	onClick() {
+		const updatedDrag = this.state.drag;
+		updatedDrag.clicked = true;
+		this.setState({drag: updatedDrag});
+	}
+
+	onMouseUp() {
+		const updatedDrag = this.state.drag;
+		updatedDrag.clicked = false;
+		this.setState({drag: updatedDrag});
+	}
+
+	isMousePressed() {
+		return this.state.drag.clicked === true;
 	}
 
 }
