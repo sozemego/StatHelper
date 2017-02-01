@@ -53,16 +53,16 @@ export default class ScaleCreator extends React.Component {
 
 	createSubscale() {
 		const scaleName = this.refs.scalename.value;
-		const parentScale = this.refs.selectedscale.selectedIndex;
-		const scaleObject = this.createScaleObject(scaleName);
+		const parentScaleIndex = this.refs.selectedscale.selectedIndex;
+		const scaleObject = this.createScaleObject(scaleName, parentScaleIndex);
 		if(!scaleObject) {
 			return;
 		}
-		this.props.onAddScale(scaleObject, parentScale);
+		this.props.onAddScale(scaleObject);
 		this.forceUpdate();
 	}
 
-	createScaleObject(scaleName) {
+	createScaleObject(scaleName, parentScaleIndex) {
 		if(!scaleName || scaleName === null || scaleName === "") {
 			return;
 		}
@@ -72,9 +72,16 @@ export default class ScaleCreator extends React.Component {
 			return;
 		}
 
-		return {
-			name: scaleName, items: selectedItems
+		const scale = {
+			name: scaleName,
+			items: selectedItems
 		};
+
+		if(parentScaleIndex !== undefined) {
+			scale.parent = parentScaleIndex;
+		}
+
+		return scale;
 	}
 
 	getSelectedItemsCopy() {
@@ -86,7 +93,13 @@ export default class ScaleCreator extends React.Component {
 	}
 
 	getScales() {
-		const scales = this.props.getScales();
+
+		/** Filter scales that have parents (i.e. are subscales), because they cannot
+		have another subscales */
+		const scales = this.props.getScales().filter(function(scale) {
+			return scale.parent === undefined;
+		});
+
 		let scaleNames = [];
 		for(var i = 0; i < scales.length; i++) {
 			scaleNames.push(<option key={i} value={scales[i].name}>{scales[i].name}</option>);
