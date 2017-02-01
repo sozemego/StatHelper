@@ -1,5 +1,8 @@
 import React from "react";
 
+//COMPONENTS
+import ScaleInfo from "./scaleinfo/scaleinfo";
+
 export default class ScaleConfig extends React.Component {
 
 	constructor(props) {
@@ -7,19 +10,10 @@ export default class ScaleConfig extends React.Component {
 	}
 
 	render() {
-		const scaleName = this.props.scale.name;
-
-		const items = this.props.scale.items.map(function(item, index) {
-			return(
-				<span>{item} </span>
-			);
-		});
 
 		return(
 			<div>
-				<p className = "text-center">{scaleName}</p>
-				<p>Items:</p>
-				{items}
+				<ScaleInfo scale = {this.props.scale} getScale = {this.props.getScale}/>
 			</div>
 		);
 	}

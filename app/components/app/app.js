@@ -42,7 +42,7 @@ export default class App extends React.Component {
 				<DataDisplay data = {data} clickCallback = {this.clickCallback} ref="datadisplay" selectedItems = {this.state.selectedItems} />
 				<Separator />
 				<ScaleCreator data = {data} getScales = {this.state.design.getScales} onAddScale = {this.onAddScale} selectedItems = {this.state.selectedItems}/>
-				<ScaleConfigurer getScales = {this.state.design.getScales}/>
+				<ScaleConfigurer getScales = {this.state.design.getScales} getScale = {this.state.design.getScale}/>
 				<Separator />
         <p>Here display buttons for each scale</p>
 				<p>When clicked, a scale config will appear, where all configuration happens</p>
