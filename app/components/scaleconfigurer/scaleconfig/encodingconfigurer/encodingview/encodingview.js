@@ -9,6 +9,7 @@ export default class EncodingView extends React.Component {
 		this.getSelectedEncoding = this.getSelectedEncoding.bind(this);
 		this.getItemsElement = this.getItemsElement.bind(this);
 		this.getPairs = this.getPairs.bind(this);
+		this.getMinMax = this.getMinMax.bind(this);
 		this.onRemove = this.onRemove.bind(this);
 		this.state = {selectedEncodingIndex: -1};
 	}
@@ -49,15 +50,16 @@ export default class EncodingView extends React.Component {
 		const encoding = this.props.scale.encodings[selectedEncodingIndex];
 		const items = this.getItemsElement(selectedEncodingIndex);
 		const pairs = this.getPairs(selectedEncodingIndex);
+		const minMax = this.getMinMax(selectedEncodingIndex);
 
 		return(
 			<div>
 				<p className="text-center">Name: {encoding.name}</p>
 				<p className="text-center">Type: {encoding.type}</p>
+				{minMax}
 				<div>Items: {items}</div>
 				<div>{pairs}</div>
 				<div className = "row">
-					<button>Edit</button>
 					<button onClick = {this.onRemove.bind(null, selectedEncodingIndex)}>Remove</button>
 				</div>
 			</div>
@@ -86,6 +88,19 @@ export default class EncodingView extends React.Component {
 		});
 	}
 
+	getMinMax(selectedEncodingIndex) {
+		const encoding = this.props.scale.encodings[selectedEncodingIndex];
+		const min = encoding.min;
+		const max = encoding.max;
+		if(!min || min === null || min === "") {
+			return null; /** Only check min, because encoding creator does not allow
+			for encoding to be created if both min and max aren't set */
+		}
+		return(
+			<span>Min [{min}] max [{max}]</span>
+		);
+	}
+
 	onClick(index) {
 		this.setState({selectedEncodingIndex: index});
 	}
@@ -94,4 +109,5 @@ export default class EncodingView extends React.Component {
 		this.props.remove(index);
 		this.setState({selectedEncodingIndex: -1});
 	}
+
 }

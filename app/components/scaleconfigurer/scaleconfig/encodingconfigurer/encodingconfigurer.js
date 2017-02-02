@@ -8,6 +8,7 @@ export default class EncodingConfigurer extends React.Component {
 	constructor(props) {
 		super(props);
 		this.removeEncoding = this.removeEncoding.bind(this);
+		this.state = {};
 	}
 
 	render() {
@@ -18,7 +19,7 @@ export default class EncodingConfigurer extends React.Component {
 					<p className = "lead text-center">Encodings</p>
 					<div className = "row">
 						<div className = "col-lg-6">
-							<EncodingCreator scale = {scale} />
+							<EncodingCreator scale = {scale}/>
 						</div>
 						<div className = "col-lg-6">
 							<EncodingView scale = {scale} remove = {this.removeEncoding}/>

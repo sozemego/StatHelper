@@ -10,6 +10,7 @@ export default class EncodingCreator extends React.Component {
 
 	constructor(props) {
 		super(props);
+		this.getEncoding = this.getEncoding.bind(this);
 		this.getFilledBoxes = this.getFilledBoxes.bind(this);
 		this.pairChanged = this.pairChanged.bind(this);
 		this.onCreateSimpleEncoding = this.onCreateSimpleEncoding.bind(this);
@@ -21,14 +22,15 @@ export default class EncodingCreator extends React.Component {
 		this.onNameChange = this.onNameChange.bind(this);
 		this.onMinChange = this.onMinChange.bind(this);
 		this.onMaxChange = this.onMaxChange.bind(this);
+
 		this.state = {
-			filledPairs: []
+			pairs: []
 		};
 	}
 
 	render() {
 
-		const boxes = this.getFilledBoxes();
+		const encoding = this.getEncoding();
 
 		return(
 			<div>
@@ -41,16 +43,16 @@ export default class EncodingCreator extends React.Component {
 
 				<div>
 					<div>
-						<span>Name</span><input onChange={this.onNameChange} type="text" placeholder="Encoding name" value={this.state.name}></input>
+						<span>Name</span><input onChange={this.onNameChange} type="text" placeholder="Encoding name" value={encoding.name}></input>
 					</div>
 
 					<div>
-						<span>Items</span><input onChange={this.onItemsChange} type="text" placeholder="Items"></input>
+						<span>Items</span><input onChange={this.onItemsChange} type="text" placeholder="Items" value = {encoding.items}></input>
 						<span>Leave empty for all items. Separate items with spaces or commas.</span>
 					</div>
 
 				</div>
-				{boxes}
+				{encoding.pairs}
 				<div className = "row">
 					<button onClick={this.onCreateSimpleEncoding}>Create encoding</button>
 					<button onClick={this.onCreateMapEncoding}>Create score same as answer</button>
@@ -58,17 +60,27 @@ export default class EncodingCreator extends React.Component {
 						<button onClick={this.onCreateReverseEncoding}>Create reverse encoding</button>
 						<div>
 							<span>Lowest possible answer</span>
-							<input onChange={this.onMinChange} type="text"></input>
+							<input onChange={this.onMinChange} type="text" value={encoding.min}></input>
 						</div>
 						<div>
 							<span>Highest possible answer</span>
-							<input onChange={this.onMaxChange} type="text"></input>
+							<input onChange={this.onMaxChange} type="text" value={encoding.max}></input>
 						</div>
 						<button onClick={this.onClear}>Clear all</button>
 					</div>
 				</div>
 			</div>
 		);
+	}
+
+	getEncoding() {
+		return {
+			name: this.state.name,
+			items: this.state.items,
+			min: this.state.min,
+			max: this.state.max,
+			pairs: this.getFilledBoxes(this.state.pairs)
+		};
 	}
 
 	onNameChange(event) {
@@ -87,15 +99,17 @@ export default class EncodingCreator extends React.Component {
 		this.setState({max: event.target.value});
 	}
 
-	getFilledBoxes() {
-		const filledPairs = this.state.filledPairs;
+	getFilledBoxes(pairs) {
+		let boxes = [];
 
-		const boxes = filledPairs.map(function(item, index) {
-			return(
-				<EncodingPair answer = {item.answer} result = {item.result}
-					pairChanged = {this.pairChanged} index = {index}/>
-			);
-		}.bind(this));
+		if(pairs.length > 0) {
+			boxes = pairs.map(function(item, index) {
+				return(
+					<EncodingPair answer = {item.answer} result = {item.result}
+						pairChanged = {this.pairChanged} index = {index}/>
+				);
+			}.bind(this));
+		}
 
 		const lastBox = <EncodingPair answer = {""} result = {""}
 			pairChanged = {this.pairChanged} index = {boxes.length}/>;
@@ -105,9 +119,9 @@ export default class EncodingCreator extends React.Component {
 	}
 
 	pairChanged(index, pair) {
-		const filledPairs = this.state.filledPairs;
-		filledPairs.splice(index, 1, pair);
-		this.setState({filledPairs: filledPairs});
+		const pairs = this.state.pairs;
+		pairs.splice(index, 1, pair);
+		this.setState({pairs: pairs});
 	}
 
 	onCreateSimpleEncoding() {
@@ -117,7 +131,7 @@ export default class EncodingCreator extends React.Component {
 		}
 
 		const items = this.getItems();
-		const pairs = this.state.filledPairs.slice();
+		const pairs = this.state.pairs.slice();
 
 		const encoding = {
 			name: name,
@@ -188,17 +202,7 @@ export default class EncodingCreator extends React.Component {
 
 	onClear() {
 		this.setState({
-			filledPairs: []
-		});
-	}
-
-	onEdit(encoding) {
-		this.setState({
-			name: encoding.name,
-			min: encoding.min,
-			max: encoding.max,
-			filledPairs: encoding.filledPairs.slice(),
-			items: encoding.items
+			pairs: []
 		});
 	}
 
