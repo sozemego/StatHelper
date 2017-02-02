@@ -22,6 +22,7 @@ export default class EncodingConfigurer extends React.Component {
 							<EncodingCreator scale = {scale}/>
 						</div>
 						<div className = "col-lg-6">
+							<p className="lead text-center">View</p>
 							<EncodingView scale = {scale} remove = {this.removeEncoding}/>
 						</div>
 					</div>
