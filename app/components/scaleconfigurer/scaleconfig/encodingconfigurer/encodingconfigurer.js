@@ -13,13 +13,13 @@ export default class EncodingConfigurer extends React.Component {
 		const scale = this.props.scale;
 
 		return(
-				<div className = "container-fluid">
+				<div className = "container">
 					<p className = "lead text-center">Encodings</p>
 					<div className = "row">
-						<div className = "col-lg-3">
+						<div className = "col-lg-6">
 							<EncodingCreator scale = {scale} />
 						</div>
-						<div className = "col-lg-3">
+						<div className = "col-lg-6">
 							<EncodingView scale = {scale} />
 						</div>
 					</div>

@@ -51,7 +51,7 @@ export default class EncodingCreator extends React.Component {
 					<button onClick={this.onCreateSimpleEncoding}>Create encoding</button>
 					<button onClick={this.onCreateMapEncoding}>Create score same as answer</button>
 					<div className = "row">
-						<button onClick={this.onCreateReverseEncoding}>Create reverse item</button>
+						<button onClick={this.onCreateReverseEncoding}>Create reverse encoding</button>
 						<div>
 							<span>Lowest possible answer</span>
 							<input type="text" ref="min"></input>
