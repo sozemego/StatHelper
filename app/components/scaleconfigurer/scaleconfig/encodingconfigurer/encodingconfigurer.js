@@ -7,6 +7,7 @@ export default class EncodingConfigurer extends React.Component {
 
 	constructor(props) {
 		super(props);
+		this.removeEncoding = this.removeEncoding.bind(this);
 	}
 
 	render() {
@@ -20,10 +21,15 @@ export default class EncodingConfigurer extends React.Component {
 							<EncodingCreator scale = {scale} />
 						</div>
 						<div className = "col-lg-6">
-							<EncodingView scale = {scale} />
+							<EncodingView scale = {scale} remove = {this.removeEncoding}/>
 						</div>
 					</div>
 				</div>
 		);
 	}
+
+	removeEncoding(index) {
+		this.props.scale.encodings.splice(index, 1);
+	}
+
 }

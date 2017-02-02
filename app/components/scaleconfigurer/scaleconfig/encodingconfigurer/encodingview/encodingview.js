@@ -9,6 +9,7 @@ export default class EncodingView extends React.Component {
 		this.getSelectedEncoding = this.getSelectedEncoding.bind(this);
 		this.getItemsElement = this.getItemsElement.bind(this);
 		this.getPairs = this.getPairs.bind(this);
+		this.onRemove = this.onRemove.bind(this);
 		this.state = {selectedEncodingIndex: -1};
 	}
 
@@ -55,6 +56,10 @@ export default class EncodingView extends React.Component {
 				<p className="text-center">Type: {encoding.type}</p>
 				<div>Items: {items}</div>
 				<div>{pairs}</div>
+				<div className = "row">
+					<button>Edit</button>
+					<button onClick = {this.onRemove.bind(null, selectedEncodingIndex)}>Remove</button>
+				</div>
 			</div>
 		);
 	}
@@ -85,4 +90,8 @@ export default class EncodingView extends React.Component {
 		this.setState({selectedEncodingIndex: index});
 	}
 
+	onRemove(index) {
+		this.props.remove(index);
+		this.setState({selectedEncodingIndex: -1});
+	}
 }
