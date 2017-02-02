@@ -2,6 +2,8 @@ import React from "react";
 
 //COMPONENTS
 import ScaleInfo from "./scaleinfo/scaleinfo";
+import EncodingConfigurer from "./encodingconfigurer/encodingconfigurer";
+import Separator from "../../../components/separator/separator";
 
 export default class ScaleConfig extends React.Component {
 
@@ -14,6 +16,8 @@ export default class ScaleConfig extends React.Component {
 		return(
 			<div>
 				<ScaleInfo scale = {this.props.scale} getScale = {this.props.getScale}/>
+				<Separator />
+				<EncodingConfigurer scale = {this.props.scale} />
 			</div>
 		);
 	}
