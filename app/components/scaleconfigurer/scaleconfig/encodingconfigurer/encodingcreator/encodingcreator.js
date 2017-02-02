@@ -1,7 +1,7 @@
 import React from "react";
 
 //COMPONENTS
-import EncodingPair from "./encodingpair/encodingpair";
+import InputPair from "../../inputpair/inputpair";
 
 //CSS
 import styles from "./encodingcreator.css";
@@ -105,13 +105,13 @@ export default class EncodingCreator extends React.Component {
 		if(pairs.length > 0) {
 			boxes = pairs.map(function(item, index) {
 				return(
-					<EncodingPair answer = {item.answer} result = {item.result}
+					<InputPair answer = {item.answer} result = {item.result}
 						pairChanged = {this.pairChanged} index = {index}/>
 				);
 			}.bind(this));
 		}
 
-		const lastBox = <EncodingPair answer = {""} result = {""}
+		const lastBox = <InputPair answer = {""} result = {""}
 			pairChanged = {this.pairChanged} index = {boxes.length}/>;
 		boxes.push(lastBox);
 
