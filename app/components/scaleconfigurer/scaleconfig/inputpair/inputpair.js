@@ -1,9 +1,9 @@
 import React from "react";
 
 //CSS
-import styles from "./encodingpair.css";
+import styles from "./inputpair.css";
 
-export default class EncodingPair extends React.Component {
+export default class InputPair extends React.Component {
 
 	constructor(props) {
 		super(props);
