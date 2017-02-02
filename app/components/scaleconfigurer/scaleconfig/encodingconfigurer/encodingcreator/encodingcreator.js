@@ -17,8 +17,12 @@ export default class EncodingCreator extends React.Component {
 		this.onCreateReverseEncoding = this.onCreateReverseEncoding.bind(this);
 		this.getItems = this.getItems.bind(this);
 		this.onClear = this.onClear.bind(this);
+		this.onItemsChange = this.onItemsChange.bind(this);
+		this.onNameChange = this.onNameChange.bind(this);
+		this.onMinChange = this.onMinChange.bind(this);
+		this.onMaxChange = this.onMaxChange.bind(this);
 		this.state = {
-			filledPairs : []
+			filledPairs: []
 		};
 	}
 
@@ -37,11 +41,11 @@ export default class EncodingCreator extends React.Component {
 
 				<div>
 					<div>
-						<span>Name</span><input type="text" ref="encodingname" placeholder="Encoding name"></input>
+						<span>Name</span><input onChange={this.onNameChange} type="text" placeholder="Encoding name" value={this.state.name}></input>
 					</div>
 
 					<div>
-						<span>Items</span><input type="text" ref="items" placeholder="Items"></input>
+						<span>Items</span><input onChange={this.onItemsChange} type="text" placeholder="Items"></input>
 						<span>Leave empty for all items. Separate items with spaces or commas.</span>
 					</div>
 
@@ -54,17 +58,33 @@ export default class EncodingCreator extends React.Component {
 						<button onClick={this.onCreateReverseEncoding}>Create reverse encoding</button>
 						<div>
 							<span>Lowest possible answer</span>
-							<input type="text" ref="min"></input>
+							<input onChange={this.onMinChange} type="text"></input>
 						</div>
 						<div>
 							<span>Highest possible answer</span>
-							<input type="text" ref="max"></input>
+							<input onChange={this.onMaxChange} type="text"></input>
 						</div>
 						<button onClick={this.onClear}>Clear all</button>
 					</div>
 				</div>
 			</div>
 		);
+	}
+
+	onNameChange(event) {
+		this.setState({name: event.target.value});
+	}
+
+	onItemsChange(event) {
+		this.setState({items: event.target.value});
+	}
+
+	onMinChange(event) {
+		this.setState({min: event.target.value});
+	}
+
+	onMaxChange(event) {
+		this.setState({max: event.target.value});
 	}
 
 	getFilledBoxes() {
@@ -91,7 +111,7 @@ export default class EncodingCreator extends React.Component {
 	}
 
 	onCreateSimpleEncoding() {
-		const name = this.refs.encodingname.value;
+		const name = this.state.name;
 		if(!name || name === null || name === "") {
 			return;
 		}
@@ -110,7 +130,7 @@ export default class EncodingCreator extends React.Component {
 	}
 
 	onCreateMapEncoding() {
-		const name = this.refs.encodingname.value;
+		const name = this.state.name;
 		if(!name || name === null || name === "") {
 			return;
 		}
@@ -127,13 +147,13 @@ export default class EncodingCreator extends React.Component {
 	}
 
 	onCreateReverseEncoding() {
-		const name = this.refs.encodingname.value;
+		const name = this.state.name;
 		if(!name || name === null || name === "") {
 			return;
 		}
 
-		const min = this.refs.min.value;
-		const max = this.refs.max.value;
+		const min = this.state.min;
+		const max = this.state.max;
 		if(!min || min === null || min === "" || !max || max === null || max === "") {
 			return;
 		}
@@ -154,7 +174,7 @@ export default class EncodingCreator extends React.Component {
 
 	getItems() {
 		const items = [];
-		const itemsString = this.refs.items.value;
+		const itemsString = this.state.items;
 		if(itemsString) {
 			const result = itemsString.match(/\d+/g);
 			if(result !== null) {
@@ -167,11 +187,19 @@ export default class EncodingCreator extends React.Component {
 	}
 
 	onClear() {
-		this.refs.encodingname.value = "";
-		this.refs.items.value = "";
-		this.refs.min.value = "";
-		this.refs.max.value = "";
-		this.setState({filledPairs: []});
+		this.setState({
+			filledPairs: []
+		});
+	}
+
+	onEdit(encoding) {
+		this.setState({
+			name: encoding.name,
+			min: encoding.min,
+			max: encoding.max,
+			filledPairs: encoding.filledPairs.slice(),
+			items: encoding.items
+		});
 	}
 
 }
