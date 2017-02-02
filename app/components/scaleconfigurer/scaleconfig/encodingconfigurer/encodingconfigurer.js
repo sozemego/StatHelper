@@ -1,6 +1,7 @@
 import React from "react";
 
 import EncodingCreator from "./encodingcreator/encodingcreator";
+import EncodingView from "./encodingview/encodingview";
 
 export default class EncodingConfigurer extends React.Component {
 
@@ -17,6 +18,9 @@ export default class EncodingConfigurer extends React.Component {
 					<div className = "row">
 						<div className = "col-lg-3">
 							<EncodingCreator scale = {scale} />
+						</div>
+						<div className = "col-lg-3">
+							<EncodingView scale = {scale} />
 						</div>
 					</div>
 				</div>
