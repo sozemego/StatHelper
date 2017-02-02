@@ -31,15 +31,10 @@ export default class EncodingPair extends React.Component {
 	onChange() {
 		const answer = this.refs.answer.value;
 		const result = this.refs.result.value;
-		this.setState({answer: answer, result: result});
+		const pair = {answer: answer, result: result};
+		this.setState(pair);
 
-		if(!this.props.pairFilled) {
-			return;
-		}
-
-		if(answer.length > 0 && result.length > 0) {
-			this.props.pairFilled(answer, result);
-		}
+		this.props.pairChanged(this.props.index, pair);
 
 	}
 
