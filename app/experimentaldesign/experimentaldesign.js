@@ -1,3 +1,7 @@
+
+/**
+	This class is probably not needed. All data is stored in scales anyway.
+*/
 export default class ExperimentalDesign {
 
 	constructor() {
