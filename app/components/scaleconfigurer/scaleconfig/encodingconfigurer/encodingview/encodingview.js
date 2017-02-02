@@ -48,6 +48,9 @@ export default class EncodingView extends React.Component {
 		}
 
 		const encoding = this.props.scale.encodings[selectedEncodingIndex];
+		if(!encoding) {
+			return null;
+		}
 		const items = this.getItemsElement(selectedEncodingIndex);
 		const pairs = this.getPairs(selectedEncodingIndex);
 		const minMax = this.getMinMax(selectedEncodingIndex);
