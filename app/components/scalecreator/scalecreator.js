@@ -75,7 +75,8 @@ export default class ScaleCreator extends React.Component {
 		const scale = {
 			name: scaleName,
 			items: selectedItems,
-			encodings: []
+			encodings: [],
+			transforms: []
 		};
 
 		if(parentScaleIndex !== undefined) {
