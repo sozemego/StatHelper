@@ -4,6 +4,7 @@ import React from "react";
 import ScaleInfo from "./scaleinfo/scaleinfo";
 import EncodingConfigurer from "./encodingconfigurer/encodingconfigurer";
 import TransformConfigurer from "./transformconfigurer/transformconfigurer";
+import Summary from "./summary/summary";
 import Separator from "../../../components/separator/separator";
 
 export default class ScaleConfig extends React.Component {
@@ -21,6 +22,8 @@ export default class ScaleConfig extends React.Component {
 				<EncodingConfigurer scale = {this.props.scale} />
 				<Separator />
 				<TransformConfigurer scale = {this.props.scale} />
+				<Separator />
+				<Summary scale = {this.props.scale} />
 				<Separator />
 			</div>
 		);
