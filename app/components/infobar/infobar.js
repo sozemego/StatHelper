@@ -9,15 +9,15 @@ export default class Infobar extends React.Component {
 	}
 
 	render() {
-		const message = this.props.message;
+		const errorMessage = this.props.errorMessage;
 
-		if(!message || message === null) {
+		if(!errorMessage.message || errorMessage.message === null) {
 			return null;
 		}
 
 		return(
 			<div className = {styles.infobar}>
-					<span className = {styles.infobar_message}>{message}</span>
+					<span className = {styles.infobar_message}>{errorMessage.message}</span>
 			</div>
 		);
 

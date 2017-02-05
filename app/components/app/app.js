@@ -23,10 +23,15 @@ export default class App extends React.Component {
 		this.hideInfobar = this.hideInfobar.bind(this);
 		this.clickCallback = this.clickCallback.bind(this);
 		this.onAddScale = this.onAddScale.bind(this);
+		this.displayErrorMessage = this.displayErrorMessage.bind(this);
 
 		this.state = {
 			design: new ExperimentalDesign(),
-			selectedItems: []
+			selectedItems: [],
+			errorMessage: {
+				message: null,
+				time: null
+			}
 		};
 	}
 
@@ -34,12 +39,12 @@ export default class App extends React.Component {
 		const data = this.state.data;
 		return(
       <div onClick = {this.hideInfobar}>
-				<Infobar message = {this.state.message}/>
+				<Infobar errorMessage = {this.state.errorMessage}/>
         <Header />
 				<Separator />
         <FileUpload onFileUpload = {this.onFileUpload}/>
 				<Separator />
-				<DataDisplay data = {data} clickCallback = {this.clickCallback} ref="datadisplay" selectedItems = {this.state.selectedItems} />
+				<DataDisplay data = {data} clickCallback = {this.clickCallback} selectedItems = {this.state.selectedItems} />
 				<Separator />
 				<ScaleCreator data = {data} getScales = {this.state.design.getScales} onAddScale = {this.onAddScale} selectedItems = {this.state.selectedItems}/>
 				<ScaleConfigurer getScales = {this.state.design.getScales} getScale = {this.state.design.getScale}/>
@@ -59,9 +64,21 @@ export default class App extends React.Component {
 		);
 	}
 
-	onAddScale(scale, parentScale) {
-		this.state.design.addScale(scale, parentScale);
+	onAddScale(scale) {
+		const success = this.state.design.addScale(scale);
+		if(success === false) {
+			this.displayErrorMessage("Scale with this name already exists!");
+		}
 		this.setState({selectedItems: []});
+	}
+
+	displayErrorMessage(message) {
+		this.setState({
+			errorMessage: {
+				message: message,
+				time: Date.now()
+			}
+		});
 	}
 
 	onFileUpload(file, extension) {
@@ -70,14 +87,28 @@ export default class App extends React.Component {
 
 	onParse(result) {
 		if(result.error) {
-			this.setState({message: result.error});
+			this.displayErrorMessage(result.error);
 		} else {
 			this.setState({data: result});
 		}
 	}
 
+	/**
+		Hides the infobar, but only if more than 2 seconds passed since
+		the message was set.
+	*/
 	hideInfobar() {
-		this.setState({message: null});
+		if(this.state.errorMessage.time === null) {
+			return;
+		}
+
+		const timeDifference = Date.now() - this.state.errorMessage.time;
+		if(timeDifference > 2000) {
+			this.setState({errorMessage: {
+				message: null,
+				time: null
+			}});
+		}
 	}
 
 	clickCallback(cellIndex) {
