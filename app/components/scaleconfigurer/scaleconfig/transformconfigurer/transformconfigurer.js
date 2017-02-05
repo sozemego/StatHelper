@@ -22,6 +22,7 @@ export default class TransformConfigurer extends React.Component {
 						<TransformCreator scale = {scale}/>
 					</div>
 					<div className = "col-lg-6">
+						<p className="lead text-center">View</p>
 						<TransformView scale = {scale} remove = {this.removeTransform}/>
 					</div>
 				</div>
