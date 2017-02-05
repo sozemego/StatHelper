@@ -23,7 +23,7 @@ export default class Summary extends React.Component {
 					Item indices are displayed on the grid at the top.
 					NOTE: If you just want to have descriptives for each scale without
 					dividing by levels of other items, input nothing as it will be done anyway.</p>
-				<div>
+				<div className = "text-center">
 					{summaries}
 				</div>
 			</div>
