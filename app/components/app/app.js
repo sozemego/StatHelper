@@ -62,7 +62,6 @@ export default class App extends React.Component {
 	onAddScale(scale, parentScale) {
 		this.state.design.addScale(scale, parentScale);
 		this.setState({selectedItems: []});
-		this.refs.datadisplay.forceUpdate();
 	}
 
 	onFileUpload(file, extension) {
