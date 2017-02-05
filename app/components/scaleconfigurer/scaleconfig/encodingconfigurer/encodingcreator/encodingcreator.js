@@ -101,18 +101,21 @@ export default class EncodingCreator extends React.Component {
 
 	getFilledBoxes(pairs) {
 		let boxes = [];
-
+		const config = {
+			leftPlaceholder: "Answer",
+			rightPlaceholder: "Result"
+		};
 		if(pairs.length > 0) {
 			boxes = pairs.map(function(item, index) {
 				return(
 					<InputPair answer = {item.answer} result = {item.result}
-						pairChanged = {this.pairChanged} index = {index}/>
+						pairChanged = {this.pairChanged} index = {index} config = {config}/>
 				);
 			}.bind(this));
 		}
 
 		const lastBox = <InputPair answer = {""} result = {""}
-			pairChanged = {this.pairChanged} index = {boxes.length}/>;
+			pairChanged = {this.pairChanged} index = {boxes.length} config = {config}/>;
 		boxes.push(lastBox);
 
 		return boxes;

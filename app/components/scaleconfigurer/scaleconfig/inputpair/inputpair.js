@@ -8,10 +8,14 @@ export default class InputPair extends React.Component {
 	constructor(props) {
 		super(props);
 		this.onChange = this.onChange.bind(this);
-
+		const config = this.props.config;
 		this.state = {
 			answer: props.answer,
-			result: props.result
+			result: props.result,
+			left: config.left ? config.left : 30,
+			right: config.right ? config.right : 6,
+			leftPlaceholder: config.leftPlaceholder ? config.leftPlaceholder: "",
+			rightPlaceholder: config.rightPlaceholder ? config.rightPlaceholder: ""
 		};
 	}
 
@@ -21,9 +25,11 @@ export default class InputPair extends React.Component {
 
 		return(
 			<form className = {styles.pair} onChange = {this.onChange}>
-				<input type = "text" size="30" ref="answer" value={answer}></input>
+				<input type = "text" size={this.state.left} placeholder = {this.state.leftPlaceholder}
+					ref="answer" value={answer}></input>
 				->
-				<input type = "text" size="6" ref="result" value={result}></input>
+				<input type = "text" size={this.state.right} placeholder = {this.state.rightPlaceholder}
+					ref="result" value={result}></input>
 			</form>
 		);
 	}

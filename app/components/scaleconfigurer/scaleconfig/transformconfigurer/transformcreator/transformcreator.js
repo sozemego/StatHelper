@@ -90,15 +90,21 @@ export default class TransformCreator extends React.Component {
 	}
 
 	getPairComponents(pairs, callback) {
+		const config = {
+			left: 6,
+			right: 30,
+			leftPlaceholder: "Raw score or range of scores",
+			rightPlaceholder: "Transformed score"
+		};
 		const pairComponents = pairs.map(function(item, index) {
 			return(
 				<InputPair answer = {item.answer} result = {item.result}
-					pairChanged = {callback} index = {index}/>
+					pairChanged = {callback} index = {index}  config = {config}/>
 			);
 		}.bind(this));
 
 		const lastComponent = <InputPair answer = {""} result = {""}
-		pairChanged = {callback} index = {pairComponents.length}/>;
+		pairChanged = {callback} index = {pairComponents.length} config = {config}/>;
 		pairComponents.push(lastComponent);
 
 		return pairComponents;

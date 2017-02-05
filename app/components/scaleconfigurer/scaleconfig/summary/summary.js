@@ -35,16 +35,21 @@ export default class Summary extends React.Component {
 
 	getSummaries() {
 		const summaries = this.state.summaries;
-
+		const config = {
+			left: 30,
+			right: 30,
+			leftPlaceholder: "Scale name",
+			rightPlaceholder: "Items"
+		};
 		const	boxes = summaries.map(function(item, index) {
 			return(
 				<InputPair answer = {item.answer} result = {item.result}
-					pairChanged = {this.pairChanged} index = {index}/>
+					pairChanged = {this.pairChanged} index = {index} config = {config}/>
 			);
 		}.bind(this));
 
 		const lastBox = <InputPair answer = {""} result = {""}
-			pairChanged = {this.pairChanged} index = {boxes.length}/>;
+			pairChanged = {this.pairChanged} index = {boxes.length} config = {config}/>;
 		boxes.push(lastBox);
 
 		return boxes;
