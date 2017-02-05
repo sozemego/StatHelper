@@ -1,14 +1,13 @@
-
-/**
-	This class is probably not needed. All data is stored in scales anyway.
-*/
 export default class ExperimentalDesign {
 
 	constructor() {
 		this.scales = [];
+		this.summaries = [];
 		this.getScales = this.getScales.bind(this);
 		this.getScale = this.getScale.bind(this);
 		this.exists = this.exists.bind(this);
+		this.setSummaries = this.setSummaries.bind(this);
+		this.getSummaries = this.getSummaries.bind(this);
 	}
 
 	/**
@@ -45,6 +44,14 @@ export default class ExperimentalDesign {
 
 	getScale(index) {
 		return this.scales[index];
+	}
+
+	setSummaries(summaries) {
+		this.summaries = summaries;
+	}
+
+	getSummaries() {
+		return this.summaries;
 	}
 
 }

@@ -1,7 +1,7 @@
 import React from "react";
 
 //COMPONENTS
-import InputPair from "../../inputpair/inputpair";
+import InputPair from "../../../../inputpair/inputpair";
 
 //CSS
 import styles from "./encodingcreator.css";

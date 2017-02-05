@@ -7,13 +7,10 @@ export default class Summary extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {
-			summaries: []
-		};
+
 	}
 
 	render() {
-		const scale = this.props.scale;
 		const summaries = this.getSummaries();
 
 		return(
@@ -34,7 +31,7 @@ export default class Summary extends React.Component {
 	}
 
 	getSummaries() {
-		const summaries = this.state.summaries;
+		const summaries = this.props.get();
 		const config = {
 			left: 30,
 			right: 30,
@@ -56,8 +53,8 @@ export default class Summary extends React.Component {
 	}
 
 	pairChanged(index, pair) {
-		const summaries = this.state.summaries;
+		const summaries = this.this.props.get();
 		summaries.splice(index, 1, pair);
-		this.setState({summaries: summaries});
+		this.props.set(summaries);
 	}
 }

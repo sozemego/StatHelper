@@ -9,6 +9,7 @@ import FileUpload from "../../components/fileupload/fileupload";
 import DataDisplay from "../../components/datadisplay/datadisplay";
 import ScaleCreator from "../../components/scalecreator/scalecreator";
 import ScaleConfigurer from "../../components/scaleconfigurer/scaleconfigurer";
+import Summary from "../../components/summary/summary";
 
 //UTILS
 import FileParser from "../../fileparser/fileparser";
@@ -49,6 +50,7 @@ export default class App extends React.Component {
 				<ScaleCreator data = {data} getScales = {this.state.design.getScales} onAddScale = {this.onAddScale} selectedItems = {this.state.selectedItems}/>
 				<ScaleConfigurer getScales = {this.state.design.getScales} getScale = {this.state.design.getScale}/>
 				<Separator />
+				<Summary set = {this.state.design.setSummaries} get = {this.state.design.getSummaries}/>
         <p>Here display buttons for each scale</p>
 				<p>When clicked, a scale config will appear, where all configuration happens</p>
         <p>----------</p>
