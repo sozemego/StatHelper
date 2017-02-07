@@ -6,6 +6,10 @@ import EncodingConfigurer from "./encodingconfigurer/encodingconfigurer";
 import TransformConfigurer from "./transformconfigurer/transformconfigurer";
 import Separator from "../../../components/separator/separator";
 
+/**
+	A component for configuring the scale. It contains specific
+	components for particular configurations (encodings and transforms).
+*/
 export default class ScaleConfig extends React.Component {
 
 	constructor(props) {
@@ -13,7 +17,6 @@ export default class ScaleConfig extends React.Component {
 	}
 
 	render() {
-
 		return(
 			<div>
 				<ScaleInfo scale = {this.props.scale} getScale = {this.props.getScale}/>

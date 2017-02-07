@@ -1,5 +1,8 @@
 import React from "react";
 
+/**
+	Displays data about an encoding. Also allows removal of encodings.
+*/
 export default class EncodingView extends React.Component {
 
 	constructor(props) {
@@ -38,7 +41,6 @@ export default class EncodingView extends React.Component {
 					<button onClick={this.onClick.bind(null, index)}>{item.name}</button>
 			);
 		}.bind(this));
-
 	}
 
 	getSelectedEncoding() {
@@ -77,7 +79,7 @@ export default class EncodingView extends React.Component {
 			items = "";
 			items = encoding.items.join(" ");
 		}
-		return <span> {items} </span>;
+		return <span>{items}</span>;
 	}
 
 	getPairs(selectedEncodingIndex) {

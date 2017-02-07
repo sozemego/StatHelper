@@ -1,24 +1,22 @@
 import React from "react";
 
+/**
+	Displays basic information about a scale.
+*/
 export default class ScaleInfo extends React.Component {
 
 	constructor(props) {
 		super(props);
 		this.getItems = this.getItems.bind(this);
+		this.getParentScale = this.getParentScale.bind(this);
 		this.state = {
 			displayedItemsLimit: 40 /** Items displayed before truncation */
 		};
 	}
 
 	render() {
-
 		const scale = this.props.scale;
-
-		let parent;
-		if(scale.parent !== undefined) {
-			parent = <div className = "col-md-4 lead">Parent: {this.props.getScale(scale.parent).name}</div>;
-		}
-
+		const parent = this.getParentScale();
 		const items = this.getItems();
 
 		return(
@@ -30,6 +28,9 @@ export default class ScaleInfo extends React.Component {
 		);
 	}
 
+	/**
+		Returns a list of items in this scale as a string, space separated.
+	*/
 	getItems() {
 		const displayedItemsLimit = this.state.displayedItemsLimit;
 
@@ -39,7 +40,6 @@ export default class ScaleInfo extends React.Component {
 		});
 
 		let itemText = "";
-
 		for(var i = 0; i < items.length; i++) {
 			itemText += items[i] + " ";
 		}
@@ -47,13 +47,18 @@ export default class ScaleInfo extends React.Component {
 		return itemText;
 	}
 
-	getItemsCopy(limit) {
-		const items = this.props.scale.items;
-		const returnArray = [];
-		for(var i = 0; i < items.length && i < limit; i++) {
-			returnArray[i] = items[i];
+	getParentScale() {
+		const scale = this.props.scale;
+		if(scale.parent !== undefined) {
+			return <div className = "col-md-4 lead">Parent: {this.props.getScale(scale.parent).name}</div>;
 		}
-		return returnArray;
+	}
+
+	/**
+		Returns at most limit of items.
+	*/
+	getItemsCopy(limit) {
+		return this.props.scale.items.slice(0, limit);
 	}
 
 }

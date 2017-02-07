@@ -6,6 +6,9 @@ import InputPair from "../../../../inputpair/inputpair";
 //CSS
 import styles from "./encodingcreator.css";
 
+/**
+	A component which creates encodings.
+*/
 export default class EncodingCreator extends React.Component {
 
 	constructor(props) {
@@ -127,7 +130,32 @@ export default class EncodingCreator extends React.Component {
 		this.setState({pairs: pairs});
 	}
 
+	/**
+		Create a simple encoding. A simple encoding assumes
+		the answer IS the score.
+	*/
 	onCreateSimpleEncoding() {
+		const name = this.state.name;
+		if(!name || name === null || name === "") {
+			return;
+		}
+
+		const items = this.getItems();
+		const encoding = {
+			name: name,
+			type: "simple",
+			items: items,
+			pairs: []
+		};
+
+		this.props.scale.encodings.push(encoding);
+	}
+
+	/**
+		Creates an encoding where answer -> score is defined
+		by the user.
+	*/
+	onCreateMapEncoding() {
 		const name = this.state.name;
 		if(!name || name === null || name === "") {
 			return;
@@ -138,7 +166,7 @@ export default class EncodingCreator extends React.Component {
 
 		const encoding = {
 			name: name,
-			type: "simple",
+			type: "map",
 			items: items,
 			pairs: pairs
 		};
@@ -146,23 +174,10 @@ export default class EncodingCreator extends React.Component {
 		this.props.scale.encodings.push(encoding);
 	}
 
-	onCreateMapEncoding() {
-		const name = this.state.name;
-		if(!name || name === null || name === "") {
-			return;
-		}
-
-		const items = this.getItems();
-		const encoding = {
-			name: name,
-			type: "map",
-			items: items,
-			pairs: []
-		};
-
-		this.props.scale.encodings.push(encoding);
-	}
-
+	/**
+		Creates a reverse encoding. A reverse encoding is for reverse items,
+		where the score is calculated by: (max + 1) - answer.
+	*/
 	onCreateReverseEncoding() {
 		const name = this.state.name;
 		if(!name || name === null || name === "") {
@@ -189,6 +204,9 @@ export default class EncodingCreator extends React.Component {
 		this.props.scale.encodings.push(encoding);
 	}
 
+	/**
+		Parses the input items and returns an array of separated item numbers.
+	*/
 	getItems() {
 		const items = [];
 		const itemsString = this.state.items;

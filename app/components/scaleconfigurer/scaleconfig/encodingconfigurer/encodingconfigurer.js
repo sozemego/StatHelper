@@ -1,8 +1,13 @@
 import React from "react";
 
+//COMPONENTS
 import EncodingCreator from "./encodingcreator/encodingcreator";
 import EncodingView from "./encodingview/encodingview";
 
+/**
+	A component which allows to configure encodings. Encodings define
+	how item answers are translated into scores. 
+*/
 export default class EncodingConfigurer extends React.Component {
 
 	constructor(props) {
