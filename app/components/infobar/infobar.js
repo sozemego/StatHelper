@@ -2,6 +2,10 @@ import React from "react";
 
 import styles from "./infobar.css";
 
+/**
+	Absolutely positioned component, which rolls down when an
+	error message needs to be displayed.
+*/
 export default class Infobar extends React.Component {
 
 	constructor(props) {
