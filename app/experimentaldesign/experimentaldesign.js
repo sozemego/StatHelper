@@ -1,3 +1,9 @@
+/**
+	Object which encapsulates the experimental design of user's
+	research. It contains all defined scales (which themselves contain encodings,
+	transforms and filters), indepentent variables (experimental conditions),
+	descriptive statistics and statistical tests to use.
+*/
 export default class ExperimentalDesign {
 
 	constructor() {
@@ -6,8 +12,8 @@ export default class ExperimentalDesign {
 		this.getScales = this.getScales.bind(this);
 		this.getScale = this.getScale.bind(this);
 		this.exists = this.exists.bind(this);
-		this.setSummaries = this.setSummaries.bind(this);
-		this.getSummaries = this.getSummaries.bind(this);
+		this.setDescriptives = this.setDescriptives.bind(this);
+		this.getDescriptives = this.getDescriptives.bind(this);
 	}
 
 	/**
@@ -46,11 +52,11 @@ export default class ExperimentalDesign {
 		return this.scales[index];
 	}
 
-	setSummaries(summaries) {
+	setDescriptives(summaries) {
 		this.summaries = summaries;
 	}
 
-	getSummaries() {
+	getDescriptives() {
 		return this.summaries;
 	}
 

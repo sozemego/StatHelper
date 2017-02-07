@@ -3,7 +3,7 @@ import React from "react";
 //COMPONENTS
 import InputPair from "../inputpair/inputpair";
 
-export default class Summary extends React.Component {
+export default class Descriptives extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -11,11 +11,11 @@ export default class Summary extends React.Component {
 	}
 
 	render() {
-		const summaries = this.getSummaries();
+		const descriptives = this.getDescriptives();
 
 		return(
 			<div className = "container">
-				<p className = "lead text-center">Summary</p>
+				<p className = "lead text-center">Descriptive statistics</p>
 				<p className = "text-center">On the left, input SCALE NAME you want to have summarized
 					(descriptive statistics) and on the right, item indices you want the descriptives
 					to be divided by. For instance, if you want your "Scale" results be summarized
@@ -24,21 +24,21 @@ export default class Summary extends React.Component {
 					NOTE: If you just want to have descriptives for each scale without
 					dividing by levels of other items, input nothing as it will be done anyway.</p>
 				<div className = "text-center">
-					{summaries}
+					{descriptives}
 				</div>
 			</div>
 		);
 	}
 
-	getSummaries() {
-		const summaries = this.props.get();
+	getDescriptives() {
+		const descriptives = this.props.get();
 		const config = {
 			left: 30,
 			right: 30,
 			leftPlaceholder: "Scale name",
 			rightPlaceholder: "Items"
 		};
-		const	boxes = summaries.map(function(item, index) {
+		const	boxes = descriptives.map(function(item, index) {
 			return(
 				<InputPair answer = {item.answer} result = {item.result}
 					pairChanged = {this.pairChanged} index = {index} config = {config}/>
@@ -53,8 +53,8 @@ export default class Summary extends React.Component {
 	}
 
 	pairChanged(index, pair) {
-		const summaries = this.this.props.get();
-		summaries.splice(index, 1, pair);
-		this.props.set(summaries);
+		const descriptives = this.this.props.get();
+		descriptives.splice(index, 1, pair);
+		this.props.set(descriptives);
 	}
 }
