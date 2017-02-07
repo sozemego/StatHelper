@@ -4,7 +4,10 @@ import React from "react";
 //CSS
 import styles from "./cell.css";
 
-export default class Cell extends React.Component {
+/**
+	Represents an Item in user's data (graphically).
+*/
+export default class Item extends React.Component {
 
 	constructor(props) {
 		super(props);
