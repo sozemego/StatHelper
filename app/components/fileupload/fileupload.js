@@ -1,5 +1,9 @@
 import React from "react";
 
+/**
+	Component for uploading the file. It basically takes the file
+	from the input element and calls the callback.
+*/
 export default class FileUpload extends React.Component {
 
 	constructor(props) {
