@@ -6,7 +6,9 @@ import ExperimentalDesign from "../../experimentaldesign/experimentaldesign";
 //CSS
 import styles from "./scalecreator.css";
 
-
+/**
+	Component for creating new scales from selected items (in DataDisplay).
+*/
 export default class ScaleCreator extends React.Component {
 
 	constructor(props) {
@@ -48,7 +50,6 @@ export default class ScaleCreator extends React.Component {
 			return;
 		}
 		this.props.onAddScale(scaleObject);
-		this.forceUpdate();
 	}
 
 	createSubscale() {
@@ -59,7 +60,6 @@ export default class ScaleCreator extends React.Component {
 			return;
 		}
 		this.props.onAddScale(scaleObject);
-		this.forceUpdate();
 	}
 
 	createScaleObject(scaleName, parentScaleIndex) {
@@ -87,16 +87,12 @@ export default class ScaleCreator extends React.Component {
 	}
 
 	getSelectedItemsCopy() {
-		const selectedItems = [];
-		for(var i = 0; i < this.props.selectedItems.length; i++) {
-			selectedItems.push(this.props.selectedItems[i]);
-		}
-		return selectedItems;
+		return this.props.selectedItems.slice();
 	}
 
 	getScales() {
 
-		/** Filter scales that have parents (i.e. are subscales), because they cannot
+		/** Filter out scales that have parents (i.e. are subscales), because they cannot
 		have another subscales */
 		const scales = this.props.getScales().filter(function(scale) {
 			return scale.parent === undefined;
