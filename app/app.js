@@ -3,7 +3,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import {Router, Route, browserHistory} from "react-router";
 
-// required components
+// COMPONENTS
 import Home from "./components/home/home";
 import App from "./components/app/app";
 
@@ -13,4 +13,4 @@ ReactDOM.render(
     <Route path="/app" component = {App}/>
   </Router>,
   document.getElementById("app")
-)
+);
