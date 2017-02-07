@@ -15,16 +15,21 @@ import Descriptives from "../../components/descriptives/descriptives";
 import FileParser from "../../fileparser/fileparser";
 import ExperimentalDesign from "../../experimentaldesign/experimentaldesign";
 
-
+/**
+	A component represents both the structure and the flow of
+	user experience. All neccesary data is contained in this
+	component's state.
+*/
 export default class App extends React.Component {
 
 	constructor(props) {
 		super(props);
 		this.onFileUpload = this.onFileUpload.bind(this);
 		this.hideInfobar = this.hideInfobar.bind(this);
-		this.clickCallback = this.clickCallback.bind(this);
+		this.onItemClick = this.onItemClick.bind(this);
 		this.onAddScale = this.onAddScale.bind(this);
 		this.displayErrorMessage = this.displayErrorMessage.bind(this);
+		this.onParse = this.onParse.bind(this);
 
 		this.state = {
 			design: new ExperimentalDesign(),
@@ -45,7 +50,7 @@ export default class App extends React.Component {
 				<Separator />
         <FileUpload onFileUpload = {this.onFileUpload}/>
 				<Separator />
-				<DataDisplay data = {data} clickCallback = {this.clickCallback} selectedItems = {this.state.selectedItems} />
+				<DataDisplay data = {data} clickCallback = {this.onItemClick} selectedItems = {this.state.selectedItems} />
 				<Separator />
 				<ScaleCreator data = {data} getScales = {this.state.design.getScales} onAddScale = {this.onAddScale} selectedItems = {this.state.selectedItems}/>
 				<ScaleConfigurer getScales = {this.state.design.getScales} getScale = {this.state.design.getScale}/>
@@ -74,6 +79,9 @@ export default class App extends React.Component {
 		this.setState({selectedItems: []});
 	}
 
+	/**
+		Sets state to reflect that an error message was just posted.
+	*/
 	displayErrorMessage(message) {
 		this.setState({
 			errorMessage: {
@@ -83,10 +91,18 @@ export default class App extends React.Component {
 		});
 	}
 
+	/**
+		Callback for uploading a file (.xlsx, .csv).
+		Parses the file and calls the onParse callback.
+	*/
 	onFileUpload(file, extension) {
-		FileParser.parseFile(file, extension, this.onParse.bind(this));
+		FileParser.parseFile(file, extension, this.onParse);
 	}
 
+	/**
+		Callback for parsing the file. If unsuccessful, displays an
+		error message. Otherwise, adds parsed data to the state.
+	*/
 	onParse(result) {
 		if(result.error) {
 			this.displayErrorMessage(result.error);
@@ -113,7 +129,13 @@ export default class App extends React.Component {
 		}
 	}
 
-	clickCallback(cellIndex) {
+	/**
+		Called when users click items (in the DisplayGrid).
+		It adds the cellIndex to the selectedItems if the index was
+		not there previously, otherwise removes it (so it toggles the cell
+		selection).
+	*/
+	onItemClick(cellIndex) {
 		const selectedItems = this.state.selectedItems;
 		const cells = selectedItems.filter(function(item) {
 			return item === cellIndex;
@@ -130,8 +152,5 @@ export default class App extends React.Component {
 		}
 
 		this.setState({selectedItems: selectedItems});
-
 	}
-
-
 }
