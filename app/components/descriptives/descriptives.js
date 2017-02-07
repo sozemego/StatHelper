@@ -3,11 +3,15 @@ import React from "react";
 //COMPONENTS
 import InputPair from "../inputpair/inputpair";
 
+/**
+	A component which allows users to choose which scales should be
+	described with some basic statistics (average, percentages, min/max etc).
+	Also allows to divide the descriptions of scales by other items.
+*/
 export default class Descriptives extends React.Component {
 
 	constructor(props) {
 		super(props);
-
 	}
 
 	render() {
