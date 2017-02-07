@@ -3,6 +3,9 @@ import React from "react";
 //COMPONENTS
 import InputPair from "../../../../inputpair/inputpair";
 
+/**
+	Component responsible for creating transforms.
+*/
 export default class TransformCreator extends React.Component {
 
 	constructor(props) {
@@ -110,6 +113,10 @@ export default class TransformCreator extends React.Component {
 		return pairComponents;
 	}
 
+	/**
+		Creates a simple transform. Simple transform assumes the scale raw score
+		is the final score.
+	*/
 	onCreateSimpleTransform() {
 		const name = this.state.name;
 		if(!name || name === null || name === "") {
@@ -130,6 +137,10 @@ export default class TransformCreator extends React.Component {
 		this.props.scale.transforms.push(transform);
 	}
 
+	/**
+		Creates a transform with a user defined raw score -> final score
+		pairs.
+	*/
 	onCreateMapTransform() {
 		const name = this.state.name;
 		if(!name || name === null || name === "") {

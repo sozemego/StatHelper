@@ -4,6 +4,12 @@ import React from "react";
 import TransformCreator from "./transformcreator/transformcreator";
 import TransformView from "./transformview/transformview";
 
+/**
+	A component responsible for creating and viewing transforms. Transforms
+	transform a scale raw score into final score. Transforms can be filtered by
+	other items (e.g. different transform for males and females). Transform also
+	have to specify level of measurment for the final score.
+*/
 export default class TransformConfigurer extends React.Component {
 
 	constructor(props) {

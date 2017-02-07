@@ -1,5 +1,8 @@
 import React from "react";
 
+/**
+	Displays info about a transform. Allows for transform removal.
+*/
 export default class TransformView extends React.Component {
 
 	constructor(props) {
@@ -14,7 +17,6 @@ export default class TransformView extends React.Component {
 	}
 
 	render() {
-
 		const buttons = this.getButtons();
 		const selectedTransform = this.getSelectedTransform();
 
