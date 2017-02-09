@@ -14,6 +14,7 @@ export default class ExperimentalDesign {
 		this.exists = this.exists.bind(this);
 		this.setDescriptives = this.setDescriptives.bind(this);
 		this.getDescriptives = this.getDescriptives.bind(this);
+		this.setIndependentVariables = this.setIndependentVariables.bind(this);
 	}
 
 	/**
@@ -58,6 +59,10 @@ export default class ExperimentalDesign {
 
 	getDescriptives() {
 		return this.summaries;
+	}
+
+	setIndependentVariables(variables) {
+		this.independentVariables = variables;
 	}
 
 }

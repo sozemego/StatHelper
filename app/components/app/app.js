@@ -10,6 +10,7 @@ import DataDisplay from "../../components/datadisplay/datadisplay";
 import ScaleCreator from "../../components/scalecreator/scalecreator";
 import ScaleConfigurer from "../../components/scaleconfigurer/scaleconfigurer";
 import Descriptives from "../../components/descriptives/descriptives";
+import IndependentVariables from "../../components/independentvariables/independentvariables";
 
 //UTILS
 import FileParser from "../../fileparser/fileparser";
@@ -56,6 +57,8 @@ export default class App extends React.Component {
 				<ScaleConfigurer getScales = {this.state.design.getScales} getScale = {this.state.design.getScale}/>
 				<Separator />
 				<Descriptives set = {this.state.design.setDescriptives} get = {this.state.design.getDescriptives}/>
+				<Separator />
+				<IndependentVariables set = {this.state.design.setIndependentVariables}/>
         <p>Here display buttons for each scale</p>
 				<p>When clicked, a scale config will appear, where all configuration happens</p>
         <p>----------</p>
