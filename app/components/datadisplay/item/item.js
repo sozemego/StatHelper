@@ -2,7 +2,7 @@
 import React from "react";
 
 //CSS
-import styles from "./cell.css";
+import styles from "./item.css";
 
 /**
 	Represents an Item in user's data (graphically).
