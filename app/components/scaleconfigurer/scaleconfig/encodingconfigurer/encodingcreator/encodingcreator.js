@@ -57,8 +57,8 @@ export default class EncodingCreator extends React.Component {
 				</div>
 				{encoding.pairs}
 				<div className = "row">
-					<button onClick={this.onCreateSimpleEncoding}>Create encoding</button>
-					<button onClick={this.onCreateMapEncoding}>Create score same as answer</button>
+					<button onClick={this.onCreateMapEncoding}>Create encoding</button>
+					<button onClick={this.onCreateSimpleEncoding}>Create score same as answer</button>
 					<div className = "row">
 						<button onClick={this.onCreateReverseEncoding}>Create reverse encoding</button>
 						<div>
