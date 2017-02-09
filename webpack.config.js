@@ -11,7 +11,6 @@ var outputPath = path.resolve(__dirname, "public");
 module.exports = {
     context: entryPath,
     entry: entryPath + "/app.js",
-    debug: true,
     devtool: "sourcemaps",
     output: {
         path: outputPath,
@@ -21,7 +20,7 @@ module.exports = {
         loaders: [
             {
               test: /\.css$/,
-              loader: ExtractTextPlugin.extract("css?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]")
+              loader: ExtractTextPlugin.extract("css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]")
 						},
             {
                 test: /\.js$/,
@@ -36,7 +35,7 @@ module.exports = {
         ]
     },
     plugins: [
-      new ExtractTextPlugin("css/main.css", {disable: false, allChunks: true}),
+      new ExtractTextPlugin({filename: "css/main.css", disable: false, allChunks: true}),
       new CopyWebpackPlugin([
         {
           from: entryPath + "/*.html"
@@ -56,13 +55,15 @@ module.exports = {
       //  	warnings: false
       //}
     ],
-    resolve: {
-      root: [
-        path.resolve("./app")
-      ]
-    },
     node: {
       fs: "empty"
-    }
+    },
+		devServer: {
+			contentBase: path.join(__dirname, "public"),
+			port: 8080,
+			historyApiFallback: {
+      	index: 'home.html'
+    	}
+		}
 
 };
