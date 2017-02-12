@@ -58,7 +58,7 @@ export default class App extends React.Component {
 				<Separator />
 				<Descriptives set = {this.state.design.setDescriptives} get = {this.state.design.getDescriptives}/>
 				<Separator />
-				<IndependentVariables set = {this.state.design.setIndependentVariables}/>
+				<IndependentVariables design = {this.state.design}/>
         <p>Here display buttons for each scale</p>
 				<p>When clicked, a scale config will appear, where all configuration happens</p>
         <p>----------</p>

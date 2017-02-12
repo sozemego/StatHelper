@@ -1,22 +1,28 @@
 import React from "react";
 
+//COMPONENTS
+import IndependentVariableCreator from "./independentvariablecreator/independentvariablecreator";
+import IndependentVariableView from "./independentvariableview/independentvariableview";
+
 /**
 	A component for defining independent variables. Independent variables
 	for instance are your experimental conditions (groups), or items like
-	gender or age.
+	gender or age. Those variables can be grouped together, to define
+	several test suites to run.
 */
 export default class IndependentVariables extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.getPairs = this.getPairs.bind(this);
-		this.getPair = this.getPair.bind(this);
-		this.onItemChange = this.onItemChange.bind(this);
-		this.state = {variables: []};
+		this.onGroupCreate = this.onGroupCreate.bind(this);
+		this.onRemove = this.onRemove.bind(this);
+		this.state = {
+			groups: props.design.groups,
+			createdGroups: 0
+		};
 	}
 
 	render() {
-		const pairs = this.getPairs();
 
 		return(
 			<div className="container">
@@ -26,71 +32,34 @@ export default class IndependentVariables extends React.Component {
 					(e.g. control vs experimental group), age or gender. Those included in your experimental design
 					(like experimental conditions) mark as design, additional items (age etc) mark as additional.
 				</p>
-				<div className = "text-center">
-					{pairs}
+				<div className = "row">
+					<div className="col-lg-6">
+						<IndependentVariableCreator onGroupCreate={this.onGroupCreate} />
+					</div>
+					<div className="col-lg-6">
+						<IndependentVariableView groups = {this.state.groups} onRemove = {this.onRemove}/>
+					</div>
 				</div>
 			</div>
 		);
 	}
 
 	/**
-		Returns scale name/item number-level of measurement pairs as
-		elements.
+		Callback for IV group creation. Used by IndependentVariableCreator.
 	*/
-	getPairs() {
-		const variables = this.state.variables;
-
-		const pairs = variables.map(function(item, index) {
-			return this.getPair(item, index);
-		}.bind(this));
-
-		pairs.push(this.getPair({item: ""}, pairs.length));
-		return pairs;
+	onGroupCreate(group) {
+		group.name = this.state.createdGroups + 1;
+		const lastGroups = this.state.groups;
+		lastGroups.push(group);
+		this.setState({
+			groups: lastGroups,
+			createdGroups: group.name
+		});
 	}
 
-	/**
-		Creates a dom representation of a pair.
-	*/
-	getPair(item, index) {
-		return(
-			<div>
-				<input name="item" type="Text" value={item.item} onChange={this.onItemChange.bind(null, index)}></input>
-				<span>type</span>
-				<select name="type" onChange={this.onItemChange.bind(null, index)}>
-					<option value="design">design</option>
-					<option value="additional">additional</option>
-				</select>
-				<span>Level of measurement</span>
-				<select name="level" onChange={this.onItemChange.bind(null, index)}>
-					<option value="ratio">ratio</option>
-					<option value="ordinal">ordinal</option>
-					<option value="nominal">nominal</option>
-				</select>
-			</div>
-		);
-	}
-
-	/**
-		onChange handler.
-	*/
-	onItemChange(index, event) {
-		const variables = this.state.variables;
-		if(!variables[index]) {
-			const iv = {type: "design", level: "ratio"};
-			variables.push(iv);
-		}
-		const variable = variables[index];
-		if(event.target.name === "item") {
-			variable.item = event.target.value;
-		}
-		if(event.target.name === "type") {
-			variable.type = event.target.value;
-		}
-		if(event.target.name === "level") {
-			variable.level = event.target.value;
-		}
-		this.props.set(variables);
-		this.setState({variables: variables});
+	onRemove(index) {
+		this.props.design.groups.splice(index, 1);
+		this.setState({groups: this.props.design.groups});
 	}
 
 }
