@@ -31,7 +31,7 @@ export default class ScaleInfo extends React.Component {
 	getParentScale() {
 		const scale = this.props.scale;
 		if(scale.parent !== undefined) {
-			return <div className = "col-md-4 lead">Parent: {this.state.scales[scale.parent].name}</div>;
+			return <div className = "col-md-4 lead">Parent: {this.props.scales[scale.parent].name}</div>;
 		}
 	}
 

@@ -51,7 +51,8 @@ export default class ScaleConfigurer extends React.Component {
 	getSelectedScale() {
 		if(this.state.selectedScale !== -1) {
 			const scales = this.props.scales;
-			return <ScaleConfig scale = {scales[this.props.selectedScale]} scales = {scales}/>;
+			const scale = scales[this.state.selectedScale];
+			return <ScaleConfig scale = {scale} scales = {scales}/>;
 		}
 		return null;
 	}
