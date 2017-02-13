@@ -99,7 +99,7 @@ export default class App extends React.Component {
 		Parses the file and calls the onParse callback.
 	*/
 	onFileUpload(file, extension) {
-		FileParser.parseFile(file, extension, this.onParse);
+		new FileParser().parseFile(file, extension, this.onParse);
 	}
 
 	/**
