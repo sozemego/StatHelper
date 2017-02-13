@@ -94,7 +94,7 @@ export default class ScaleCreator extends React.Component {
 
 		/** Filter out scales that have parents (i.e. are subscales), because they cannot
 		have another subscales */
-		const scales = this.props.getScales().filter(function(scale) {
+		const scales = this.props.scales.filter(function(scale) {
 			return scale.parent === undefined;
 		});
 
