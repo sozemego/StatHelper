@@ -8,13 +8,11 @@ export default class ExperimentalDesign {
 
 	constructor() {
 		this.scales = [];
-		this.summaries = [];
+		this.descriptives = [];
 		this.groups = [];
 		this.getScales = this.getScales.bind(this);
 		this.getScale = this.getScale.bind(this);
 		this.exists = this.exists.bind(this);
-		this.setDescriptives = this.setDescriptives.bind(this);
-		this.getDescriptives = this.getDescriptives.bind(this);
 		this.setIndependentVariables = this.setIndependentVariables.bind(this);
 	}
 
@@ -52,14 +50,6 @@ export default class ExperimentalDesign {
 
 	getScale(index) {
 		return this.scales[index];
-	}
-
-	setDescriptives(summaries) {
-		this.summaries = summaries;
-	}
-
-	getDescriptives() {
-		return this.summaries;
 	}
 
 	setIndependentVariables(variables) {

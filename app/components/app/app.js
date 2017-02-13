@@ -56,7 +56,7 @@ export default class App extends React.Component {
 				<ScaleCreator data = {data} getScales = {this.state.design.getScales} onAddScale = {this.onAddScale} selectedItems = {this.state.selectedItems}/>
 				<ScaleConfigurer getScales = {this.state.design.getScales} getScale = {this.state.design.getScale}/>
 				<Separator />
-				<Descriptives set = {this.state.design.setDescriptives} get = {this.state.design.getDescriptives}/>
+				<Descriptives descriptives = {this.state.design.descriptives}/>
 				<Separator />
 				<IndependentVariables design = {this.state.design}/>
         <p>Here display buttons for each scale</p>
