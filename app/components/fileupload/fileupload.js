@@ -18,19 +18,19 @@ export default class FileUpload extends React.Component {
         <p className = "text-center">First row will be treated as column names (headers).</p>
         <p className = "text-center">By the way, this file will NOT be uploaded anywhere, all processing is done locally!</p>
         <p className = "text-center">Please keep in mind, only the first worksheet will be processed!</p>
-        <input className = "center-block" onChange={this.onDataSubmit} type="file" id ="file" ref="file"></input>
+        <input className = "center-block" onChange={this.onDataSubmit} type="file" id ="file"></input>
       </div>
 		);
 	}
 
-	onDataSubmit() {
-		const file = this.refs.file;
-		this.props.onFileUpload(file.files[0], this.getExtension(file));
+	onDataSubmit(event) {
+		const file = event.target.files[0];
+		this.props.onFileUpload(file, this.getExtension(file));
 	}
 
 	getExtension(file) {
-		const path = file.value;
-		const tokens = path.split(".");
+		const name = file.name;
+		const tokens = name.split(".");
 		return tokens[tokens.length - 1];
 	}
 
