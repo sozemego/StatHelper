@@ -12,6 +12,7 @@ export default class IndependentVariableView extends React.Component {
 		this.onClick = this.onClick.bind(this);
 		this.getSelectedGroupItems = this.getSelectedGroupItems.bind(this);
 		this.getRemoveButton = this.getRemoveButton.bind(this);
+		this.onRemove = this.onRemove.bind(this);
 		this.state = {selectedGroup: -1};
 	}
 
@@ -70,6 +71,12 @@ export default class IndependentVariableView extends React.Component {
 		});
 	}
 
+	onRemove() {
+		const selectedGroup = this.state.selectedGroup;
+		this.props.onRemove(selectedGroup);
+		this.setState({selectedGroup: -1});
+	}
+
 	getRemoveButton() {
 		const selectedGroup = this.state.selectedGroup;
 		if(selectedGroup === -1) {
@@ -77,7 +84,7 @@ export default class IndependentVariableView extends React.Component {
 		}
 
 		return(
-			<button onClick={this.props.onRemove.bind(null, {selectedGroup})}>Remove</button>
+			<button onClick={this.onRemove}>Remove</button>
 		);
 	}
 

@@ -17,7 +17,7 @@ export default class IndependentVariables extends React.Component {
 		this.onGroupCreate = this.onGroupCreate.bind(this);
 		this.onRemove = this.onRemove.bind(this);
 		this.state = {
-			groups: props.design.groups,
+			groups: props.groups,
 			createdGroups: 0
 		};
 	}
@@ -58,8 +58,9 @@ export default class IndependentVariables extends React.Component {
 	}
 
 	onRemove(index) {
-		this.props.design.groups.splice(index, 1);
-		this.setState({groups: this.props.design.groups});
+		const groups = this.state.groups;
+		groups.splice(index, 1);
+		this.setState({groups: groups});
 	}
 
 }

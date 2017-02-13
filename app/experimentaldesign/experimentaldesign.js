@@ -13,7 +13,6 @@ export default class ExperimentalDesign {
 		this.getScales = this.getScales.bind(this);
 		this.getScale = this.getScale.bind(this);
 		this.exists = this.exists.bind(this);
-		this.setIndependentVariables = this.setIndependentVariables.bind(this);
 	}
 
 	/**
@@ -50,10 +49,6 @@ export default class ExperimentalDesign {
 
 	getScale(index) {
 		return this.scales[index];
-	}
-
-	setIndependentVariables(variables) {
-		this.independentVariables = variables;
 	}
 
 }
