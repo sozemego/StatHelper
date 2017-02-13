@@ -36,7 +36,7 @@ export default class IndependentVariables extends React.Component {
 						<IndependentVariableCreator onGroupCreate={this.onGroupCreate} />
 					</div>
 					<div className="col-lg-6">
-						<IndependentVariableView groups = {this.state.groups} onRemove = {this.onRemove}/>
+						<IndependentVariableView groups = {this.props.groups} onRemove = {this.onRemove}/>
 					</div>
 				</div>
 			</div>
