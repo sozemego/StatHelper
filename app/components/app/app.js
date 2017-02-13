@@ -54,7 +54,7 @@ export default class App extends React.Component {
 				<DataDisplay data = {data} clickCallback = {this.onItemClick} selectedItems = {this.state.selectedItems} />
 				<Separator />
 				<ScaleCreator data = {data} scales = {this.state.design.scales} onAddScale = {this.onAddScale} selectedItems = {this.state.selectedItems}/>
-				<ScaleConfigurer getScales = {this.state.design.getScales} getScale = {this.state.design.getScale}/>
+				<ScaleConfigurer scales = {this.state.design.scales}/>
 				<Separator />
 				<Descriptives descriptives = {this.state.design.descriptives}/>
 				<Separator />

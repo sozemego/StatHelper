@@ -17,7 +17,6 @@ export default class IndependentVariables extends React.Component {
 		this.onGroupCreate = this.onGroupCreate.bind(this);
 		this.onRemove = this.onRemove.bind(this);
 		this.state = {
-			groups: props.groups,
 			createdGroups: 0
 		};
 	}
@@ -49,18 +48,17 @@ export default class IndependentVariables extends React.Component {
 	*/
 	onGroupCreate(group) {
 		group.name = this.state.createdGroups + 1;
-		const lastGroups = this.state.groups;
+		const lastGroups = this.props.groups;
 		lastGroups.push(group);
 		this.setState({
-			groups: lastGroups,
 			createdGroups: group.name
 		});
 	}
 
 	onRemove(index) {
-		const groups = this.state.groups;
+		const groups = this.props.groups;
 		groups.splice(index, 1);
-		this.setState({groups: groups});
+		this.setState({});
 	}
 
 }

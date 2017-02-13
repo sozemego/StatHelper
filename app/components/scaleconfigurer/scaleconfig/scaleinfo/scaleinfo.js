@@ -28,6 +28,13 @@ export default class ScaleInfo extends React.Component {
 		);
 	}
 
+	getParentScale() {
+		const scale = this.props.scale;
+		if(scale.parent !== undefined) {
+			return <div className = "col-md-4 lead">Parent: {this.state.scales[scale.parent].name}</div>;
+		}
+	}
+
 	/**
 		Returns a list of items in this scale as a string, space separated.
 	*/
@@ -45,13 +52,6 @@ export default class ScaleInfo extends React.Component {
 		}
 
 		return itemText;
-	}
-
-	getParentScale() {
-		const scale = this.props.scale;
-		if(scale.parent !== undefined) {
-			return <div className = "col-md-4 lead">Parent: {this.props.getScale(scale.parent).name}</div>;
-		}
 	}
 
 	/**

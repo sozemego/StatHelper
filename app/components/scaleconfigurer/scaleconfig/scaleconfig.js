@@ -19,7 +19,7 @@ export default class ScaleConfig extends React.Component {
 	render() {
 		return(
 			<div>
-				<ScaleInfo scale = {this.props.scale} getScale = {this.props.getScale}/>
+				<ScaleInfo scale = {this.props.scale} scales = {this.props.scales}/>
 				<Separator />
 				<EncodingConfigurer scale = {this.props.scale} />
 				<Separator />

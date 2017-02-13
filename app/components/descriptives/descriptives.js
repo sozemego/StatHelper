@@ -13,7 +13,6 @@ export default class Descriptives extends React.Component {
 	constructor(props) {
 		super(props);
 		this.pairChanged = this.pairChanged.bind(this);
-		this.state = {descriptives: this.props.descriptives};
 	}
 
 	render() {

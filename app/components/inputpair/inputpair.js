@@ -9,26 +9,18 @@ export default class InputPair extends React.Component {
 		super(props);
 		this.onChange = this.onChange.bind(this);
 		const config = this.props.config;
-		this.state = {
-			answer: props.answer,
-			result: props.result,
-			left: config.left ? config.left : 30,
-			right: config.right ? config.right : 6,
-			leftPlaceholder: config.leftPlaceholder ? config.leftPlaceholder: "",
-			rightPlaceholder: config.rightPlaceholder ? config.rightPlaceholder: ""
-		};
 	}
 
 	render() {
-		const answer = this.state.answer;
-		const result = this.state.result;
+		const answer = this.props.answer;
+		const result = this.props.result;
 
 		return(
 			<form className = {styles.pair} onChange = {this.onChange}>
-				<input type = "text" size={this.state.left} placeholder = {this.state.leftPlaceholder}
+				<input type = "text" size={this.props.left} placeholder = {this.props.leftPlaceholder}
 					ref="answer" value={answer}></input>
 				->
-				<input type = "text" size={this.state.right} placeholder = {this.state.rightPlaceholder}
+				<input type = "text" size={this.props.right} placeholder = {this.props.rightPlaceholder}
 					ref="result" value={result}></input>
 			</form>
 		);

@@ -15,10 +15,13 @@ export default class ScaleConfigurer extends React.Component {
 		this.onButtonClick = this.onButtonClick.bind(this);
 		this.getScaleButtons = this.getScaleButtons.bind(this);
 		this.getSelectedScale = this.getSelectedScale.bind(this);
+		this.state = {
+			selectedScale: -1
+		};
 	}
 
 	render() {
-		const scales = this.props.getScales();
+		const scales = this.props.scales;
 
 		if(scales.length === 0) {
 			return null;
@@ -37,7 +40,7 @@ export default class ScaleConfigurer extends React.Component {
 	}
 
 	getScaleButtons() {
-		const scales = this.props.getScales();
+		const scales = this.props.scales;
 		return scales.map(function(item, index) {
 			return(
 				<button onClick={this.onButtonClick.bind(null, index)} type="button" key={index}>{item.name}</button>
@@ -46,9 +49,9 @@ export default class ScaleConfigurer extends React.Component {
 	}
 
 	getSelectedScale() {
-		if(this.state.selectedScale !== null) {
-			const scales = this.props.getScales();
-			return <ScaleConfig scale = {scales[this.state.selectedScale]} getScale = {this.props.getScale}/>;
+		if(this.state.selectedScale !== -1) {
+			const scales = this.props.scales;
+			return <ScaleConfig scale = {scales[this.props.selectedScale]} scales = {scales}/>;
 		}
 		return null;
 	}
