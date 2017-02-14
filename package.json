@@ -30,5 +30,7 @@
     "react-router": "^3.0.2",
     "xlsx": "^0.8.1"
   },
-  "scripts": {}
+  "scripts": {
+		"web-start": "webpack --watch --progress --colors"
+	}
 }
