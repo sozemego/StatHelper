@@ -75,7 +75,6 @@ export default class TransformCreator extends React.Component {
 
 	pairChanged(index, pair) {
 		const pairs = this.state.pairs;
-		console.log(pair);
 		pairs.splice(index, 1, pair);
 		this.setState({pairs: pairs});
 	}

@@ -162,7 +162,7 @@ export default class EncodingCreator extends React.Component {
 		}
 
 		const items = this.getItems();
-		const pairs = this.state.pairs.slice();
+		const pairs = this.getValidPairs();
 
 		const encoding = {
 			name: name,
@@ -219,6 +219,12 @@ export default class EncodingCreator extends React.Component {
 			}
 		}
 		return items;
+	}
+
+	getValidPairs() {
+		return this.state.pairs.filter(
+			pair => (pair.answer !== "" && pair.result !== "")
+		);
 	}
 
 	onClear() {
