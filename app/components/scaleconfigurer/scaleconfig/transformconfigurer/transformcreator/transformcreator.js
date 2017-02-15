@@ -124,7 +124,7 @@ export default class TransformCreator extends React.Component {
 			return;
 		}
 
-		const filters = this.state.filters.slice();
+		const filters = this.getValidPairs(this.state.filters);
 		const level = this.state.level;
 
 		const transform = {
@@ -148,8 +148,8 @@ export default class TransformCreator extends React.Component {
 			return;
 		}
 
-		const filters = this.state.filters.slice();
-		const pairs = this.state.pairs;
+		const filters = this.getValidPairs(this.state.filters);
+		const pairs = this.getValidPairs(this.state.pairs);
 		const level = this.state.level;
 
 		const transform = {
@@ -161,6 +161,10 @@ export default class TransformCreator extends React.Component {
 		};
 
 		this.props.onTransformCreate(transform);
+	}
+
+	getValidPairs(pairs) {
+		return pairs.filter(pair => (pair.answer !== "" && pair.result !== ""));
 	}
 
 }
