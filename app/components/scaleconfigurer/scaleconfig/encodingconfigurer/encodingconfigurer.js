@@ -6,13 +6,14 @@ import EncodingView from "./encodingview/encodingview";
 
 /**
 	A component which allows to configure encodings. Encodings define
-	how item answers are translated into scores. 
+	how item answers are translated into scores.
 */
 export default class EncodingConfigurer extends React.Component {
 
 	constructor(props) {
 		super(props);
 		this.removeEncoding = this.removeEncoding.bind(this);
+		this.onCreateEncoding = this.onCreateEncoding.bind(this);
 		this.state = {};
 	}
 
@@ -24,7 +25,7 @@ export default class EncodingConfigurer extends React.Component {
 					<p className = "lead text-center">Encodings</p>
 					<div className = "row">
 						<div className = "col-lg-6">
-							<EncodingCreator scale = {scale}/>
+							<EncodingCreator onCreateEncoding = {this.onCreateEncoding}/>
 						</div>
 						<div className = "col-lg-6">
 							<p className="lead text-center">View</p>
@@ -37,6 +38,12 @@ export default class EncodingConfigurer extends React.Component {
 
 	removeEncoding(index) {
 		this.props.scale.encodings.splice(index, 1);
+		this.setState({});
+	}
+
+	onCreateEncoding(encoding) {
+		this.props.scale.encodings.push(encoding);
+		this.setState({});
 	}
 
 }

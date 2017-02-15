@@ -148,7 +148,7 @@ export default class EncodingCreator extends React.Component {
 			pairs: []
 		};
 
-		this.props.scale.encodings.push(encoding);
+		this.props.onCreateEncoding(encoding);
 	}
 
 	/**
@@ -171,7 +171,7 @@ export default class EncodingCreator extends React.Component {
 			pairs: pairs
 		};
 
-		this.props.scale.encodings.push(encoding);
+		this.props.onCreateEncoding(encoding);
 	}
 
 	/**
@@ -201,7 +201,7 @@ export default class EncodingCreator extends React.Component {
 			pairs: []
 		};
 
-		this.props.scale.encodings.push(encoding);
+		this.props.onCreateEncoding(encoding);
 	}
 
 	/**
