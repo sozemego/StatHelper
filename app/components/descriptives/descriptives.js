@@ -13,6 +13,7 @@ export default class Descriptives extends React.Component {
 	constructor(props) {
 		super(props);
 		this.pairChanged = this.pairChanged.bind(this);
+		this.state = {descriptives: []};
 	}
 
 	render() {
@@ -36,7 +37,7 @@ export default class Descriptives extends React.Component {
 	}
 
 	getDescriptives() {
-		const descriptives = this.props.descriptives;
+		const descriptives = this.state.descriptives;
 		const config = {
 			left: 30,
 			right: 30,
@@ -58,13 +59,8 @@ export default class Descriptives extends React.Component {
 	}
 
 	pairChanged(index, pair) {
-		if(!pair.answer || pair.answer === null || pair.answer === "") {
-			return;
-		}
-		if(!pair.result || pair.result === null || pair.result === "") {
-			return;
-		}
-		const descriptives = this.props.descriptives;
+		this.props.onAddDescriptive(pair);
+		const descriptives = this.state.descriptives;
 		descriptives.splice(index, 1, pair);
 		this.setState({descriptives: descriptives});
 	}

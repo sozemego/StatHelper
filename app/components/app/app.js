@@ -2,6 +2,7 @@
 import React from "react";
 
 // COMPONENTS
+
 import Infobar from "../../components/infobar/infobar";
 import Header from "../../components/header/header";
 import Separator from "../../components/separator/separator";
@@ -11,6 +12,7 @@ import ScaleCreator from "../../components/scalecreator/scalecreator";
 import ScaleConfigurer from "../../components/scaleconfigurer/scaleconfigurer";
 import Descriptives from "../../components/descriptives/descriptives";
 import IndependentVariables from "../../components/independentvariables/independentvariables";
+import TestConfigurer from "../../components/testconfigurer/testconfigurer";
 
 //UTILS
 import FileParser from "../../fileparser/fileparser";
@@ -29,6 +31,7 @@ export default class App extends React.Component {
 		this.hideInfobar = this.hideInfobar.bind(this);
 		this.onItemClick = this.onItemClick.bind(this);
 		this.onAddScale = this.onAddScale.bind(this);
+		this.onAddDescriptive = this.onAddDescriptive.bind(this);
 		this.displayErrorMessage = this.displayErrorMessage.bind(this);
 		this.onParse = this.onParse.bind(this);
 
@@ -43,7 +46,7 @@ export default class App extends React.Component {
 	}
 
 	render() {
-		const data = this.state.data;
+		const data = this.state.design.data;
 		return(
       <div onClick = {this.hideInfobar}>
 				<Infobar errorMessage = {this.state.errorMessage}/>
@@ -56,9 +59,11 @@ export default class App extends React.Component {
 				<ScaleCreator data = {data} scales = {this.state.design.scales} onAddScale = {this.onAddScale} selectedItems = {this.state.selectedItems}/>
 				<ScaleConfigurer scales = {this.state.design.scales}/>
 				<Separator />
-				<Descriptives descriptives = {this.state.design.descriptives}/>
+				<Descriptives onAddDescriptive = {this.onAddDescriptive}/>
 				<Separator />
 				<IndependentVariables groups = {this.state.design.groups}/>
+				<Separator />
+				<TestConfigurer design = {this.state.design}/>
         <p>Here display buttons for each scale</p>
 				<p>When clicked, a scale config will appear, where all configuration happens</p>
         <p>----------</p>
@@ -110,7 +115,9 @@ export default class App extends React.Component {
 		if(result.error) {
 			this.displayErrorMessage(result.error);
 		} else {
-			this.setState({data: result});
+			const experimentalDesign = this.state.design;
+			experimentalDesign.setData(result);
+			this.setState({design: experimentalDesign});
 		}
 	}
 
@@ -155,5 +162,12 @@ export default class App extends React.Component {
 		}
 
 		this.setState({selectedItems: selectedItems});
+	}
+
+	onAddDescriptive(pair) {
+		if(pair.answer !== "" && pair.result !== "") {
+			return;
+		}
+		this.state.design.descriptives.push(pair);
 	}
 }
