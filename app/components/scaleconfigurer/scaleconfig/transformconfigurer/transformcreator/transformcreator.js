@@ -21,7 +21,8 @@ export default class TransformCreator extends React.Component {
 
 		this.state = {
 			pairs: [],
-			filters: []
+			filters: [],
+			level: "ratio"
 		};
 	}
 
@@ -47,8 +48,8 @@ export default class TransformCreator extends React.Component {
 				<p className = "text-center">Filters</p>
 				{transform.filters}
 				<div className = "row">
-					<button onClick={this.onCreateSimpleTransform}>Create transform</button>
-					<button onClick={this.onCreateMapTransform}>Create score same as answer</button>
+					<button onClick={this.onCreateMapTransform}>Create transform</button>
+					<button onClick={this.onCreateSimpleTransform}>Create score same as answer</button>
 				</div>
 				<div>
 					<span>Level of measurement of the final score</span>
@@ -74,6 +75,7 @@ export default class TransformCreator extends React.Component {
 
 	pairChanged(index, pair) {
 		const pairs = this.state.pairs;
+		console.log(pair);
 		pairs.splice(index, 1, pair);
 		this.setState({pairs: pairs});
 	}
@@ -134,7 +136,7 @@ export default class TransformCreator extends React.Component {
 			level: level
 		};
 
-		this.props.scale.transforms.push(transform);
+		this.props.onTransformCreate(transform);
 	}
 
 	/**
@@ -148,14 +150,18 @@ export default class TransformCreator extends React.Component {
 		}
 
 		const filters = this.state.filters.slice();
+		const pairs = this.state.pairs;
+		const level = this.state.level;
+
 		const transform = {
 			name: name,
 			type: "map",
 			filters: filters,
-			pairs: []
+			pairs: pairs,
+			level: level
 		};
 
-		this.props.scale.transforms.push(transform);
+		this.props.onTransformCreate(transform);
 	}
 
 }

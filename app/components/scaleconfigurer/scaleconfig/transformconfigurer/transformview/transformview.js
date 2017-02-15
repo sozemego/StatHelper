@@ -61,8 +61,14 @@ export default class TransformView extends React.Component {
 				<p className="text-center">Name: {transform.name}</p>
 				<p className="text-center">Type: {transform.type}</p>
 				<p className="text-center">Level: {transform.level}</p>
-				<div>{pairs}</div>
-				<div>{filters}</div>
+				<div>
+					<p className = "text-center">Transforms</p>
+					{pairs}
+				</div>
+				<div>
+					<p className = "text-center">Filters:</p>
+					{filters}
+				</div>
 				<div className = "row">
 					<button onClick = {this.onRemove.bind(null, selectedTransformIndex)}>Remove</button>
 				</div>
@@ -74,22 +80,28 @@ export default class TransformView extends React.Component {
 		const transform = this.props.scale.transforms[selectedTransformIndex];
 		const pairs = transform.pairs;
 
-		return pairs.map(function(item, index) {
+		const pairElements = pairs.map(function(item, index) {
 			return(
 				<p>[{item.answer}] -> [{item.result}]</p>
 			);
 		});
+
+		return pairElements;
 	}
 
 	getFilters(selectedTransformIndex) {
 		const transform = this.props.scale.transforms[selectedTransformIndex];
 		const filters = transform.filters;
 
-		return filters.map(function(item, index) {
+		const filterElements = filters.map(function(item, index) {
 			return(
 				<p>[{item.answer}] -> [{item.result}]</p>
 			);
 		});
+		if(filterElements.length === 0) {
+			return(<p>None</p>);
+		}
+		return filterElements;
 	}
 
 	onClick(index) {
