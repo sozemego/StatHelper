@@ -60,7 +60,6 @@ export default class TransformView extends React.Component {
 			<div>
 				<p className="text-center">Name: {transform.name}</p>
 				<p className="text-center">Type: {transform.type}</p>
-				<p className="text-center">Level: {transform.level}</p>
 				<div>
 					<p className = "text-center">Transforms</p>
 					{pairs}

@@ -15,14 +15,12 @@ export default class TransformCreator extends React.Component {
 		this.onNameChange = this.onNameChange.bind(this);
 		this.pairChanged = this.pairChanged.bind(this);
 		this.filterChanged = this.filterChanged.bind(this);
-		this.levelChanged = this.levelChanged.bind(this);
 		this.onCreateSimpleTransform = this.onCreateSimpleTransform.bind(this);
 		this.onCreateMapTransform = this.onCreateMapTransform.bind(this);
 
 		this.state = {
 			pairs: [],
-			filters: [],
-			level: "ratio"
+			filters: []
 		};
 	}
 
@@ -51,15 +49,6 @@ export default class TransformCreator extends React.Component {
 					<button onClick={this.onCreateMapTransform}>Create transform</button>
 					<button onClick={this.onCreateSimpleTransform}>Create score same as answer</button>
 				</div>
-				<div>
-					<span>Level of measurement of the final score</span>
-					<select onChange={this.levelChanged} value={transform.level}>
-						<option value="ratio">Ratio</option>
-						<option value="ordinal">Ordinal</option>
-						<option value="nominal">Nominal</option>
-					</select>
-				</div>
-
 			</div>
 		);
 	}
@@ -77,10 +66,6 @@ export default class TransformCreator extends React.Component {
 		const pairs = this.state.pairs;
 		pairs.splice(index, 1, pair);
 		this.setState({pairs: pairs});
-	}
-
-	levelChanged(event) {
-		this.setState({level: event.target.value});
 	}
 
 	onNameChange(event) {

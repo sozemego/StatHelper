@@ -16,6 +16,8 @@ export default class TransformConfigurer extends React.Component {
 		super(props);
 		this.removeTransform = this.removeTransform.bind(this);
 		this.onTransformCreate = this.onTransformCreate.bind(this);
+		this.levelChanged = this.levelChanged.bind(this);
+		this.state = {level: "ratio"};
 	}
 
 	render() {
@@ -35,6 +37,10 @@ export default class TransformConfigurer extends React.Component {
 				</div>
 			</div>
 		);
+	}
+
+	levelChanged(event) {
+		this.setState({level: event.target.value});
 	}
 
 	removeTransform(index) {

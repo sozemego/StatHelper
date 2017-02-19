@@ -16,6 +16,10 @@ export default class ScaleCreator extends React.Component {
 		this.createScale = this.createScale.bind(this);
 		this.createSubscale = this.createSubscale.bind(this);
 		this.createScaleObject = this.createScaleObject.bind(this);
+		this.levelChanged = this.levelChanged.bind(this);
+		this.state = {
+			level: "ratio"
+		};
 	}
 
 	render() {
@@ -37,7 +41,14 @@ export default class ScaleCreator extends React.Component {
 				<select ref="selectedscale">
 					{scaleNames}
 				</select>
-
+				<div>
+					<span>Level of measurement of the final score of this scale</span>
+					<select onChange={this.levelChanged} value={this.state.level}>
+						<option value="ratio">Ratio</option>
+						<option value="ordinal">Ordinal</option>
+						<option value="nominal">Nominal</option>
+					</select>
+				</div>
 			</div>
 		);
 
@@ -72,11 +83,14 @@ export default class ScaleCreator extends React.Component {
 			return;
 		}
 
+		const level = this.state.level;
+
 		const scale = {
 			name: scaleName,
 			items: selectedItems,
 			encodings: [],
-			transforms: []
+			transforms: [],
+			level: level
 		};
 
 		if(parentScaleIndex !== undefined) {
@@ -88,6 +102,10 @@ export default class ScaleCreator extends React.Component {
 
 	getSelectedItemsCopy() {
 		return this.props.selectedItems.slice();
+	}
+
+	levelChanged(event) {
+		this.setState({level: event.target.value});
 	}
 
 	getScales() {

@@ -16,12 +16,15 @@ export default class ScaleInfo extends React.Component {
 
 	render() {
 		const scale = this.props.scale;
+		const level = this.props.scale.level;
 		const parent = this.getParentScale();
 		const items = this.getItems();
+
 
 		return(
 			<div className = "row">
 				<div className = "col-md-4 lead">Name: {scale.name}</div>
+				<span>Level: {level}</span>
 				{parent}
 				<div>Items: {items}</div>
 			</div>
