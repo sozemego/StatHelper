@@ -3,3 +3,9 @@ stats.json
 npm-debug.log
 /public
 .eslintrc.json
+.gradle
+.idea
+gradle
+gradlew
+gradlew.bat
+build/

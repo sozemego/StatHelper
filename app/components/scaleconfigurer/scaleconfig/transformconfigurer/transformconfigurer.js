@@ -39,10 +39,6 @@ export default class TransformConfigurer extends React.Component {
 		);
 	}
 
-	levelChanged(event) {
-		this.setState({level: event.target.value});
-	}
-
 	removeTransform(index) {
 		this.props.scale.transforms.splice(index, 1);
 	}
