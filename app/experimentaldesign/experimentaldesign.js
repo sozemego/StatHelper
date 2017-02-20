@@ -7,12 +7,17 @@
 export default class ExperimentalDesign {
 
 	constructor() {
+		this.data = undefined;
 		this.scales = [];
 		this.descriptives = [];
 		this.groups = [];
 		this.getScales = this.getScales.bind(this);
 		this.getScale = this.getScale.bind(this);
 		this.exists = this.exists.bind(this);
+	}
+
+	setData(data) {
+		this.data = data;
 	}
 
 	/**
