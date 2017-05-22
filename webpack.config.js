@@ -1,17 +1,22 @@
-/* eslint-disable */
-var path = require("path");
-var webpack = require("webpack");
+const path = require("path");
+const webpack = require("webpack");
 
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var CopyWebpackPlugin = require('copy-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
-var entryPath = path.resolve(__dirname, "app");
-var outputPath = path.resolve(__dirname, "public");
+const entryPath = path.resolve(__dirname, "src");
+const outputPath = path.resolve(__dirname, "dist");
 
 module.exports = {
     context: entryPath,
-    entry: entryPath + "/app.js",
-    devtool: "sourcemaps",
+    entry: entryPath + "/main.js",
+    devServer: {
+        contentBase: outputPath,
+        port: 8080,
+        historyApiFallback: {
+            index: 'index.html'
+        }
+    },
+    devtool: "source-map",
     output: {
         path: outputPath,
         filename: "bundle.js",
@@ -19,51 +24,38 @@ module.exports = {
     module: {
         loaders: [
             {
-              test: /\.css$/,
-              loader: ExtractTextPlugin.extract("css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]")
-						},
-            {
                 test: /\.js$/,
-                //include: "./app/js/",
-                exclude: /(node_modules)/,
-                loader: "babel-loader",
-                query: {
-                    cacheDirectory: true,
-                    presets: ['es2015', 'react']
-                }
+                exclude: /node_modules/,
+                use: [
+                    {
+                        loader: "babel-loader"
+                    }
+                ]
             }
         ]
     },
     plugins: [
-      new ExtractTextPlugin({filename: "css/main.css", disable: false, allChunks: true}),
-      new CopyWebpackPlugin([
-        {
-          from: entryPath + "/*.html"
-        },
-        {
-          from: entryPath + "/img/*"
-        }
-      ])
-			//new webpack.optimize.OccurenceOrderPlugin(),
-			//new webpack.DefinePlugin({
-			//	"process.env": {
-			//		"NODE_ENV": JSON.stringify("production")
-			//	}
-			//}),
-			//new webpack.optimize.UglifyJsPlugin({
-      //	compressor: {
-      //  	warnings: false
-      //}
+        new CopyWebpackPlugin([
+            {
+                from: entryPath + "/*.html"
+            },
+            {
+                from: entryPath + "/img/*"
+            }
+        ])
+        //new webpack.optimize.OccurenceOrderPlugin(),
+        //new webpack.DefinePlugin({
+        //	"process.env": {
+        //		"NODE_ENV": JSON.stringify("production")
+        //	}
+        //}),
+        //new webpack.optimize.UglifyJsPlugin({
+        //	compressor: {
+        //  	warnings: false
+        //}
     ],
     node: {
-      fs: "empty"
-    },
-		devServer: {
-			contentBase: path.join(__dirname, "public"),
-			port: 8080,
-			historyApiFallback: {
-      	index: 'home.html'
-    	}
-		}
+        fs: "empty"
+    }
 
 };
