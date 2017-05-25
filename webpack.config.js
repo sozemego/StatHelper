@@ -8,7 +8,7 @@ const outputPath = path.resolve(__dirname, "dist");
 
 module.exports = {
     context: entryPath,
-    entry: entryPath + "/main.js",
+    entry: entryPath + "/entry.js",
     devServer: {
         contentBase: outputPath,
         port: 8080,
@@ -19,7 +19,7 @@ module.exports = {
     devtool: "source-map",
     output: {
         path: outputPath,
-        filename: "main.js",
+        filename: "entry.js",
     },
     module: {
         loaders: [
@@ -43,19 +43,5 @@ module.exports = {
                 from: entryPath + "/img/*"
             }
         ])
-        //new webpack.optimize.OccurenceOrderPlugin(),
-        //new webpack.DefinePlugin({
-        //	"process.env": {
-        //		"NODE_ENV": JSON.stringify("production")
-        //	}
-        //}),
-        //new webpack.optimize.UglifyJsPlugin({
-        //	compressor: {
-        //  	warnings: false
-        //}
-    ],
-    node: {
-        fs: "empty"
-    }
-
+    ]
 };

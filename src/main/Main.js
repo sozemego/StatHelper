@@ -1,8 +1,8 @@
 import React from "react";
-import {connect} from "react-redux";
-import Counter from "./click-dumb";
+import {Tab, Tabs} from "material-ui";
+import FileUpload from "../data/FileUpload";
 
-class Main extends React.Component {
+export default class Main extends React.Component {
 
     constructor(props) {
         super(props);
@@ -10,27 +10,12 @@ class Main extends React.Component {
 
     render() {
         return(
-            <div>
-                this is the main app!
-                <Counter clicks={this.props.clicks} onCounterClick={this.props.onCounterClick}/>
-            </div>
+            <Tabs>
+                <Tab label="Data">
+                    <FileUpload />
+                </Tab>
+            </Tabs>
         )
     }
 
 }
-
-const mapStateToProps = (state) => {
-    return {
-        clicks: state.clicks
-    }
-};
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        onCounterClick: (value) => {
-             dispatch({type: "CLICKED", clicks: ++value })
-        }
-    }
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Main);

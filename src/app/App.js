@@ -1,10 +1,12 @@
 import React from "react";
 import {Route, Router} from "react-router";
-import {connect, Provider} from "react-redux";
+import {Provider} from "react-redux";
 import {createStore} from "redux";
 import {root} from "../root/Root";
 import Main from "../main/Main";
 import {hashHistory} from "react-router";
+import reducer from "../reducers/reducers";
+import {MuiThemeProvider} from "material-ui";
 
 export default class App extends React.Component {
 
@@ -14,25 +16,14 @@ export default class App extends React.Component {
 
     render() {
         return(
-            <Provider store={createStore(reducer)}>
-                <Router history={hashHistory}>
-                    <Route path="/" component={root}/>
-                    <Route path="/main" component={Main}/>
-                </Router>
-            </Provider>
+            <MuiThemeProvider>
+                <Provider store={createStore(reducer)}>
+                    <Router history={hashHistory}>
+                        <Route path="/" component={root}/>
+                        <Route path="/main" component={Main}/>
+                    </Router>
+                </Provider>
+            </MuiThemeProvider>
         )
     }
 }
-
-const initialState = {
-    clicks: 0
-};
-
-const reducer = (state = initialState, action) => {
-    switch(action.type) {
-        case "CLICKED": return {
-            ...state, clicks: action.clicks
-        }
-    }
-    return state;
-};
