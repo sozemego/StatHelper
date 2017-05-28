@@ -9,9 +9,13 @@ class FileUpload extends React.Component {
 
     render() {
         return(
-            <input type="file"/>
+            <input type="file" onChange={this._extractFile} accept=".xls,.xlsx,.csv"/>
         )
     }
+
+    _extractFile = (event) => {
+        this.props.onFileUpload(event.target.files[0]);
+    };
 
 }
 

@@ -3,5 +3,6 @@
  * but it's here for now.
  */
 export const initialState = {
+    file: null,
     data: []
 };
