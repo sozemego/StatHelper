@@ -16,10 +16,10 @@ module.exports = {
             index: 'index.html'
         }
     },
-    devtool: "source-map",
+    devtool: "inline-source-map",
     output: {
         path: outputPath,
-        filename: "entry.js",
+        filename: "entry.js"
     },
     module: {
         loaders: [
@@ -32,7 +32,8 @@ module.exports = {
                     }
                 ]
             }
-        ]
+        ],
+        noParse: [/jszip.js$/]
     },
     plugins: [
         new CopyWebpackPlugin([
@@ -43,5 +44,15 @@ module.exports = {
                 from: entryPath + "/img/*"
             }
         ])
-    ]
+    ],
+    externals: [
+        {
+            './cptable': 'var cptable',
+            '../xlsx.js': 'var _XLSX'
+        }
+    ],
+    node: {
+        fs: false,
+        Buffer: false
+    }
 };

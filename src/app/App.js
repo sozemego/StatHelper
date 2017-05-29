@@ -5,7 +5,7 @@ import {createStore} from "redux";
 import {root} from "../root/Root";
 import Main from "../main/Main";
 import {hashHistory} from "react-router";
-import reducer from "../reducers/reducers";
+import {store} from "../store/StoreInit";
 import {MuiThemeProvider} from "material-ui";
 
 export default class App extends React.Component {
@@ -17,7 +17,7 @@ export default class App extends React.Component {
     render() {
         return(
             <MuiThemeProvider>
-                <Provider store={createStore(reducer)}>
+                <Provider store={store}>
                     <Router history={hashHistory}>
                         <Route path="/" component={root}/>
                         <Route path="/main" component={Main}/>

@@ -1,5 +1,6 @@
 import React from "react";
 import {connect} from "react-redux";
+import {parseFile} from "../actions/actions";
 
 class FileUpload extends React.Component {
 
@@ -8,10 +9,22 @@ class FileUpload extends React.Component {
     }
 
     render() {
+        const spinner = this._getSpinner();
         return(
-            <input type="file" onChange={this._extractFile} accept=".xls,.xlsx,.csv"/>
+            <div>
+                <input type="file" onChange={this._extractFile} accept=".xls,.xlsx,.csv"/>
+                {spinner}
+            </div>
         )
     }
+
+    _getSpinner = () => {
+        const {parsing} = this.props;
+        if(parsing) {
+            return <span>Parsing</span>;
+        }
+        return null;
+    };
 
     _extractFile = (event) => {
         this.props.onFileUpload(event.target.files[0]);
@@ -20,18 +33,17 @@ class FileUpload extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+    const {fileProcessing} = state;
     return {
-        data: state.data
+        data: fileProcessing.data,
+        parsing: fileProcessing.parsing
     }
 };
 
 const dispatchToProps = (dispatch) => {
     return {
         onFileUpload: (file) => {
-            dispatch({
-                type: "DATA_UPLOAD",
-                file
-            })
+            dispatch(parseFile(file));
         }
     }
 };

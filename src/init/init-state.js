@@ -3,6 +3,7 @@
  * but it's here for now.
  */
 export const initialState = {
-    file: null,
+    parsing: false,
+    error: null,
     data: []
 };

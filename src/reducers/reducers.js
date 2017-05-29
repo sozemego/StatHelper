@@ -1,7 +1,9 @@
-import {initialState} from "../init/init-state";
+import {combineReducers} from "redux";
+import {fileProcessingReducer} from "../reducers/FileProcessingReducer";
 
-const reducer = (state = initialState, action) => {
-    return state;
-};
+
+const reducer = combineReducers({
+    fileProcessing: fileProcessingReducer
+});
 
 export default reducer;
