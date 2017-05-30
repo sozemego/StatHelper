@@ -1,10 +1,10 @@
-import reducer from "../reducers/reducers";
+import FileProcessingReducer from "../FileProcessing/reducer/FileProcessingReducer";
 import {createStore, applyMiddleware} from "redux";
-import thunkMiddleware from 'redux-thunk'
-import {createLogger} from 'redux-logger'
+import thunkMiddleware from 'redux-thunk';
+import {createLogger} from 'redux-logger';
 
 export const store = createStore(
-    reducer,
+    FileProcessingReducer,
     applyMiddleware(
         thunkMiddleware,
         createLogger()

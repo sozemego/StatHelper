@@ -1,6 +1,6 @@
 import React from "react";
 import {Tab, Tabs} from "material-ui";
-import FileUpload from "../data/FileUpload";
+import FileUpload from "../FileProcessing/component/FileUploadComponent";
 
 export default class Main extends React.Component {
 

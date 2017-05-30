@@ -9,7 +9,6 @@ const parsing = () => {
 };
 
 export const FILE_PARSING_END = "FILE_PARSING_END";
-
 const parsed = (parsedFile) => {
     return {
         type: FILE_PARSING_END,
@@ -18,7 +17,6 @@ const parsed = (parsedFile) => {
 };
 
 export const FILE_PARSING_ERROR = "FILE_PARSING_ERROR";
-
 const error = (error) => {
   return {
       type: FILE_PARSING_ERROR,
