@@ -6,7 +6,7 @@ const dataContainerStyle = {
     flexDirection: "row",
     flexWrap: "wrap",
     alignContent: "flex-start",
-    justifyContent: "center"
+    width: "30%"
 };
 
 const elementStyle = {
@@ -19,6 +19,9 @@ export default class DataDisplayComponent extends React.Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            hoveredElement: 0
+        }
     }
 
     render() {
@@ -29,10 +32,28 @@ export default class DataDisplayComponent extends React.Component {
         return(
             <div style={dataContainerStyle}>
                 {data.map((item, index) => {
-                    return <Chip style={elementStyle} key={index}>{item} [{index += 1}]</Chip>
+                    return <Chip
+                        onMouseEnter={() => this._mouseEnter(index)}
+                        style={elementStyle} key={index}>
+                        {this._truncateItemText(item, index)} [{index}]
+                    </Chip>
                 })}
             </div>
         )
     }
+
+    _mouseEnter = (hoveredElement) => {
+        this.setState({hoveredElement});
+    };
+
+    _truncateItemText = (item, index) => {
+        if(index === this.state.hoveredElement) {
+            return item;
+        }
+        if(item.length < 16) {
+            return item;
+        }
+        return item.substr(0, 16) + "...";
+    };
 
 }
