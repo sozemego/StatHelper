@@ -1,5 +1,5 @@
 import React from "react";
-import {Chip, Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from "material-ui";
+import {Chip} from "material-ui";
 
 const dataContainerStyle = {
     display: "flex",
