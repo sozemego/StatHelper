@@ -5,8 +5,8 @@ import thunkMiddleware from 'redux-thunk';
 import {createLogger} from 'redux-logger';
 
 const rootReducer = combineReducers({
-    fileProcessingReducer,
-    scalesReducer
+    fileProcessing: fileProcessingReducer,
+    scales: scalesReducer
 });
 
 export const store = createStore(
