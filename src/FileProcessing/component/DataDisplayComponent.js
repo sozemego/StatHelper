@@ -1,5 +1,5 @@
 import React from "react";
-import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from "material-ui";
+import {Chip, Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from "material-ui";
 
 const dataContainerStyle = {
     display: "flex",
@@ -12,7 +12,6 @@ const dataContainerStyle = {
 const elementStyle = {
     padding: "4px",
     margin: "2px",
-    border: "1px solid gray",
     fontSize: "1.1em"
 };
 
@@ -30,7 +29,7 @@ export default class DataDisplayComponent extends React.Component {
         return(
             <div style={dataContainerStyle}>
                 {data.map((item, index) => {
-                    return <span style={elementStyle} key={index}>{item} [{index += 1}]</span>
+                    return <Chip style={elementStyle} key={index}>{item} [{index += 1}]</Chip>
                 })}
             </div>
         )
