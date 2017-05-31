@@ -1,6 +1,6 @@
 import React from "react";
 import {Tab, Tabs} from "material-ui";
-import FileUpload from "../FileProcessing/component/FileUploadComponent";
+import DataContainer from "../FileProcessing/component/DataContainer";
 
 export default class Main extends React.Component {
 
@@ -12,7 +12,7 @@ export default class Main extends React.Component {
         return(
             <Tabs>
                 <Tab label="Data">
-                    <FileUpload />
+                    <DataContainer />
                 </Tab>
             </Tabs>
         )

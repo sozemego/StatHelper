@@ -1,8 +1,6 @@
 import React from "react";
-import {connect} from "react-redux";
-import {parseFile} from "../actions/actions";
 
-class FileUploadComponent extends React.Component {
+export default class FileUploadComponent extends React.Component {
 
     constructor(props) {
         super(props);
@@ -31,22 +29,3 @@ class FileUploadComponent extends React.Component {
     };
 
 }
-
-const mapStateToProps = (state) => {
-    const {fileProcessing} = state;
-    return {
-        data: fileProcessing.data,
-        parsing: fileProcessing.parsing,
-        error: fileProcessing.error
-    }
-};
-
-const dispatchToProps = (dispatch) => {
-    return {
-        onFileUpload: (file) => {
-            dispatch(parseFile(file));
-        }
-    }
-};
-
-export default connect(mapStateToProps, dispatchToProps)(FileUploadComponent);
