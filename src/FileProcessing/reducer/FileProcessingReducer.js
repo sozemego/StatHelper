@@ -1,5 +1,4 @@
 import {FILE_PARSING_START, FILE_PARSING_END, FILE_PARSING_ERROR} from "../actions/actions";
-import {combineReducers} from "redux";
 
 /**
  * Contains the initial state for the application. Is it a good idea? Perhaps not
@@ -20,8 +19,4 @@ const fileProcessingReducer = (state = initialState, action) => {
     }
 };
 
-const reducer = combineReducers({
-    fileProcessing: fileProcessingReducer
-});
-
-export default reducer;
+export default fileProcessingReducer;

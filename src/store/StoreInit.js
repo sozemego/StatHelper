@@ -1,10 +1,16 @@
-import FileProcessingReducer from "../FileProcessing/reducer/FileProcessingReducer";
-import {createStore, applyMiddleware} from "redux";
+import fileProcessingReducer from "../FileProcessing/reducer/FileProcessingReducer";
+import scalesReducer from "../Scales/reducer/ScalesReducer";
+import {createStore, applyMiddleware, combineReducers} from "redux";
 import thunkMiddleware from 'redux-thunk';
 import {createLogger} from 'redux-logger';
 
+const rootReducer = combineReducers({
+    fileProcessingReducer,
+    scalesReducer
+});
+
 export const store = createStore(
-    FileProcessingReducer,
+    rootReducer,
     applyMiddleware(
         thunkMiddleware,
         createLogger()
