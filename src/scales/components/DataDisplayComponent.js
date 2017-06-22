@@ -19,9 +19,6 @@ export default class DataDisplayComponent extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            hoveredElement: 0
-        }
     }
 
     render() {
@@ -33,8 +30,8 @@ export default class DataDisplayComponent extends React.Component {
             <div style={dataContainerStyle}>
                 {data.map((item, index) => {
                     return <Chip
-                        onMouseEnter={() => this._mouseEnter(index)}
-                        style={elementStyle} key={index}>
+                        style={elementStyle} key={index}
+                        title={item}>
                         {this._truncateItemText(item, index)} [{index}]
                     </Chip>
                 })}
@@ -42,14 +39,7 @@ export default class DataDisplayComponent extends React.Component {
         )
     }
 
-    _mouseEnter = (hoveredElement) => {
-        this.setState({hoveredElement});
-    };
-
     _truncateItemText = (item, index) => {
-        if(index === this.state.hoveredElement) {
-            return item;
-        }
         if(item.length < 16) {
             return item;
         }

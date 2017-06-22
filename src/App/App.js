@@ -1,10 +1,9 @@
 import React from "react";
 import {Route, Router} from "react-router";
 import {Provider} from "react-redux";
-import {createStore} from "redux";
-import {root} from "../root/Root";
-import Main from "../main/Main";
-import {hashHistory} from "react-router";
+import {root} from "../Root/Root";
+import Main from "../Main/Main";
+import {browserHistory} from "react-router";
 import {store} from "../store/StoreInit";
 import {MuiThemeProvider} from "material-ui";
 
@@ -18,7 +17,7 @@ export default class App extends React.Component {
         return(
             <MuiThemeProvider>
                 <Provider store={store}>
-                    <Router history={hashHistory}>
+                    <Router history={browserHistory}>
                         <Route path="/" component={root}/>
                         <Route path="/main" component={Main}/>
                     </Router>

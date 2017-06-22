@@ -32,7 +32,7 @@ export const parseFile = (file) => {
         return readFile(file)
             .then(arrayBuffer => parse(extension, arrayBuffer))
             .then(result => {
-                setTimeout(() => dispatch(parsed(result)), 1500);
+                dispatch(parsed(result));
             })
             .catch(err => dispatch(error(err)));
     }

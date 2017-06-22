@@ -1,7 +1,7 @@
 import React from "react";
 import {Tab, Tabs} from "material-ui";
-import DataContainer from "../FileProcessing/component/DataContainer";
-import ScalesContainer from "../Scales/components/ScalesContainer";
+import DataContainer from "../file-processing/component/DataContainer";
+import ScalesContainer from "../scales/components/ScalesContainer";
 
 export default class Main extends React.Component {
 
