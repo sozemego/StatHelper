@@ -11,7 +11,7 @@ export class ScalesContainer extends React.Component {
     render() {
         return(
             <div>
-                <DataDisplayComponent data={this.props.data[0]} />
+                <DataDisplayComponent data={this.props.itemNames} />
             </div>
         )
     }
@@ -21,7 +21,7 @@ const mapStateToProps = (state) => {
     const {fileProcessing, scales} = state;
     return {
         scales: scales.scales,
-        data: fileProcessing.data
+        itemNames: fileProcessing.data[0]
     }
 };
 

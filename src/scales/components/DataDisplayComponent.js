@@ -1,9 +1,9 @@
 import React from "react";
-import {Chip} from "material-ui";
+import {Chip, FlatButton, TextField} from "material-ui";
 
 const dataContainerStyle = {
     display: "flex",
-    flexDirection: "row",
+    flexDirection: "column",
     flexWrap: "wrap",
     alignContent: "flex-start",
     width: "30%"
@@ -12,7 +12,8 @@ const dataContainerStyle = {
 const elementStyle = {
     padding: "4px",
     margin: "2px",
-    fontSize: "1.1em"
+    textAlign: "center",
+    fontSize: "0.75em"
 };
 
 export default class DataDisplayComponent extends React.Component {
@@ -29,17 +30,18 @@ export default class DataDisplayComponent extends React.Component {
         return(
             <div style={dataContainerStyle}>
                 {data.map((item, index) => {
-                    return <Chip
-                        style={elementStyle} key={index}
-                        title={item}>
-                        {this._truncateItemText(item, index)} [{index}]
-                    </Chip>
+                    return <div
+                        style={elementStyle}
+                        key={index}>
+                        {item}
+                    </div>
                 })}
             </div>
         )
     }
 
     _truncateItemText = (item, index) => {
+        return item;
         if(item.length < 16) {
             return item;
         }
