@@ -1,6 +1,6 @@
 import React from "react";
 import {connect} from "react-redux";
-import {parseFile} from "../actions/actions";
+import {parseFile} from "../actions/file-processing-actions";
 import FileUploadComponent from "./FileUploadComponent";
 import DataDisplayComponent from "./DataDisplayComponent";
 

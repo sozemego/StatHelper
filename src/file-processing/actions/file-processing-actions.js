@@ -30,7 +30,7 @@ export const parseFile = (file) => {
 
         const extension = getFileExtension(file);
         return readFile(file)
-            .then(arrayBuffer => parse(extension, arrayBuffer))
+            .then(file => parse(extension, file))
             .then(result => {
                 dispatch(parsed(result));
             })
