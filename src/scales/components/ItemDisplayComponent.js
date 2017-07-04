@@ -48,7 +48,8 @@ export default class ItemDisplayComponent extends React.Component {
                         }}
                         onMouseEnter={() => this.props.toggleItem(index)}
                         onMouseUp={() => this.props.stopSelectingItems()}
-                        key={index}>
+                        key={index}
+                    >
                         {item}
                     </div>
                 })}
