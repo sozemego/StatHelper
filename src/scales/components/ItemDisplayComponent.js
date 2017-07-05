@@ -4,8 +4,7 @@ const dataContainerStyle = {
     display: "flex",
     flexDirection: "column",
     flexWrap: "wrap",
-    alignContent: "flex-start",
-    width: "30%"
+    alignContent: "flex-start"
 };
 
 const itemStyle = {

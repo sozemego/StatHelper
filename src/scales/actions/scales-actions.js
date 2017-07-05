@@ -22,6 +22,13 @@ const selectItems = (selectedItems) => {
     }
 };
 
+export const CREATE_NEW_SCALE = "CREATE_NEW_SCALE";
+export const createNewScale = () => {
+    return {
+        type: CREATE_NEW_SCALE
+    }
+};
+
 export const toggleItem = (itemIndex) => {
     return (dispatch, getState) => {
         const scales = getState().scales;
