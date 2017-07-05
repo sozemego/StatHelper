@@ -1,4 +1,5 @@
-import {START_SELECTING_ITEMS, STOP_SELECTING_ITEMS, SELECT_ITEMS, CREATE_NEW_SCALE} from "../actions/scales-actions";
+import { MOUSE_UP } from "../../common/actions/common-actions";
+import {START_SELECTING_ITEMS, SELECT_ITEMS, CREATE_NEW_SCALE} from "../actions/scales-actions";
 
 const initialState = {
     scales: [],
@@ -9,7 +10,7 @@ const initialState = {
 const scales = (state = initialState, action) => {
     switch (action.type) {
         case START_SELECTING_ITEMS: return { ...state, selectingItems: true };
-        case STOP_SELECTING_ITEMS: return { ...state, selectingItems: false };
+        case MOUSE_UP: return { ...state, selectingItems: false };
         case SELECT_ITEMS: return { ...state, selectedItems: action.selectedItems};
         case CREATE_NEW_SCALE: return {...state, scales: addScale(state.scales)};
         default: return state;
@@ -17,9 +18,7 @@ const scales = (state = initialState, action) => {
 };
 
 const addScale = (scales) => {
-    const nextScales = scales.slice();
-    nextScales.push({name: "Scale" + scales.length});
-    return nextScales;
+    return scales.concat([{name: "Scale" + scales.length}]);
 };
 
 export default scales;

@@ -4,6 +4,7 @@ import {createNewScale, startSelectingItems, stopSelectingItems, toggleItem} fro
 import ItemDisplayComponent from "./ItemDisplayComponent";
 import ScaleConfigurerComponent from "./ScaleConfigurerComponent";
 import ScaleSelectorComponent from "./ScaleSelectorComponent";
+import {mouseUp} from "../../common/actions/common-actions";
 
 const containerStyle = {
     display: "flex"
@@ -25,13 +26,12 @@ export class ScalesContainer extends React.Component {
 
     render() {
         return(
-            <div style={containerStyle}>
+            <div style={containerStyle} onMouseUp={this.props.mouseUp}>
                 <div style={itemDisplayComponentContainerStyle}>
                     <ItemDisplayComponent
                         data={this.props.itemNames}
                         selectedItems={this.props.selectedItems}
                         toggleItem={this.props.toggleItem}
-                        stopSelectingItems={this.props.stopSelectingItems}
                         startSelectingItems={this.props.startSelectingItems}
                     />
                 </div>
@@ -62,8 +62,8 @@ const dispatchToProps = (dispatch) => {
         startSelectingItems: () => {
             dispatch(startSelectingItems());
         },
-        stopSelectingItems: () => {
-            dispatch(stopSelectingItems());
+        mouseUp: () => {
+            dispatch(mouseUp())
         },
         toggleItem: (itemIndex) => {
             dispatch(toggleItem(itemIndex));

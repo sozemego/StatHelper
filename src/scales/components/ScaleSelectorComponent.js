@@ -21,12 +21,13 @@ export default class ScaleSelectorComponent extends React.Component {
             <div style={selectorContainerStyle}>
                 <FlatButton
                     label="New scale"
+                    secondary={true}
                     onTouchTap={() => this.props.createNewScale()}
                     style={{margin: "auto", width: "100%"}}
                 />
                 <div style={scaleListContainerStyle}>
                     {this.props.scaleNames.map((item, index) => {
-                        return <Chip>
+                        return <Chip key={index}>
                             {item}
                         </Chip>
                     })}

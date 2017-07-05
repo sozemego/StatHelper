@@ -7,13 +7,6 @@ export const startSelectingItems = () => {
     }
 };
 
-export const STOP_SELECTING_ITEMS = "STOP_SELECTING_ITEMS ";
-export const stopSelectingItems = () => {
-    return {
-        type: STOP_SELECTING_ITEMS
-    }
-};
-
 export const SELECT_ITEMS = "SELECT_ITEMS";
 const selectItems = (selectedItems) => {
     return {
