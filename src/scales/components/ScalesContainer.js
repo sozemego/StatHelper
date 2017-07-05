@@ -1,9 +1,6 @@
 import React from "react";
 import {connect} from "react-redux";
-import {
-    createNewScaleAndSelect, createScale, selectScale, startSelectingItems, stopSelectingItems,
-    toggleItem
-} from "../actions/scales-actions";
+import {createScale, selectScale, startSelectingItems, toggleItem} from "../actions/scales-actions";
 import ItemDisplayComponent from "./ItemDisplayComponent";
 import ScaleConfigurerComponent from "./ScaleConfigurerComponent";
 import ScaleSelectorComponent from "./ScaleSelectorComponent";
@@ -28,7 +25,7 @@ export class ScalesContainer extends React.Component {
     }
 
     render() {
-        return(
+        return (
             <div style={containerStyle} onMouseUp={this.props.mouseUp}>
                 <div style={itemDisplayComponentContainerStyle}>
                     <ItemDisplayComponent
