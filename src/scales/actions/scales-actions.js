@@ -1,5 +1,3 @@
-
-
 export const START_SELECTING_ITEMS = "START_SELECTING_ITEMS";
 export const startSelectingItems = () => {
     return {
@@ -15,10 +13,26 @@ const selectItems = (selectedItems) => {
     }
 };
 
-export const CREATE_NEW_SCALE = "CREATE_NEW_SCALE";
-export const createNewScale = () => {
+export const ADD_SCALE = "ADD_SCALE";
+const addScale = () => {
     return {
-        type: CREATE_NEW_SCALE
+        type: ADD_SCALE
+    }
+};
+
+export const SELECT_SCALE = "SELECT_SCALE";
+export const selectScale = (scale) => {
+    return {
+        type: SELECT_SCALE,
+        scale
+    }
+};
+
+export const createScale = () => {
+    return (dispatch, getState) => {
+        dispatch(addScale());
+        const allScales = getState().scales.scales;
+        dispatch(selectScale(allScales.length - 1));
     }
 };
 

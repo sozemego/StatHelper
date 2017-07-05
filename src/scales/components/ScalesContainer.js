@@ -1,6 +1,9 @@
 import React from "react";
 import {connect} from "react-redux";
-import {createNewScale, startSelectingItems, stopSelectingItems, toggleItem} from "../actions/scales-actions";
+import {
+    createNewScaleAndSelect, createScale, selectScale, startSelectingItems, stopSelectingItems,
+    toggleItem
+} from "../actions/scales-actions";
 import ItemDisplayComponent from "./ItemDisplayComponent";
 import ScaleConfigurerComponent from "./ScaleConfigurerComponent";
 import ScaleSelectorComponent from "./ScaleSelectorComponent";
@@ -38,9 +41,11 @@ export class ScalesContainer extends React.Component {
                 <div style={scaleConfigContainerStyle}>
                     <ScaleSelectorComponent
                         scaleNames={this.props.scales.map(item => item.name)}
-                        createNewScale={this.props.createNewScale}
+                        createScale={this.props.createScale}
+                        selectedScaleIndex={this.props.selectedScale}
+                        selectScale={this.props.selectScale}
                     />
-                    <ScaleConfigurerComponent />
+                    <ScaleConfigurerComponent scale={this.props.scales[this.props.selectedScale]}/>
                 </div>
 
             </div>
@@ -53,7 +58,8 @@ const mapStateToProps = (state) => {
     return {
         scales: scales.scales,
         itemNames: fileProcessing.data[0],
-        selectedItems: scales.selectedItems
+        selectedItems: scales.selectedItems,
+        selectedScale: scales.selectedScale
     }
 };
 
@@ -68,8 +74,11 @@ const dispatchToProps = (dispatch) => {
         toggleItem: (itemIndex) => {
             dispatch(toggleItem(itemIndex));
         },
-        createNewScale: () => {
-            dispatch(createNewScale())
+        createScale: () => {
+            dispatch(createScale())
+        },
+        selectScale: (index) => {
+            dispatch(selectScale(index));
         }
     }
 };

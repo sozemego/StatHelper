@@ -10,9 +10,13 @@ export default class ScaleConfigurerComponent extends React.Component {
     }
 
     render() {
+        const {scale} = this.props;
+        if(!scale) {
+            return null;
+        }
         return(
             <div>
-                CONFIG
+                {this.props.scale.name}
             </div>
         )
     }
