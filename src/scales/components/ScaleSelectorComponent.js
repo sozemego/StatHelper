@@ -1,10 +1,6 @@
 import React from "react";
 import {Chip, FlatButton} from "material-ui";
 
-const selectorContainerStyle = {
-
-};
-
 const scaleListContainerStyle = {
     display: "flex",
     flexWrap: "wrap"
@@ -18,7 +14,7 @@ export default class ScaleSelectorComponent extends React.Component {
 
     render() {
         return(
-            <div style={selectorContainerStyle}>
+            <div>
                 <FlatButton
                     label="New scale"
                     secondary={true}
