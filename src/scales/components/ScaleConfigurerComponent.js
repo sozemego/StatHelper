@@ -1,5 +1,5 @@
 import React from "react";
-import {FlatButton, RadioButton, RadioButtonGroup, TextField} from "material-ui";
+import {Chip, FlatButton, RadioButton, RadioButtonGroup, TextField} from "material-ui";
 import {MEASUREMENT_LEVELS} from "../model/scale";
 
 const configurerContainer = {
@@ -18,6 +18,11 @@ const measurementLevelItem = {
     display: "block"
 };
 
+const itemsContainer = {
+    display: "flex",
+    flexWrap: "wrap"
+};
+
 export default class ScaleConfigurerComponent extends React.Component {
 
     constructor(props) {
@@ -34,11 +39,14 @@ export default class ScaleConfigurerComponent extends React.Component {
 
     render() {
         const {scale} = this.props;
+        const {items} = scale;
+        items.sort((a, b) => a - b);
         return (
             <div style={configurerContainer}>
                 <div>
+                    <p>Scale name</p>
                     <TextField
-                        floatingLabelText="Scale name"
+                        hintText="Scale name"
                         fullWidth={true}
                         value={scale.name}
                         onChange={this._onScaleNameChange}/>
@@ -60,6 +68,16 @@ export default class ScaleConfigurerComponent extends React.Component {
                             />;
                         })}
                     </RadioButtonGroup>
+                </div>
+                <div>
+                    <p>Items</p>
+                    <div style={itemsContainer}>
+                        {items.map((item, index) => {
+                            return <Chip key={index}>
+                                {item}
+                            </Chip>
+                        })}
+                    </div>
                 </div>
                 <div>
                     <FlatButton
