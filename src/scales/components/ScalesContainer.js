@@ -1,6 +1,9 @@
 import React from "react";
 import {connect} from "react-redux";
-import {createScale, selectScale, startSelectingItems, toggleItem} from "../actions/scales-actions";
+import {
+    createScale, removeScale, selectScale, setScaleName, startSelectingItems,
+    toggleItem
+} from "../actions/scales-actions";
 import ItemDisplayComponent from "./ItemDisplayComponent";
 import ScaleConfigurerComponent from "./ScaleConfigurerComponent";
 import ScaleSelectorComponent from "./ScaleSelectorComponent";
@@ -24,7 +27,25 @@ export class ScalesContainer extends React.Component {
         super(props);
     }
 
+    _getSelectedScale = () => {
+        return this.props.scales[this.props.selectedScale];
+    };
+
+    _getConfigurer = () => {
+        const selectedScale = this._getSelectedScale();
+        if(!selectedScale) {
+            return null;
+        }
+        const {selectedScale: selectedScaleIndex} = this.props;
+        return <ScaleConfigurerComponent
+            scale={selectedScale}
+            setScaleName={this.props.setScaleName.bind(null, selectedScaleIndex)}
+            removeScale={this.props.removeScale.bind(null, selectedScaleIndex)}
+        />;
+    };
+
     render() {
+        const configurer = this._getConfigurer();
         return (
             <div style={containerStyle} onMouseUp={this.props.mouseUp}>
                 <div style={itemDisplayComponentContainerStyle}>
@@ -42,7 +63,7 @@ export class ScalesContainer extends React.Component {
                         selectedScaleIndex={this.props.selectedScale}
                         selectScale={this.props.selectScale}
                     />
-                    <ScaleConfigurerComponent scale={this.props.scales[this.props.selectedScale]}/>
+                    {configurer}
                 </div>
 
             </div>
@@ -76,6 +97,12 @@ const dispatchToProps = (dispatch) => {
         },
         selectScale: (index) => {
             dispatch(selectScale(index));
+        },
+        setScaleName: (scaleIndex, scaleName) => {
+            dispatch(setScaleName(scaleIndex, scaleName))
+        },
+        removeScale: (scaleIndex) => {
+            dispatch(removeScale(scaleIndex));
         }
     }
 };

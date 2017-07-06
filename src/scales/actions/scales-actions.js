@@ -1,3 +1,4 @@
+import {createNewScale} from "../model/scale";
 export const START_SELECTING_ITEMS = "START_SELECTING_ITEMS";
 export const startSelectingItems = () => {
     return {
@@ -14,9 +15,10 @@ const selectItems = (selectedItems) => {
 };
 
 export const ADD_SCALE = "ADD_SCALE";
-const addScale = () => {
+const addScale = (scale) => {
     return {
-        type: ADD_SCALE
+        type: ADD_SCALE,
+        scale
     }
 };
 
@@ -30,7 +32,7 @@ export const selectScale = (scale) => {
 
 export const createScale = () => {
     return (dispatch, getState) => {
-        dispatch(addScale());
+        dispatch(addScale(createNewScale()));
         const allScales = getState().scales.scales;
         dispatch(selectScale(allScales.length - 1));
     }
@@ -59,4 +61,36 @@ const _toggleItem = (itemIndex, selectedItems) => {
     }
 
     return nextSelectedItems;
+};
+
+export const SET_SCALES = "SET_SCALES";
+const setScales = (scales) => {
+    return {
+        type: SET_SCALES,
+        scales
+    }
+};
+
+export const setScaleName = (scaleIndex, scaleName) => {
+    return (dispatch, getState) => {
+        if(isScaleNameValid(scaleName)) {
+            const scales = getState().scales.scales;
+            let scale = scales[scaleIndex];
+            scale.name = scaleName;
+            dispatch(setScales([].concat(scales)));
+        }
+    }
+};
+
+const isScaleNameValid = (scaleName) => {
+    return (scaleName || scaleName.trim());
+};
+
+export const removeScale = (scaleIndex) => {
+    return (dispatch, getState) => {
+        dispatch(selectScale(-1));
+        const scales = getState().scales.scales.slice();
+        scales.splice(scaleIndex, 1);
+        dispatch(setScales(scales));
+    };
 };
