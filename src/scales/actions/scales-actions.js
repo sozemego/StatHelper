@@ -1,4 +1,5 @@
-import {createNewScale} from "../model/scale";
+import {createNewScale, isMeasurementLevelValid} from "../model/scale";
+
 export const START_SELECTING_ITEMS = "START_SELECTING_ITEMS";
 export const startSelectingItems = () => {
     return {
@@ -7,9 +8,10 @@ export const startSelectingItems = () => {
 };
 
 export const SELECT_ITEMS = "SELECT_ITEMS";
-const selectItems = (selectedItems) => {
+const selectItems = (scaleIndex, selectedItems) => {
     return {
         type: SELECT_ITEMS,
+        scaleIndex,
         selectedItems
     }
 };
@@ -41,9 +43,11 @@ export const createScale = () => {
 export const toggleItem = (itemIndex) => {
     return (dispatch, getState) => {
         const scales = getState().scales;
-        if(scales.selectingItems) {
-            const selectedItems = _toggleItem(itemIndex, scales.selectedItems);
-            dispatch(selectItems(selectedItems));
+        if(scales.selectingItems && scales.selectedScale > -1) {
+            const selectedScaleIndex = scales.selectedScale;
+            const selectedScale = scales.scales[selectedScaleIndex];
+            const selectedItems = _toggleItem(itemIndex, selectedScale.items);
+            dispatch(selectItems(selectedScaleIndex, selectedItems));
         }
     }
 };
@@ -75,7 +79,7 @@ export const setScaleName = (scaleIndex, scaleName) => {
     return (dispatch, getState) => {
         if(isScaleNameValid(scaleName)) {
             const scales = getState().scales.scales;
-            let scale = scales[scaleIndex];
+            const scale = scales[scaleIndex];
             scale.name = scaleName;
             dispatch(setScales([].concat(scales)));
         }
@@ -94,3 +98,15 @@ export const removeScale = (scaleIndex) => {
         dispatch(setScales(scales));
     };
 };
+
+export const setMeasurementLevel = (scaleIndex, measurementLevel) => {
+    return (dispatch, getState) => {
+        if(isMeasurementLevelValid(measurementLevel)) {
+            const scales = getState().scales.scales;
+            const scale = scales[scaleIndex];
+            scale.measurementLevel = measurementLevel;
+            dispatch(setScales(scales));
+        }
+    };
+};
+

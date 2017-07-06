@@ -1,11 +1,21 @@
 import React from "react";
-import {FlatButton, TextField} from "material-ui";
+import {FlatButton, RadioButton, RadioButtonGroup, TextField} from "material-ui";
+import {MEASUREMENT_LEVELS} from "../model/scale";
 
 const configurerContainer = {
     height: "100%",
     display: "flex",
     flexDirection: "column",
     margin: "10px 25px 0px 25px"
+};
+
+const measurementLevel = {
+    display: "flex",
+    flexDirection: "row"
+};
+
+const measurementLevelItem = {
+    display: "block"
 };
 
 export default class ScaleConfigurerComponent extends React.Component {
@@ -18,6 +28,10 @@ export default class ScaleConfigurerComponent extends React.Component {
         this.props.setScaleName(newValue);
     };
 
+    _onScaleMeasurementLevelChange = (event, newValue) => {
+        this.props.setMeasurementLevel(newValue);
+    };
+
     render() {
         const {scale} = this.props;
         return (
@@ -28,6 +42,24 @@ export default class ScaleConfigurerComponent extends React.Component {
                         fullWidth={true}
                         value={scale.name}
                         onChange={this._onScaleNameChange}/>
+                </div>
+                <div>
+                    <p>Level of measurement</p>
+                    <RadioButtonGroup
+                        name="Measurement level"
+                        style={measurementLevel}
+                        valueSelected={scale.measurementLevel}
+                        onChange={this._onScaleMeasurementLevelChange}
+                    >
+                        {MEASUREMENT_LEVELS.map((level, index) => {
+                            return <RadioButton
+                                key={index}
+                                label={level}
+                                value={level}
+                                style={measurementLevelItem}
+                            />;
+                        })}
+                    </RadioButtonGroup>
                 </div>
                 <div>
                     <FlatButton

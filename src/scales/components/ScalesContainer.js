@@ -1,7 +1,7 @@
 import React from "react";
 import {connect} from "react-redux";
 import {
-    createScale, removeScale, selectScale, setScaleName, startSelectingItems,
+    createScale, removeScale, selectScale, setMeasurementLevel, setScaleName, startSelectingItems,
     toggleItem
 } from "../actions/scales-actions";
 import ItemDisplayComponent from "./ItemDisplayComponent";
@@ -31,6 +31,11 @@ export class ScalesContainer extends React.Component {
         return this.props.scales[this.props.selectedScale];
     };
 
+    _getSelectedScaleItems = () => {
+        const selectedScale = this._getSelectedScale();
+        return selectedScale ? selectedScale.items: [];
+    };
+
     _getConfigurer = () => {
         const selectedScale = this._getSelectedScale();
         if(!selectedScale) {
@@ -41,6 +46,7 @@ export class ScalesContainer extends React.Component {
             scale={selectedScale}
             setScaleName={this.props.setScaleName.bind(null, selectedScaleIndex)}
             removeScale={this.props.removeScale.bind(null, selectedScaleIndex)}
+            setMeasurementLevel={this.props.setMeasurementLevel.bind(null, selectedScaleIndex)}
         />;
     };
 
@@ -51,7 +57,7 @@ export class ScalesContainer extends React.Component {
                 <div style={itemDisplayComponentContainerStyle}>
                     <ItemDisplayComponent
                         data={this.props.itemNames}
-                        selectedItems={this.props.selectedItems}
+                        selectedItems={this._getSelectedScaleItems()}
                         toggleItem={this.props.toggleItem}
                         startSelectingItems={this.props.startSelectingItems}
                     />
@@ -103,6 +109,9 @@ const dispatchToProps = (dispatch) => {
         },
         removeScale: (scaleIndex) => {
             dispatch(removeScale(scaleIndex));
+        },
+        setMeasurementLevel: (scaleIndex, measurementLevel) => {
+            dispatch(setMeasurementLevel(scaleIndex, measurementLevel));
         }
     }
 };
