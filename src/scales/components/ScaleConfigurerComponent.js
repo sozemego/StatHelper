@@ -33,6 +33,10 @@ const itemsContainer = {
     flexWrap: "wrap"
 };
 
+const item = {
+    margin: "auto"
+};
+
 export default class ScaleConfigurerComponent extends React.Component {
 
     constructor(props) {
@@ -79,11 +83,13 @@ export default class ScaleConfigurerComponent extends React.Component {
                         })}
                     </RadioButtonGroup>
                 </div>
-                <div>
-                    <p>Items</p>
+                <div style={field}>
+                    <p style={fieldName}>Items</p>
                     <div style={itemsContainer}>
                         {items.map((item, index) => {
-                            return <Chip key={index}>
+                            return <Chip
+                                style={item}
+                                key={index}>
                                 {item}
                             </Chip>
                         })}
