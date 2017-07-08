@@ -1,4 +1,5 @@
 import {createNewScale, isMeasurementLevelValid} from "../model/scale";
+import {sortAsc} from "../../common/utils";
 
 export const START_SELECTING_ITEMS = "START_SELECTING_ITEMS";
 export const startSelectingItems = () => {
@@ -47,7 +48,7 @@ export const toggleItem = (itemIndex) => {
             const selectedScaleIndex = scales.selectedScale;
             const selectedScale = scales.scales[selectedScaleIndex];
             const selectedItems = _toggleItem(itemIndex, selectedScale.items);
-            dispatch(selectItems(selectedScaleIndex, selectedItems));
+            dispatch(selectItems(selectedScaleIndex, sortAsc(selectedItems)));
         }
     }
 };

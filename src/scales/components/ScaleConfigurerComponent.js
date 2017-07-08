@@ -9,6 +9,10 @@ const configurerContainer = {
     margin: "10px 25px 0px 25px"
 };
 
+const field = {
+    display: "flex"
+};
+
 const measurementLevel = {
     display: "flex",
     flexDirection: "row"
@@ -40,15 +44,15 @@ export default class ScaleConfigurerComponent extends React.Component {
     render() {
         const {scale} = this.props;
         const {items} = scale;
-        items.sort((a, b) => a - b);
         return (
             <div style={configurerContainer}>
-                <div>
+                <div style={field}>
                     <p>Scale name</p>
                     <TextField
                         hintText="Scale name"
                         fullWidth={true}
                         value={scale.name}
+                        underlineShow={false}
                         onChange={this._onScaleNameChange}/>
                 </div>
                 <div>
