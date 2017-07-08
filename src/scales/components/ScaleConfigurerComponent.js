@@ -13,13 +13,19 @@ const field = {
     display: "flex"
 };
 
+const fieldName = {
+    marginRight: "10px"
+};
+
 const measurementLevel = {
     display: "flex",
     flexDirection: "row"
 };
 
 const measurementLevelItem = {
-    display: "block"
+    display: "block",
+    margin: "auto",
+    paddingRight: "6px"
 };
 
 const itemsContainer = {
@@ -47,16 +53,16 @@ export default class ScaleConfigurerComponent extends React.Component {
         return (
             <div style={configurerContainer}>
                 <div style={field}>
-                    <p>Scale name</p>
+                    <p style={fieldName}>Scale name</p>
                     <TextField
                         hintText="Scale name"
-                        fullWidth={true}
+                        fullWidth={false}
                         value={scale.name}
                         underlineShow={false}
                         onChange={this._onScaleNameChange}/>
                 </div>
-                <div>
-                    <p>Level of measurement</p>
+                <div style={field}>
+                    <p style={fieldName}>Level of measurement</p>
                     <RadioButtonGroup
                         name="Measurement level"
                         style={measurementLevel}
