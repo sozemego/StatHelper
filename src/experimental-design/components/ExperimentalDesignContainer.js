@@ -2,6 +2,7 @@ import React from "react";
 import {connect} from "react-redux";
 import ScaleDisplayComponent from "./ScaleDisplayComponent";
 import ExperimentalDesignConfigurationComponent from "./ExperimentalDesignConfigurationComponent";
+import {createTest} from "../actions/experimental-design-actions";
 
 const container = {
     display: "flex"
@@ -28,7 +29,7 @@ class ExperimentalDesignContainer extends React.Component {
                     <ScaleDisplayComponent scales={this.props.scales}/>
                 </div>
                 <div style={designContainer}>
-                    <ExperimentalDesignConfigurationComponent />
+                    <ExperimentalDesignConfigurationComponent createTest={this.props.createTest}/>
                 </div>
             </div>
         )
@@ -46,7 +47,9 @@ const mapStateToProps = (state) => {
 
 const dispatchToProps = (dispatch) => {
     return {
-
+        createTest: () => {
+            dispatch(createTest());
+        }
     }
 };
 
