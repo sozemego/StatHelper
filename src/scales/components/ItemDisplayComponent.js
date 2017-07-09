@@ -1,13 +1,13 @@
 import React from "react";
 
-const dataContainerStyle = {
+const dataContainer = {
     display: "flex",
     flexDirection: "column",
     flexWrap: "wrap",
     alignContent: "flex-start"
 };
 
-const itemStyle = {
+const item = {
     padding: "4px",
     margin: "2px",
     textAlign: "center",
@@ -21,9 +21,14 @@ const itemStyle = {
     cursor: "pointer"
 };
 
-const selectedItemStyle = Object.assign({}, itemStyle, {
+const selectedItem = Object.assign({}, item, {
     backgroundColor: "rgba(0, 0, 0, 0.1)"
 });
+
+const header = {
+    margin: "auto",
+    paddingBottom: "4px"
+};
 
 export default class ItemDisplayComponent extends React.Component {
 
@@ -31,13 +36,26 @@ export default class ItemDisplayComponent extends React.Component {
         super(props);
     }
 
+    _getItemStyle = (itemIndex) => {
+        const {selectedItems} = this.props;
+
+        const index = selectedItems.findIndex((item) => {
+            return item === itemIndex;
+        });
+
+        if(index === -1) {
+            return item;
+        } else {
+            return selectedItem;
+        }
+    };
+
+
     render() {
         const {data} = this.props;
-        if(!data) {
-            return null;
-        }
         return(
-            <div style={dataContainerStyle}>
+            <div style={dataContainer}>
+                <h4 style={header}>Items</h4>
                 {data.map((item, index) => {
                     return <div
                         style={this._getItemStyle(index)}
@@ -54,19 +72,5 @@ export default class ItemDisplayComponent extends React.Component {
             </div>
         )
     }
-
-    _getItemStyle = (itemIndex) => {
-        const {selectedItems} = this.props;
-
-        const index = selectedItems.findIndex((item) => {
-            return item === itemIndex;
-        });
-
-        if(index === -1) {
-            return itemStyle;
-        } else {
-            return selectedItemStyle;
-        }
-    };
 
 }
