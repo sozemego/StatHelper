@@ -1,6 +1,7 @@
 import React from "react";
 import {Chip, FlatButton, RadioButton, RadioButtonGroup, TextField} from "material-ui";
 import {MEASUREMENT_LEVELS} from "../model/scale";
+import {ActionHelpOutline} from "material-ui/svg-icons/index";
 
 const configurerContainer = {
     height: "100%",
@@ -10,7 +11,8 @@ const configurerContainer = {
 };
 
 const field = {
-    display: "flex"
+    display: "flex",
+    justifyContent: "flex-start"
 };
 
 const fieldName = {
@@ -33,8 +35,12 @@ const itemsContainer = {
     flexWrap: "wrap"
 };
 
-const item = {
+const itemStyle = {
     margin: "auto"
+};
+
+const iconStyle = {
+    margin: "auto 0px auto 0px"
 };
 
 export default class ScaleConfigurerComponent extends React.Component {
@@ -85,10 +91,11 @@ export default class ScaleConfigurerComponent extends React.Component {
                 </div>
                 <div style={field}>
                     <p style={fieldName}>Items</p>
+                    <ActionHelpOutline style={iconStyle} />
                     <div style={itemsContainer}>
                         {items.map((item, index) => {
                             return <Chip
-                                style={item}
+                                style={itemStyle}
                                 key={index}>
                                 {item}
                             </Chip>

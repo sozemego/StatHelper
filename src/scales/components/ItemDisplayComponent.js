@@ -48,7 +48,7 @@ export default class ItemDisplayComponent extends React.Component {
                         onMouseEnter={() => this.props.toggleItem(index)}
                         key={index}
                     >
-                        {item}
+                        {item} [{index}]
                     </div>
                 })}
             </div>
