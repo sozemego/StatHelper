@@ -23,9 +23,6 @@ export default class DataDisplayComponent extends React.Component {
 
     render() {
         let {data} = this.props;
-        if(!data) {
-            return null;
-        }
         return(
             <div style={dataContainerStyle}>
                 {data.map((item, index) => {
