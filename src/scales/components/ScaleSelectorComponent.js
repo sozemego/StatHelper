@@ -1,13 +1,19 @@
 import React from "react";
-import {Chip, FlatButton} from "material-ui";
+import {Chip, RaisedButton} from "material-ui";
 
 const scaleListContainerStyle = {
     display: "flex",
-    flexWrap: "wrap"
+    flexWrap: "wrap",
+    marginTop: "6px"
 };
 
 const selectedScaleStyle = {
     backgroundColor: "orange"
+};
+
+const button = {
+    margin: "auto",
+    width: "100%"
 };
 
 export default class ScaleSelectorComponent extends React.Component {
@@ -23,11 +29,10 @@ export default class ScaleSelectorComponent extends React.Component {
     render() {
         return(
             <div>
-                <FlatButton
+                <RaisedButton
                     label="New scale"
-                    secondary={true}
                     onTouchTap={() => this.props.createScale()}
-                    style={{margin: "auto", width: "100%"}}
+                    style={button}
                 />
                 <div style={scaleListContainerStyle}>
                     {this.props.scaleNames.map((name, index) => {
