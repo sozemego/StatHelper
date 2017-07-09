@@ -2,6 +2,7 @@ import React from "react";
 import {Chip, FlatButton, RadioButton, RadioButtonGroup, TextField} from "material-ui";
 import {MEASUREMENT_LEVELS} from "../model/scale";
 import {ActionHelpOutline} from "material-ui/svg-icons/index";
+import ToolTipComponent from "../../common/component/ToolTipComponent";
 
 const configurerContainer = {
     height: "100%",
@@ -40,8 +41,13 @@ const itemStyle = {
 };
 
 const iconStyle = {
-    margin: "auto 0px auto 0px"
+    margin: "auto 0px auto 0px",
+    height: "100%"
 };
+
+const itemsTooltip = "For now, values for the items are assumed to be correctly encoded. E.g. if your " +
+    "items had answers like 'very likely', it is assumed that you already encoded them to numerical values. " +
+    "This will be changed in future releases.";
 
 export default class ScaleConfigurerComponent extends React.Component {
 
@@ -91,7 +97,9 @@ export default class ScaleConfigurerComponent extends React.Component {
                 </div>
                 <div style={field}>
                     <p style={fieldName}>Items</p>
-                    <ActionHelpOutline style={iconStyle} />
+                    <ToolTipComponent tooltip={itemsTooltip} style={iconStyle}>
+                        <ActionHelpOutline />
+                    </ToolTipComponent>
                     <div style={itemsContainer}>
                         {items.map((item, index) => {
                             return <Chip

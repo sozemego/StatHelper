@@ -29,7 +29,7 @@ export default class DataDisplayComponent extends React.Component {
         return(
             <div style={dataContainerStyle}>
                 {data.map((item, index) => {
-                    return <Chip style={elementStyle} key={index}>{item} [{index += 1}]</Chip>
+                    return <Chip style={elementStyle} key={index}>{item}</Chip>
                 })}
             </div>
         )
