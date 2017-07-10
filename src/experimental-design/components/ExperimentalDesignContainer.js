@@ -1,9 +1,9 @@
 import React from "react";
 import {connect} from "react-redux";
 import ScaleDisplayComponent from "./ScaleDisplayComponent";
-import TestSelectorComponent from "./TestSelectorComponent";
 import {createTest, selectTest} from "../actions/experimental-design-actions";
-import TestCreatorComponent from "./TestCreatorComponent";
+import SelectableElementCollectionComponent from "../../common/component/SelectableElementCollectionComponent";
+import {RaisedButton} from "material-ui";
 
 const container = {
     display: "flex"
@@ -15,6 +15,11 @@ const scaleDisplayContainer = {
 
 const designContainer = {
     width: "70%"
+};
+
+const button = {
+    margin: "auto",
+    width: "100%"
 };
 
 class ExperimentalDesignContainer extends React.Component {
@@ -30,11 +35,15 @@ class ExperimentalDesignContainer extends React.Component {
                     <ScaleDisplayComponent scales={this.props.scales}/>
                 </div>
                 <div style={designContainer}>
-                    <TestCreatorComponent createTest={this.props.createTest} />
-                    <TestSelectorComponent
-                        selectTest={this.props.selectTest}
-                        testNames={this.props.tests.map(test => test.name)}
-                        selectedTestIndex={this.props.selectedTest}
+                    <RaisedButton
+                        label="New test"
+                        style={button}
+                        onTouchTap={() => this.props.createTest()}
+                    />
+                    <SelectableElementCollectionComponent
+                        selectElement={this.props.selectTest}
+                        elements={this.props.tests.map(test => test.name)}
+                        selectedElementIndex={this.props.selectedTest}
                     />
                 </div>
             </div>

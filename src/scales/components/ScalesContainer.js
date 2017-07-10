@@ -6,8 +6,9 @@ import {
 } from "../actions/scales-actions";
 import ItemDisplayComponent from "./ItemDisplayComponent";
 import ScaleConfigurerComponent from "./ScaleConfigurerComponent";
-import ScaleSelectorComponent from "./ScaleSelectorComponent";
 import {mouseUp} from "../../common/actions/common-actions";
+import SelectableElementCollectionComponent from "../../common/component/SelectableElementCollectionComponent";
+import {RaisedButton} from "material-ui";
 
 const containerStyle = {
     display: "flex"
@@ -19,6 +20,11 @@ const itemDisplayComponentContainerStyle = {
 
 const scaleConfigContainerStyle = {
     width: "70%"
+};
+
+const button = {
+    margin: "auto",
+    width: "100%"
 };
 
 export class ScalesContainer extends React.Component {
@@ -63,16 +69,20 @@ export class ScalesContainer extends React.Component {
                     />
                 </div>
                 <div style={scaleConfigContainerStyle}>
-                    <ScaleSelectorComponent
-                        scaleNames={this.props.scales.map(item => item.name)}
-                        createScale={this.props.createScale}
-                        selectedScaleIndex={this.props.selectedScale}
-                        selectScale={this.props.selectScale}
+                    <RaisedButton
+                        label="New scale"
+                        style={button}
+                        onTouchTap={() => this.props.createScale()}
+                    />
+                    <SelectableElementCollectionComponent
+                        selectElement={this.props.selectScale}
+                        selectedElementIndex={this.props.selectedScale}
+                        elements={this.props.scales.map(item => item.name)}
                     />
                     {configurer}
                 </div>
             </div>
-        )
+        );
     }
 }
 
