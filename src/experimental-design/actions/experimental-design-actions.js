@@ -10,6 +10,16 @@ const addTest = (test) => {
 
 export const createTest = () => {
     return (dispatch, getState) => {
-        dispatch(addTest(createNewTest()))
+        dispatch(addTest(createNewTest()));
+        const allTests = getState().experimentalDesign.tests;
+        dispatch(selectTest(allTests.length - 1));
+    }
+};
+
+export const SELECT_TEST = "SELECT_TEST";
+export const selectTest = (testIndex) => {
+    return {
+        type: SELECT_TEST,
+        testIndex
     }
 };
