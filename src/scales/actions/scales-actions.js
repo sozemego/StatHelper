@@ -26,10 +26,10 @@ const addScale = (scale) => {
 };
 
 export const SELECT_SCALE = "SELECT_SCALE";
-export const selectScale = (scale) => {
+export const selectScale = (scaleIndex) => {
     return {
         type: SELECT_SCALE,
-        scale
+        scaleIndex
     }
 };
 

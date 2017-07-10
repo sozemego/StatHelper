@@ -13,7 +13,7 @@ const scales = (state = initialState, action) => {
         case MOUSE_UP: return { ...state, selectingItems: false };
         case SELECT_ITEMS: return { ...state, scales: selectItems(state.scales, action.scaleIndex, action.selectedItems)};
         case ADD_SCALE: return {...state, scales: addScale(action.scale, state.scales)};
-        case SELECT_SCALE: return {...state, selectedScale: action.scale};
+        case SELECT_SCALE: return {...state, selectedScale: action.scaleIndex};
         case SET_SCALES: return {...state, scales: action.scales};
         default: return state;
     }

@@ -71,7 +71,6 @@ export class ScalesContainer extends React.Component {
                     />
                     {configurer}
                 </div>
-
             </div>
         )
     }
