@@ -4,6 +4,7 @@ import ScaleDisplayComponent from "./ScaleDisplayComponent";
 import {createTest, selectTest} from "../actions/experimental-design-actions";
 import SelectableElementCollectionComponent from "../../common/component/SelectableElementCollectionComponent";
 import {RaisedButton} from "material-ui";
+import TestConfigurerComponent from "./TestConfigurerComponent";
 
 const container = {
     display: "flex"
@@ -44,6 +45,10 @@ class ExperimentalDesignContainer extends React.Component {
                         selectElement={this.props.selectTest}
                         elements={this.props.tests.map(test => test.name)}
                         selectedElementIndex={this.props.selectedTest}
+                    />
+                    <TestConfigurerComponent
+                        selectedTest={this.props.tests[this.props.selectedTest]}
+
                     />
                 </div>
             </div>
