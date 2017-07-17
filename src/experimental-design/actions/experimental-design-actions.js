@@ -23,3 +23,26 @@ export const selectTest = (testIndex) => {
         testIndex
     }
 };
+
+export const setTestName = (testIndex, testName) => {
+    return (dispatch, getState) => {
+        if(isTestNameValid(testName)) {
+            const tests = getState().experimentalDesign.tests;
+            const test = tests[testIndex];
+            test.name = testName;
+            dispatch(setTests([].concat(tests)));
+        }
+    }
+};
+
+const isTestNameValid = (testName) => {
+    return (testName || testName.trim());
+};
+
+export const SET_TESTS = "SET_TESTS";
+export const setTests = (tests) => {
+    return {
+        type: SET_TESTS,
+        tests
+    }
+};
