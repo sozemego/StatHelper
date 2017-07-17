@@ -33,11 +33,12 @@ const measurementLevelItem = {
 
 const itemsContainer = {
     display: "flex",
-    flexWrap: "wrap"
+    flexWrap: "wrap",
+    justifyContent: "flex-start"
 };
 
 const itemStyle = {
-    margin: "auto"
+    margin: "auto 0px auto 0px"
 };
 
 const iconStyle = {
