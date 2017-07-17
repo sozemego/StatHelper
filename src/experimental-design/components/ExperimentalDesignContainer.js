@@ -1,16 +1,21 @@
 import React from "react";
 import {connect} from "react-redux";
 import ScaleDisplayComponent from "./ScaleDisplayComponent";
-import {createTest, removeTest, selectTest, setTestName, setTestType} from "../actions/experimental-design-actions";
+import {
+    createTest, removeTest, selectTest, setTestName, setTestType,
+    startSelectingScales, toggleScale
+} from "../actions/experimental-design-actions";
 import SelectableElementCollectionComponent from "../../common/component/SelectableElementCollectionComponent";
 import {RaisedButton} from "material-ui";
 import TestConfigurerComponent from "./TestConfigurerComponent";
+import VerticalListComponent from "../../common/component/VerticalListComponent";
+import {mouseUp} from "../../common/actions/common-actions";
 
 const container = {
     display: "flex"
 };
 
-const scaleDisplayContainer = {
+const verticalListContainer = {
     width: "30%"
 };
 
@@ -29,12 +34,26 @@ class ExperimentalDesignContainer extends React.Component {
         super(props);
     }
 
+    _getSelectedTest = () => {
+        return this.props.tests[this.props.selectedTest];
+    };
+
+    _getSelectedTestScales = () => {
+        const selectedTest = this._getSelectedTest();
+        return selectedTest ? selectedTest.scales: [];
+    };
+
     render() {
         const {selectedTest: selectedTestIndex} = this.props;
         return(
-            <div style={container}>
-                <div style={scaleDisplayContainer}>
-                    <ScaleDisplayComponent scales={this.props.scales}/>
+            <div style={container} onMouseUp={this.props.mouseUp}>
+                <div style={verticalListContainer}>
+                    <VerticalListComponent
+                        data={this.props.scales.map(scale => scale.name)}
+                        selectedItems={this._getSelectedTestScales()}
+                        toggleItem={this.props.toggleScale}
+                        startSelectingItems={this.props.startSelectingScales}
+                    />
                 </div>
                 <div style={designContainer}>
                     <RaisedButton
@@ -71,6 +90,15 @@ const mapStateToProps = (state) => {
 
 const dispatchToProps = (dispatch) => {
     return {
+        startSelectingScales: () => {
+            dispatch(startSelectingScales());
+        },
+        mouseUp: () => {
+            dispatch(mouseUp())
+        },
+        toggleScale: (scaleIndex) => {
+            dispatch(toggleScale(scaleIndex));
+        },
         createTest: () => {
             dispatch(createTest());
         },

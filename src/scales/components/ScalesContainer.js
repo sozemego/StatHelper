@@ -4,11 +4,11 @@ import {
     createScale, removeScale, selectScale, setMeasurementLevel, setScaleName, startSelectingItems,
     toggleItem
 } from "../actions/scales-actions";
-import ItemDisplayComponent from "./ItemDisplayComponent";
 import ScaleConfigurerComponent from "./ScaleConfigurerComponent";
 import {mouseUp} from "../../common/actions/common-actions";
 import SelectableElementCollectionComponent from "../../common/component/SelectableElementCollectionComponent";
 import {RaisedButton} from "material-ui";
+import VerticalListComponent from "../../common/component/VerticalListComponent";
 
 const containerStyle = {
     display: "flex"
@@ -48,7 +48,7 @@ export class ScalesContainer extends React.Component {
         return (
             <div style={containerStyle} onMouseUp={this.props.mouseUp}>
                 <div style={itemDisplayComponentContainerStyle}>
-                    <ItemDisplayComponent
+                    <VerticalListComponent
                         data={this.props.itemNames}
                         selectedItems={this._getSelectedScaleItems()}
                         toggleItem={this.props.toggleItem}

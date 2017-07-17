@@ -30,7 +30,7 @@ const header = {
     paddingBottom: "4px"
 };
 
-export default class ItemDisplayComponent extends React.Component {
+export default class VerticalListComponent extends React.Component {
 
     constructor(props) {
         super(props);

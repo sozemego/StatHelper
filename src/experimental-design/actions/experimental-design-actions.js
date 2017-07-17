@@ -1,4 +1,5 @@
 import {createNewTest, TEST_TYPES} from "../model/test";
+import {sortAsc} from "../../common/utils";
 
 export const ADD_TEST = "ADD_TEST";
 const addTest = (test) => {
@@ -69,4 +70,47 @@ export const removeTest = (testIndex) => {
         tests.splice(testIndex, 1);
         dispatch(setTests(tests));
     };
+};
+
+export const START_SELECTING_SCALES = "START_SELECTING_SCALES";
+export const startSelectingScales = () => {
+    return {
+        type: START_SELECTING_SCALES
+    }
+};
+
+export const toggleScale = (scaleIndex) => {
+    return (dispatch, getState) => {
+        const experimentalDesign = getState().experimentalDesign;
+        if(experimentalDesign.selectingItems && experimentalDesign.selectedTest > -1) {
+            const selectedTestIndex = experimentalDesign.selectedTest;
+            const selectedTest = experimentalDesign.tests[selectedTestIndex];
+            const selectedScales = _toggleScale(scaleIndex, selectedTest.scales);
+            dispatch(selectScales(selectedTestIndex, sortAsc(selectedScales)));
+        }
+    }
+};
+
+const _toggleScale = (scaleIndex, selectedScales) => {
+    const index = selectedScales.findIndex((item) => {
+        return item === scaleIndex;
+    });
+
+    const nextSelectedScales = selectedScales.slice();
+    if(index === -1) {
+        nextSelectedScales.push(scaleIndex);
+    } else {
+        nextSelectedScales.splice(index, 1);
+    }
+
+    return nextSelectedScales;
+};
+
+export const SELECT_SCALES = "SELECT_SCALES";
+const selectScales = (testIndex, selectedScales) => {
+    return {
+        type: SELECT_SCALES,
+        testIndex,
+        selectedScales
+    }
 };
