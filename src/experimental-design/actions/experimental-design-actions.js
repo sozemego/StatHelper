@@ -1,4 +1,4 @@
-import {createNewTest} from "../model/test";
+import {createNewTest, TEST_TYPES} from "../model/test";
 
 export const ADD_TEST = "ADD_TEST";
 const addTest = (test) => {
@@ -45,4 +45,28 @@ export const setTests = (tests) => {
         type: SET_TESTS,
         tests
     }
+};
+
+export const setTestType = (testIndex, testType) => {
+    return (dispatch, getState) => {
+        if(isTestTypeValid(testType)) {
+            const tests = getState().experimentalDesign.tests;
+            const test = tests[testIndex];
+            test.type = testType;
+            dispatch(setTests([].concat(tests)));
+        }
+    };
+};
+
+const isTestTypeValid = (testType) => {
+    return TEST_TYPES.findIndex(type => type === testType) > -1;
+};
+
+export const removeTest = (testIndex) => {
+    return (dispatch, getState) => {
+        dispatch(selectTest(-1));
+        const tests = getState().experimentalDesign.tests.slice();
+        tests.splice(testIndex, 1);
+        dispatch(setTests(tests));
+    };
 };

@@ -1,7 +1,7 @@
 import React from "react";
 import {connect} from "react-redux";
 import ScaleDisplayComponent from "./ScaleDisplayComponent";
-import {createTest, selectTest, setTestName} from "../actions/experimental-design-actions";
+import {createTest, removeTest, selectTest, setTestName, setTestType} from "../actions/experimental-design-actions";
 import SelectableElementCollectionComponent from "../../common/component/SelectableElementCollectionComponent";
 import {RaisedButton} from "material-ui";
 import TestConfigurerComponent from "./TestConfigurerComponent";
@@ -50,6 +50,8 @@ class ExperimentalDesignContainer extends React.Component {
                     <TestConfigurerComponent
                         selectedTest={this.props.tests[selectedTestIndex]}
                         setTestName={this.props.setTestName.bind(null, selectedTestIndex)}
+                        setTestType={this.props.setTestType.bind(null, selectedTestIndex)}
+                        removeTest={this.props.removeTest.bind(null, selectedTestIndex)}
                     />
                 </div>
             </div>
@@ -77,7 +79,13 @@ const dispatchToProps = (dispatch) => {
         },
         setTestName: (testIndex, testName) => {
             dispatch(setTestName(testIndex, testName))
-        }
+        },
+        setTestType: (testIndex, testType) => {
+            dispatch(setTestType(testIndex, testType))
+        },
+        removeTest: (testIndex) => {
+            dispatch(removeTest(testIndex));
+        },
     }
 };
 
