@@ -66,6 +66,9 @@ export default class ScaleConfigurerComponent extends React.Component {
 
     render() {
         const {scale} = this.props;
+        if(!scale) {
+            return null;
+        }
         const {items} = scale;
         return (
             <div style={configurerContainer}>

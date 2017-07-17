@@ -42,22 +42,9 @@ export class ScalesContainer extends React.Component {
         return selectedScale ? selectedScale.items: [];
     };
 
-    _getConfigurer = () => {
-        const selectedScale = this._getSelectedScale();
-        if(!selectedScale) {
-            return null;
-        }
-        const {selectedScale: selectedScaleIndex} = this.props;
-        return <ScaleConfigurerComponent
-            scale={selectedScale}
-            setScaleName={this.props.setScaleName.bind(null, selectedScaleIndex)}
-            removeScale={this.props.removeScale.bind(null, selectedScaleIndex)}
-            setMeasurementLevel={this.props.setMeasurementLevel.bind(null, selectedScaleIndex)}
-        />;
-    };
-
     render() {
-        const configurer = this._getConfigurer();
+        const selectedScale = this._getSelectedScale();
+        const {selectedScale: selectedScaleIndex} = this.props;
         return (
             <div style={containerStyle} onMouseUp={this.props.mouseUp}>
                 <div style={itemDisplayComponentContainerStyle}>
@@ -79,7 +66,12 @@ export class ScalesContainer extends React.Component {
                         selectedElementIndex={this.props.selectedScale}
                         elements={this.props.scales.map(item => item.name)}
                     />
-                    {configurer}
+                    <ScaleConfigurerComponent
+                        scale={selectedScale}
+                        setScaleName={this.props.setScaleName.bind(null, selectedScaleIndex)}
+                        removeScale={this.props.removeScale.bind(null, selectedScaleIndex)}
+                        setMeasurementLevel={this.props.setMeasurementLevel.bind(null, selectedScaleIndex)}
+                    />
                 </div>
             </div>
         );
