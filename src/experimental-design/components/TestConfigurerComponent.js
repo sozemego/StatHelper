@@ -63,7 +63,7 @@ export default class TestConfigurerComponent extends React.Component {
         return(
             <div style={configurerContainer}>
                 <div style={field}>
-                    <p style={fieldName}>Scale name</p>
+                    <p style={fieldName}>Test name</p>
                     <TextField
                         hintText="Test name"
                         fullWidth={false}
@@ -72,7 +72,7 @@ export default class TestConfigurerComponent extends React.Component {
                         onChange={this._onTestNameChange}/>
                 </div>
                 <div style={field}>
-                    <p style={fieldName}>Level of measurement</p>
+                    <p style={fieldName}>Test type</p>
                     <RadioButtonGroup
                         name="Test type"
                         style={testTypeContainer}
