@@ -13,7 +13,7 @@ export default class Main extends React.Component {
 
 	render() {
 		return (
-            <Tabs value={'4'}>
+			<Tabs>
                 <Tab label="Data" value={1}>
                     <DataContainer/>
                 </Tab>
