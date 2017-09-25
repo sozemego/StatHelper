@@ -1,8 +1,9 @@
-import React from "react";
+import React from 'react';
+
 export const root = (props) => {
-  return(
-      <div>
-          logo!
-      </div>
-  )
+	return (
+		<div>
+			logo!
+		</div>
+	);
 };

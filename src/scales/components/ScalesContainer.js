@@ -1,120 +1,120 @@
-import React from "react";
-import {connect} from "react-redux";
+import React from 'react';
+import {connect} from 'react-redux';
 import {
-    createScale, removeScale, selectScale, setMeasurementLevel, setScaleName, startSelectingItems,
-    toggleItem
-} from "../actions/scales-actions";
-import ScaleConfigurerComponent from "./ScaleConfigurerComponent";
-import {mouseUp} from "../../common/actions/common-actions";
-import SelectableElementCollectionComponent from "../../common/component/SelectableElementCollectionComponent";
-import {RaisedButton} from "material-ui";
-import VerticalListComponent from "../../common/component/VerticalListComponent";
+	createScale, removeScale, selectScale, setMeasurementLevel, setScaleName, startSelectingItems,
+	toggleItem
+} from '../actions/scales-actions';
+import ScaleConfigurerComponent from './ScaleConfigurerComponent';
+import {mouseUp} from '../../common/actions/common-actions';
+import SelectableElementCollectionComponent from '../../common/component/SelectableElementCollectionComponent';
+import {RaisedButton} from 'material-ui';
+import VerticalListComponent from '../../common/component/VerticalListComponent';
 
 const containerStyle = {
-    display: "flex"
+	display: 'flex'
 };
 
 const itemDisplayComponentContainerStyle = {
-    width: "30%"
+	width: '30%'
 };
 
 const scaleConfigContainerStyle = {
-    width: "70%"
+	width: '70%'
 };
 
 const button = {
-    margin: "auto",
-    width: "100%"
+	margin: 'auto',
+	width: '100%'
 };
 
 export class ScalesContainer extends React.Component {
 
-    constructor(props) {
-        super(props);
-    }
+	constructor(props) {
+		super(props);
+	}
 
-    _getSelectedScale = () => {
-        return this.props.scales[this.props.selectedScale];
-    };
+	_getSelectedScale = () => {
+		return this.props.scales[this.props.selectedScale];
+	};
 
-    _getSelectedScaleItems = () => {
-        const selectedScale = this._getSelectedScale();
-        return selectedScale ? selectedScale.items: [];
-    };
+	_getSelectedScaleItems = () => {
+		const selectedScale = this._getSelectedScale();
+		return selectedScale ? selectedScale.items : [];
+	};
 
-    render() {
-        const selectedScale = this._getSelectedScale();
-        const {selectedScale: selectedScaleIndex} = this.props;
-        return (
-            <div style={containerStyle} onMouseUp={this.props.mouseUp}>
-                <div style={itemDisplayComponentContainerStyle}>
-                    <VerticalListComponent
-                        data={this.props.itemNames}
-                        selectedItems={this._getSelectedScaleItems()}
-                        toggleItem={this.props.toggleItem}
-                        startSelectingItems={this.props.startSelectingItems}
-                    />
-                </div>
-                <div style={scaleConfigContainerStyle}>
-                    <RaisedButton
-                        label="New scale"
-                        style={button}
-                        onTouchTap={() => this.props.createScale()}
-                    />
-                    <SelectableElementCollectionComponent
-                        selectElement={this.props.selectScale}
-                        selectedElementIndex={this.props.selectedScale}
-                        elements={this.props.scales.map(item => item.name)}
-                    />
-                    <ScaleConfigurerComponent
-                        scale={selectedScale}
-                        setScaleName={this.props.setScaleName.bind(null, selectedScaleIndex)}
-                        removeScale={this.props.removeScale.bind(null, selectedScaleIndex)}
-                        setMeasurementLevel={this.props.setMeasurementLevel.bind(null, selectedScaleIndex)}
-                    />
-                </div>
-            </div>
-        );
-    }
+	render() {
+		const selectedScale = this._getSelectedScale();
+		const {selectedScale: selectedScaleIndex} = this.props;
+		return (
+			<div style={containerStyle} onMouseUp={this.props.mouseUp}>
+				<div style={itemDisplayComponentContainerStyle}>
+					<VerticalListComponent
+						data={this.props.itemNames}
+						selectedItems={this._getSelectedScaleItems()}
+						toggleItem={this.props.toggleItem}
+						startSelectingItems={this.props.startSelectingItems}
+					/>
+				</div>
+				<div style={scaleConfigContainerStyle}>
+					<RaisedButton
+						label="New scale"
+						style={button}
+						onTouchTap={() => this.props.createScale()}
+					/>
+					<SelectableElementCollectionComponent
+						selectElement={this.props.selectScale}
+						selectedElementIndex={this.props.selectedScale}
+						elements={this.props.scales.map(item => item.name)}
+					/>
+					<ScaleConfigurerComponent
+						scale={selectedScale}
+						setScaleName={this.props.setScaleName.bind(null, selectedScaleIndex)}
+						removeScale={this.props.removeScale.bind(null, selectedScaleIndex)}
+						setMeasurementLevel={this.props.setMeasurementLevel.bind(null, selectedScaleIndex)}
+					/>
+				</div>
+			</div>
+		);
+	}
 }
 
 const mapStateToProps = (state) => {
-    const {fileProcessing, scales} = state;
-    return {
-        scales: scales.scales,
-        itemNames: fileProcessing.data[0],
-        selectedItems: scales.selectedItems,
-        selectedScale: scales.selectedScale
-    }
+	const {fileProcessing, scales} = state;
+	return {
+		scales: scales.scales,
+		itemNames: fileProcessing.data[0],
+		selectedItems: scales.selectedItems,
+		selectedScale: scales.selectedScale
+	};
 };
 
 const dispatchToProps = (dispatch) => {
-    return {
-        startSelectingItems: () => {
-            dispatch(startSelectingItems());
-        },
-        mouseUp: () => {
-            dispatch(mouseUp())
-        },
-        toggleItem: (itemIndex) => {
-            dispatch(toggleItem(itemIndex));
-        },
-        createScale: () => {
-            dispatch(createScale())
-        },
-        selectScale: (index) => {
-            dispatch(selectScale(index));
-        },
-        setScaleName: (scaleIndex, scaleName) => {
-            dispatch(setScaleName(scaleIndex, scaleName))
-        },
-        removeScale: (scaleIndex) => {
-            dispatch(removeScale(scaleIndex));
-        },
-        setMeasurementLevel: (scaleIndex, measurementLevel) => {
-            dispatch(setMeasurementLevel(scaleIndex, measurementLevel));
-        }
-    }
+	return {
+		startSelectingItems: () => {
+			dispatch(startSelectingItems());
+		},
+		mouseUp: () => {
+			dispatch(mouseUp());
+		},
+		toggleItem: (itemIndex) => {
+			dispatch(toggleItem(itemIndex));
+		},
+		createScale: () => {
+			dispatch(createScale());
+		},
+		selectScale: (index) => {
+			dispatch(selectScale(index));
+		},
+		setScaleName: (scaleIndex, scaleName) => {
+			dispatch(setScaleName(scaleIndex, scaleName));
+		},
+		removeScale: (scaleIndex) => {
+			dispatch(removeScale(scaleIndex));
+		},
+		setMeasurementLevel: (scaleIndex, measurementLevel) => {
+			dispatch(setMeasurementLevel(scaleIndex, measurementLevel));
+		}
+	};
 };
 
 export default connect(mapStateToProps, dispatchToProps)(ScalesContainer);
