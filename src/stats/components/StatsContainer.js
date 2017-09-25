@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Divider, FlatButton} from 'material-ui';
+import {runTests} from '../actions/stats-actions';
 
 const container = {
 	display: 'flex'
@@ -33,6 +34,7 @@ class StatsContainer extends React.Component {
 					fullWidth={true}
 					style={{height: '65px'}}
 					labelStyle={{fontSize: '2rem'}}
+					onTouchTap={this.props.runTests}
 				/>
 				<Divider/>
 				{this.props.tests.map(t => t.name)}
@@ -42,15 +44,18 @@ class StatsContainer extends React.Component {
 
 }
 
-const mapStateToProps = (state) => {
-	const {experimentalDesign} = state;
+const mapStateToProps = state => {
+	const {experimentalDesign, stats} = state;
 	return {
-		tests: experimentalDesign.tests
+		tests: experimentalDesign.tests,
+		stats
 	};
 };
 
-const dispatchToProps = (dispatch) => {
-	return {};
+const dispatchToProps = dispatch => {
+	return {
+		runTests: () => dispatch(runTests())
+	};
 };
 
 export default connect(mapStateToProps, dispatchToProps)(StatsContainer);

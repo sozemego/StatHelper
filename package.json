@@ -26,6 +26,7 @@
     "redux": "^3.6.0",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
+    "simple-statistics": "^4.1.1",
     "xlsx": "^0.8.1"
   }
 }

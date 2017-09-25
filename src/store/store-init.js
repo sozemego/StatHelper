@@ -4,11 +4,13 @@ import experimentalDesignReducer from '../experimental-design/reducer/experiment
 import {createStore, applyMiddleware, combineReducers} from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import {createLogger} from 'redux-logger';
+import stats from '../stats/reducer/stats-reducer';
 
 const rootReducer = combineReducers({
 	fileProcessing: fileProcessingReducer,
 	scales: scalesReducer,
-	experimentalDesign: experimentalDesignReducer
+	experimentalDesign: experimentalDesignReducer,
+	stats
 });
 
 export const store = createStore(
