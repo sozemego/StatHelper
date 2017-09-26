@@ -1,4 +1,3 @@
-import {Vector, Normality} from 'jerzy';
 import {CORRELATION} from '../../experimental-design/model/test';
 import {checkNormal, spearman} from './statistics';
 
@@ -7,9 +6,15 @@ export const runTest = test => {
 };
 
 const correlation = test => {
-	console.log(test);
+
+	//TODO throw error if only 1 scale
 
 	const {scales} = test;
+
+	if (!scales || scales.length < 2) {
+		throw new Error('');
+	}
+
 	// first check normality of all scales
 	const normalDistributionResults = [];
 	for (let i = 0; i < scales.length; i++) {
@@ -17,13 +22,21 @@ const correlation = test => {
 		normalDistributionResults.push(checkNormal(scale.result));
 	}
 
+	//TODO get all possible pairs
+	//TODO for each pair check if both normal or not
+	//TODO for each pair, run test
+
 	const allNormal = checkAllNormal(normalDistributionResults);
 	if (allNormal) {
 		console.log('pearson');
 	} else {
+
+
 		const result = spearman(scales[0].result, scales[1].result);
 		console.log(result);
 	}
+
+	//TODO summarize tests pair -> result
 };
 
 const checkAllNormal = normalDistributionResults => {

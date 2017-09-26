@@ -1,4 +1,5 @@
-import simpleStats, {cumulativeStdNormalProbability, standardNormalTable, sum} from 'simple-statistics';
+import {Vector, Normality} from 'jerzy';
+import {cumulativeStdNormalProbability, mean, sum} from 'simple-statistics';
 
 export const checkNormal = result => {
 	const vector = new Vector(result);
@@ -74,7 +75,7 @@ const sort = arr => {
  * @returns {Array}
  */
 const deviation = values => {
-	const mean = simpleStats.mean(values);
+	const mean = mean(values);
 	const result = new Array(values.length);
 	for (let i = 0; i < values.length; i++) {
 		result[i] = values[i] - mean;
