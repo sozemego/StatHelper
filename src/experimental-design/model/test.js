@@ -1,4 +1,5 @@
-export const TEST_TYPES = ['Correlation'];
+export const CORRELATION = 'CORRELATION';
+export const TEST_TYPES = [CORRELATION];
 
 let testsCreated = 0;
 
