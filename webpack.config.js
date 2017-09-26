@@ -16,7 +16,7 @@ module.exports = {
             index: 'index.html'
         }
     },
-    devtool: "inline-source-map",
+	devtool: 'eval',
     output: {
         path: outputPath,
         filename: "entry.js"
