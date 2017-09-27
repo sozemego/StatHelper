@@ -2,50 +2,52 @@ import {CORRELATION} from '../../experimental-design/model/test';
 import {checkNormal, spearman} from './statistics';
 
 export const runTest = test => {
+	const runner = testRunners[test.type];
+	if (!runner) {
+		throw new Error('Invalid test type! ' + test.type);
+	}
 	return testRunners[test.type](test);
 };
 
 const correlation = test => {
-
-	//TODO throw error if only 1 scale
-
 	const {scales} = test;
 
 	if (!scales || scales.length < 2) {
-		throw new Error('');
+		throw new Error('You need to have at least two scales to run a correlation test.');
 	}
+
+	//TODO warn if invalid measurement level
 
 	// first check normality of all scales
-	const normalDistributionResults = [];
+	const normalDistributionResults = {};
 	for (let i = 0; i < scales.length; i++) {
 		const scale = scales[i];
-		normalDistributionResults.push(checkNormal(scale.result));
+		normalDistributionResults[scale.name] = checkNormal(scale.result);
 	}
 
-	//TODO get all possible pairs
-	//TODO for each pair check if both normal or not
-	//TODO for each pair, run test
-
-	const allNormal = checkAllNormal(normalDistributionResults);
-	if (allNormal) {
-		console.log('pearson');
-	} else {
-
-
-		const result = spearman(scales[0].result, scales[1].result);
-		console.log(result);
+	const allPairs = getAllPairs(scales);
+	for (let i = 0; i < allPairs.length; i++) {
+		const firstScale = allPairs[i][0];
+		const secondScale = allPairs[i][1];
+		const firstScaleNormal = normalDistributionResults[firstScale.name];
+		const secondScaleNormal = normalDistributionResults[secondScale.name];
+		if (!firstScaleNormal || !secondScaleNormal) {
+			const result = spearman(firstScale.result, secondScale.result);
+			console.log(result);
+		}
 	}
 
 	//TODO summarize tests pair -> result
 };
 
-const checkAllNormal = normalDistributionResults => {
-	for (let i = 0; i < normalDistributionResults.length; i++) {
-		if (normalDistributionResults[i] === false) {
-			return false;
+const getAllPairs = scales => {
+	const pairs = [];
+	for (let i = 0; i < scales.length; i++) {
+		for (let j = i + 1; j < scales.length; j++) {
+			pairs.push([scales[i], scales[j]]);
 		}
 	}
-	return true;
+	return pairs;
 };
 
 const testRunners = {
