@@ -87,5 +87,10 @@ describe('Normality test', () => {
 		const isNormal = checkNormal(array);
 		expect(isNormal).toBe(false);
 	});
+	it('should return false for bi-modal distribution', () => {
+		const array = [1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 5, 5, 6, 6, 7, 7, 7, 8, 8, 8, 8, 8, 8, 9, 9, 9, 10, 10];
+		const isNormal = checkNormal(array);
+		expect(isNormal).toBe(false);
+	});
 });
 
