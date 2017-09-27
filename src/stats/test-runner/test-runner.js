@@ -1,5 +1,5 @@
 import {CORRELATION} from '../../experimental-design/model/test';
-import {checkNormal, spearman} from './statistics';
+import {checkNormal, pearson, spearman} from './statistics';
 
 export const runTest = test => {
 	const runner = testRunners[test.type];
@@ -25,6 +25,8 @@ const correlation = test => {
 		normalDistributionResults[scale.name] = checkNormal(scale.result);
 	}
 
+	const results = [];
+
 	const allPairs = getAllPairs(scales);
 	for (let i = 0; i < allPairs.length; i++) {
 		const firstScale = allPairs[i][0];
@@ -33,10 +35,14 @@ const correlation = test => {
 		const secondScaleNormal = normalDistributionResults[secondScale.name];
 		if (!firstScaleNormal || !secondScaleNormal) {
 			const result = spearman(firstScale.result, secondScale.result);
-			console.log(result);
+			results.push(result);
+		} else {
+			const result = pearson(firstScale.result, secondScale.result);
+			results.push(result);
 		}
 	}
 
+	return results;
 	//TODO summarize tests pair -> result
 };
 

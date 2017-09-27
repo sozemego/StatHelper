@@ -18,17 +18,17 @@ export const checkNormal = arr => {
 /**
  * Given two arrays of samples, returns a Spearman-rho coefficient of correlation
  * and its p-value.
- * @param result1
- * @param result2
+ * @param sample1
+ * @param sample2
  * @returns {{coefficient: number, pValue}}
  */
-export const spearman = (result1, result2) => {
+export const spearman = (sample1, sample2) => {
 
-	result1 = rank(result1);
-	result2 = rank(result2);
+	sample1 = rank(sample1);
+	sample2 = rank(sample2);
 
-	const deviation1 = deviation(result1);
-	const deviation2 = deviation(result2);
+	const deviation1 = deviation(sample1);
+	const deviation2 = deviation(sample2);
 
 	const spearmanCoefficient = sum(deviation1.map((xi, i) => {
 		return xi * deviation2[i];
@@ -38,11 +38,12 @@ export const spearman = (result1, result2) => {
 		return Math.pow(yi, 2);
 	})));
 
-	const pValue = spearmanSignificance(spearmanCoefficient, result1.length);
+	const pValue = spearmanSignificance(spearmanCoefficient, Math.max(sample1.length, sample2.length));
 
 	return {
 		coefficient: spearmanCoefficient,
-		pValue
+		pValue,
+		testName: 'spearman'
 	};
 };
 
@@ -83,6 +84,16 @@ export const rank = values => {
 		ranks[i] = rank + 1;
 	}
 	return ranks;
+};
+
+export const pearson = (sample1, sample2) => {
+
+
+	return {
+		coefficient: 1,
+		pValue: 0,
+		testName: 'pearson'
+	};
 };
 
 export const sortNumbers = arr => {
