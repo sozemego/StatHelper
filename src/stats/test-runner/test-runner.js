@@ -27,7 +27,10 @@ const correlation = test => {
 
 	const results = [];
 
+	// next step is to get all possible correlation pairs
 	const allPairs = getAllPairs(scales);
+
+	// run a correlation test for each pair
 	for (let i = 0; i < allPairs.length; i++) {
 		const firstScale = allPairs[i][0];
 		const secondScale = allPairs[i][1];

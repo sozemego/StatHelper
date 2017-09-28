@@ -18,13 +18,13 @@ describe('test runner', () => {
 		expect(() => runTest(test)).toThrow();
 	});
 	it('should calculate pearson correlation test for two scales with normally distributed samples', () => {
-		const test = {type: CORRELATION, name: 'Test', scales: scales.slice().splice(2)};
+		const test = {type: CORRELATION, name: 'Test', scales: [scales[2], scales[3]]};
 		const result = runTest(test);
 		expect(result.length).toBe(1);
 		expect(result[0].testName).toBe('pearson');
 	});
 	it('should calculate spearman correlation test for two scales with non-normally distributed samples', () => {
-		const test = {type: CORRELATION, name: 'Test', scales: scales.slice().splice(0, 2)};
+		const test = {type: CORRELATION, name: 'Test', scales: [scales[0], scales[1]]};
 		const result = runTest(test);
 		expect(result.length).toBe(1);
 		expect(result[0].testName).toBe('spearman');
