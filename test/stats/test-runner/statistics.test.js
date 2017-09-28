@@ -74,6 +74,13 @@ describe('spearman-rho statistic', () => {
 		expect(result.coefficient).toBeCloseTo(-1, precisionForStatisticalTests);
 		expect(result.pValue).toBeCloseTo(0, precisionForStatisticalTests);
 	});
+	it('should give correct statistic for two uncorrelated samples', () => {
+		const sample1 = [1, 0, -1, 0];
+		const sample2 = [0, 1, 0, -1];
+		const result = spearman(sample1, sample2);
+		expect(result.coefficient).toEqual(0);
+		expect(result.pValue).toBeGreaterThanOrEqual(0.5);
+	});
 });
 
 describe('pearson correlation test', () => {
@@ -91,6 +98,13 @@ describe('pearson correlation test', () => {
 		const result = pearson(sample1, sample2);
 		expect(result.coefficient).toBeCloseTo(-1, precisionForStatisticalTests);
 		expect(result.pValue).toBeCloseTo(0, precisionForStatisticalTests);
+	});
+	it('should give correct statistic for two uncorrelated samples', () => {
+		const sample1 = [1, 0, -1, 0];
+		const sample2 = [0, 1, 0, -1];
+		const result = pearson(sample1, sample2);
+		expect(result.coefficient).toEqual(0);
+		expect(result.pValue).toBeGreaterThanOrEqual(0.5);
 	});
 });
 

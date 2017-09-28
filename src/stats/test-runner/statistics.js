@@ -1,5 +1,8 @@
 import {Vector, Normality} from 'jerzy';
-import {cumulativeStdNormalProbability, mean, sum} from 'simple-statistics';
+import {cumulativeStdNormalProbability, mean, sampleCorrelation, sum} from 'simple-statistics';
+
+export const PEARSON = 'PEARSON';
+export const SPEARMAN = 'SPEARMAN';
 
 /**
  * Checks whether a given array of numbers is a normal distribution.
@@ -43,7 +46,7 @@ export const spearman = (sample1, sample2) => {
 	return {
 		coefficient: spearmanCoefficient,
 		pValue,
-		testName: 'spearman'
+		testName: SPEARMAN
 	};
 };
 
@@ -88,11 +91,12 @@ export const rank = values => {
 
 export const pearson = (sample1, sample2) => {
 
+	const coefficient = sampleCorrelation(sample1, sample2);
 
 	return {
-		coefficient: 1,
+		coefficient: coefficient,
 		pValue: 0,
-		testName: 'pearson'
+		testName: PEARSON
 	};
 };
 
