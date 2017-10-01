@@ -36,13 +36,15 @@ const correlation = test => {
 		const secondScale = allPairs[i][1];
 		const firstScaleNormal = normalDistributionResults[firstScale.name];
 		const secondScaleNormal = normalDistributionResults[secondScale.name];
+
+		let result = undefined;
 		if (!firstScaleNormal || !secondScaleNormal) {
-			const result = spearman(firstScale.result, secondScale.result);
-			results.push(result);
+			result = spearman(firstScale.result, secondScale.result);
 		} else {
-			const result = pearson(firstScale.result, secondScale.result);
-			results.push(result);
+			result = pearson(firstScale.result, secondScale.result);
 		}
+		result.scales = [firstScale, secondScale];
+		results.push(result);
 	}
 
 	return results;

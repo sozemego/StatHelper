@@ -27,7 +27,9 @@ export const runTests = () => {
 			testCopy.scales = scaleObjects;
 
 			const result = runTest(testCopy);
+			log(result);
 			dispatch(notifyNumberTestsRemaining((tests.length - i) - 1));
+			dispatch(notifyTestResults(test.name, result));
 		}
 		dispatch(notifyTestsDone());
 	};
@@ -69,6 +71,9 @@ export const notifyNumberTests = makeActionCreator(NOTIFY_NUMBER_TESTS, 'tests')
 
 export const NOTIFY_NUMBER_TESTS_REMAINING = 'NOTIFY_NUMBER_TESTS_REMAINING';
 export const notifyNumberTestsRemaining = makeActionCreator(NOTIFY_NUMBER_TESTS_REMAINING, 'tests');
+
+export const NOTIFY_TEST_RESULTS = 'NOTIFY_TEST_RESULTS';
+export const notifyTestResults = makeActionCreator(NOTIFY_TEST_RESULTS, 'test', 'results');
 
 export const TESTS_DONE = 'TESTS_DONE';
 export const notifyTestsDone = makeActionCreator(TESTS_DONE);

@@ -44,7 +44,7 @@ export const spearman = (sample1, sample2) => {
 		return Math.pow(yi, 2);
 	})));
 
-	const pValue = tStudentSignificance(spearmanCoefficient, sample1.length);
+	const pValue = calculateCorrelationSignificance(spearmanCoefficient, sample1.length);
 
 	return {
 		coefficient: Number(spearmanCoefficient.toFixed(3)),
@@ -82,7 +82,7 @@ export const pearson = (sample1, sample2) => {
 	removeMissingData(sample1, sample2);
 
 	const coefficient = sampleCorrelation(sample1, sample2);
-	const significance = tStudentSignificance(coefficient, sample1.length);
+	const significance = calculateCorrelationSignificance(coefficient, sample1.length);
 
 	return {
 		coefficient: Number(coefficient.toFixed(3)),
@@ -91,30 +91,25 @@ export const pearson = (sample1, sample2) => {
 	};
 };
 
-/**
- * Converts correlation coefficient to t-score and returns a probability
- * of obtaining a score at least as big as given score.
- * @param coefficient
- * @param sampleSize
- * @returns {number}
- */
-const tStudentSignificance = (coefficient, sampleSize) => {
-	coefficient = Number(coefficient.toFixed(6));
-
-	const firstSqrt = Math.sqrt(sampleSize - 2);
-	const coefficientSquared = Math.pow(coefficient, 2);
-	const secondSqrt = Math.sqrt(1 - coefficientSquared);
-	if (secondSqrt === 0) {
-		return 0; //if coefficient is 1, we return p-value of 0 (in reality it's not zero, but we truncate it here)
-	}
-	const t = (coefficient * firstSqrt) / secondSqrt;
-
-	return cumulativeTStudentProbability(t, sampleSize - 2);
+const coefficientToTScore = (coefficient, sampleSize) => {
+	const df = sampleSize - 2;
+	const divisor = 1 - (coefficient * coefficient);
+	const sqrt = Math.sqrt(df / divisor);
+	return coefficient * sqrt;
 };
 
-const cumulativeTStudentProbability = (tStatistic, df) => {
-	const tDistribution = new Studentt(df);
-	return tDistribution.cdf(tStatistic) * 2; //two tailed
+const calculateCorrelationSignificance = (coefficient, sampleSize) => {
+	coefficient = Number(coefficient.toFixed(6));
+	if (Math.abs(coefficient) === 1) {
+		return 0;
+	}
+
+	const t = coefficientToTScore(coefficient, sampleSize);
+	// t = 5.893 with 5 or more degrees of freedom is a critical value for alpha = 0.999
+	if (t > 5.893 && (sampleSize - 2) >= 5) return 0;
+
+	const tDistribution = new Studentt(sampleSize - 2);
+	return tDistribution.cdf(t) * 2;
 };
 
 export const sortNumbers = arr => {
