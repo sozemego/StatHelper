@@ -40,6 +40,9 @@ module.exports = {
             {
                 from: entryPath + "/*.html"
             },
+			{
+				from: entryPath + '/*.css'
+			},
             {
                 from: entryPath + "/img/*"
             }

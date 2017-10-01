@@ -62,10 +62,10 @@ describe('spearman-rho statistic', () => {
 	it('should give correct statistic for two identical samples', () => {
 		const sample1 = [1, 2, 3, 4, 5];
 		const sample2 = [1, 2, 3, 4, 5];
-
 		const result = spearman(sample1, sample2);
 		expect(result.coefficient).toBeCloseTo(1, precisionForStatisticalTests);
 		expect(result.pValue).toBeCloseTo(0, precisionForStatisticalTests);
+		expect(result.pValue).toBeLessThanOrEqual(1);
 	});
 	it('should give correct statistic for two negatively correlated samples', () => {
 		const sample1 = [1, 2, 3, 4, 5];
@@ -73,13 +73,15 @@ describe('spearman-rho statistic', () => {
 		const result = spearman(sample1, sample2);
 		expect(result.coefficient).toBeCloseTo(-1, precisionForStatisticalTests);
 		expect(result.pValue).toBeCloseTo(0, precisionForStatisticalTests);
+		expect(result.pValue).toBeLessThanOrEqual(1);
 	});
 	it('should give correct statistic for two uncorrelated samples', () => {
 		const sample1 = [1, 0, -1, 0];
 		const sample2 = [0, 1, 0, -1];
 		const result = spearman(sample1, sample2);
 		expect(result.coefficient).toEqual(0);
-		expect(result.pValue).toBeGreaterThanOrEqual(0.5);
+		expect(result.pValue).toEqual(1);
+		expect(result.pValue).toBeLessThanOrEqual(1);
 	});
 	it('should give correct statistic for two correlated, uneven samples', () => {
 		const sample1 = [1, 2, 3, 4, 5, 1, 2, 3, 4, 5];
@@ -87,6 +89,7 @@ describe('spearman-rho statistic', () => {
 		const result = spearman(sample1, sample2);
 		expect(result.coefficient).toBeCloseTo(1, precisionForStatisticalTests);
 		expect(result.pValue).toBeCloseTo(0, precisionForStatisticalTests);
+		expect(result.pValue).toBeLessThanOrEqual(1);
 	});
 	it('should give correct statistic for two correlated, uneven samples, v2', () => {
 		const sample1 = [1, 2, 3, 4, 5, 1, 2, 3, 4, 5];
@@ -94,6 +97,7 @@ describe('spearman-rho statistic', () => {
 		const result = spearman(sample1, sample2);
 		expect(result.coefficient).toBeCloseTo(1, precisionForStatisticalTests);
 		expect(result.pValue).toBeCloseTo(0, precisionForStatisticalTests);
+		expect(result.pValue).toBeLessThanOrEqual(1);
 	});
 	it('should give correct statistic for larger samples', () => {
 		const sample1 = [1, 2, 3, 4, 1, 5, 1, 56, 3, 6, 2, 4, 7, 2, 4, 7, 23, 4, 7, 2, 45, 7, 3, 4, 7, 3, 4, 2, 3, 6, 4, 3, 6, 4, 4, 6, 7, 3, 4, 7, 3, 4, 7, 7, 3, 4, 6, 7, 3, 7];
@@ -101,6 +105,15 @@ describe('spearman-rho statistic', () => {
 		const result = spearman(sample1, sample2);
 		expect(result.coefficient).toBeCloseTo(-0.223, precisionForStatisticalTests);
 		expect(result.pValue).toBeCloseTo(0.119, precisionForStatisticalTests);
+		expect(result.pValue).toBeLessThanOrEqual(1);
+	});
+	it('should give correct statistic for larger samples, v2', () => {
+		const sample1 = [26, 25, 24, 25, 24, 52, 25, 25, 24, 24, 24, 17, 21, 56, 38, 48, 33, 24, 26, 24, 24, 25, 25, 27, 26, 20, 35, 66, 26, 25, 24, 25, 24, 52, 25, 25, 24, 24, 24, 17, 21, 56, 38, 48, 33, 24, 26, 24, 24, 25, 25, 27, 26, 20, 35, 64, 26, 25, 24, 25, 24, 52, 25, 25, 24, 24, 24, 17, 21, 55, 38, 48, 33, 24, 26, 24, 24, 25, 24, 27, 26, 20, 36, 65, 26, 25, 24, 25, 24, 52, 25, 25, 24, 24, 23, 17, 21, 56, 38, 48, 32, 25, 24, 24, 24, 25, 25, 26, 26, 19, 35, 66, 25, 24, 24, 24, 24, 52, 25, 25, 23, 24, 24, 17, 21, 56, 38, 48, 33, 24, 26, 24, 24, 25, 25, 26, 26, 19, 35, 66];
+		const sample2 = [28, 32, 31, 31, 29, 59, 30, 30, 31, 31, 32, 25, 26, 63, 44, 53, 38, 30, 33, 32, 31, 30, 30, 33, 31, 27, 38, 70, 28, 32, 31, 31, 29, 59, 30, 30, 31, 31, 31, 25, 26, 63, 44, 53, 36, 29, 33, 33, 32, 30, 30, 33, 31, 27, 38, 70, 28, 32, 31, 31, 29, 59, 30, 30, 31, 31, 31, 25, 26, 63, 44, 53, 36, 29, 34, 32, 32, 30, 30, 33, 31, 27, 38, 70, 28, 32, 31, 31, 29, 59, 30, 30, 31, 31, 31, 25, 26, 63, 44, 53, 36, 29, 33, 33, 32, 30, 30, 33, 31, 27, 38, 70, 29, 32, 31, 31, 29, 59, 30, 30, 31, 31, 32, 25, 26, 63, 44, 53, 36, 29, 33, 33, 32, 30, 30, 33, 32, 27, 38, 70];
+		const result = spearman(sample1, sample2);
+		expect(result.coefficient).toBeCloseTo(0.757, precisionForStatisticalTests);
+		expect(result.pValue).toBeCloseTo(0, precisionForStatisticalTests);
+		expect(result.pValue).toBeLessThanOrEqual(1);
 	});
 });
 
@@ -124,7 +137,7 @@ describe('pearson correlation test', () => {
 		const sample2 = [0, 1, 0, -1];
 		const result = pearson(sample1, sample2);
 		expect(result.coefficient).toEqual(0);
-		expect(result.pValue).toBeGreaterThanOrEqual(0.5);
+		expect(result.pValue).toEqual(1);
 	});
 	it('should give correct statistic for two correlated, uneven samples', () => {
 		const sample1 = [1, 2, 3, 4, 5, 1, 2, 3, 4, 5];
@@ -146,6 +159,14 @@ describe('pearson correlation test', () => {
 		const result = pearson(sample1, sample2);
 		expect(result.coefficient).toBeCloseTo(-0.133, precisionForStatisticalTests);
 		expect(result.pValue).toBeCloseTo(0.358, precisionForStatisticalTests);
+	});
+	it('should give correct statistic for larger samples, v2', () => {
+		const sample1 = [26, 25, 24, 25, 24, 52, 25, 25, 24, 24, 24, 17, 21, 56, 38, 48, 33, 24, 26, 24, 24, 25, 25, 27, 26, 20, 35, 66, 26, 25, 24, 25, 24, 52, 25, 25, 24, 24, 24, 17, 21, 56, 38, 48, 33, 24, 26, 24, 24, 25, 25, 27, 26, 20, 35, 64, 26, 25, 24, 25, 24, 52, 25, 25, 24, 24, 24, 17, 21, 55, 38, 48, 33, 24, 26, 24, 24, 25, 24, 27, 26, 20, 36, 65, 26, 25, 24, 25, 24, 52, 25, 25, 24, 24, 23, 17, 21, 56, 38, 48, 32, 25, 24, 24, 24, 25, 25, 26, 26, 19, 35, 66, 25, 24, 24, 24, 24, 52, 25, 25, 23, 24, 24, 17, 21, 56, 38, 48, 33, 24, 26, 24, 24, 25, 25, 26, 26, 19, 35, 66];
+		const sample2 = [28, 32, 31, 31, 29, 59, 30, 30, 31, 31, 32, 25, 26, 63, 44, 53, 38, 30, 33, 32, 31, 30, 30, 33, 31, 27, 38, 70, 28, 32, 31, 31, 29, 59, 30, 30, 31, 31, 31, 25, 26, 63, 44, 53, 36, 29, 33, 33, 32, 30, 30, 33, 31, 27, 38, 70, 28, 32, 31, 31, 29, 59, 30, 30, 31, 31, 31, 25, 26, 63, 44, 53, 36, 29, 34, 32, 32, 30, 30, 33, 31, 27, 38, 70, 28, 32, 31, 31, 29, 59, 30, 30, 31, 31, 31, 25, 26, 63, 44, 53, 36, 29, 33, 33, 32, 30, 30, 33, 31, 27, 38, 70, 29, 32, 31, 31, 29, 59, 30, 30, 31, 31, 32, 25, 26, 63, 44, 53, 36, 29, 33, 33, 32, 30, 30, 33, 32, 27, 38, 70];
+		const result = pearson(sample1, sample2);
+		expect(result.coefficient).toBeCloseTo(0.990, precisionForStatisticalTests);
+		expect(result.pValue).toBeCloseTo(0, precisionForStatisticalTests);
+		expect(result.pValue).toBeLessThanOrEqual(1);
 	});
 });
 

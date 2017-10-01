@@ -8,7 +8,9 @@ export const runTests = () => {
 		const {scales, stats, experimentalDesign, fileProcessing} = store.getState();
 		const {data} = fileProcessing;
 		const {tests} = experimentalDesign;
-		dispatch(notifyNumberTests(tests.length));
+		dispatch(notifyTestsRunning(tests.map(test => {
+			return {name: test.name};
+		})));
 
 		for (let i = 0; i < tests.length; i++) {
 			const test = tests[i];
@@ -27,8 +29,6 @@ export const runTests = () => {
 			testCopy.scales = scaleObjects;
 
 			const result = runTest(testCopy);
-			log(result);
-			dispatch(notifyNumberTestsRemaining((tests.length - i) - 1));
 			dispatch(notifyTestResults(test.name, result));
 		}
 		dispatch(notifyTestsDone());
@@ -66,11 +66,8 @@ const getResultForScale = (scale, data) => {
 };
 
 // fired when a number of tests to run is announced (for progress bars)
-export const NOTIFY_NUMBER_TESTS = 'NOTIFY_NUMBER_TESTS';
-export const notifyNumberTests = makeActionCreator(NOTIFY_NUMBER_TESTS, 'tests');
-
-export const NOTIFY_NUMBER_TESTS_REMAINING = 'NOTIFY_NUMBER_TESTS_REMAINING';
-export const notifyNumberTestsRemaining = makeActionCreator(NOTIFY_NUMBER_TESTS_REMAINING, 'tests');
+export const NOTIFY_TESTS_RUNNING = 'NOTIFY_TESTS_RUNNING';
+export const notifyTestsRunning = makeActionCreator(NOTIFY_TESTS_RUNNING, 'tests');
 
 export const NOTIFY_TEST_RESULTS = 'NOTIFY_TEST_RESULTS';
 export const notifyTestResults = makeActionCreator(NOTIFY_TEST_RESULTS, 'test', 'results');

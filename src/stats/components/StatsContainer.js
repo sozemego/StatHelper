@@ -2,6 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {Divider, FlatButton} from 'material-ui';
 import {runTests} from '../actions/stats-actions';
+import {RunningTestSpinnerComponent} from './RunningTestSpinnerComponent';
 
 const container = {
 	display: 'flex'
@@ -37,7 +38,13 @@ class StatsContainer extends React.Component {
 					onTouchTap={this.props.runTests}
 				/>
 				<Divider/>
-				{this.props.tests.map(t => t.name)}
+				{this.props.runningTests.map((test, index) => {
+					if (test.result) {
+
+					} else {
+						return <RunningTestSpinnerComponent name={test.name} key={index}/>;
+					}
+				})}
 			</div>
 		);
 	}
@@ -48,7 +55,7 @@ const mapStateToProps = state => {
 	const {experimentalDesign, stats} = state;
 	return {
 		tests: experimentalDesign.tests,
-		stats
+		runningTests: stats.runningTests
 	};
 };
 
