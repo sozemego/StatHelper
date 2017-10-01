@@ -54,7 +54,6 @@ export default class TestConfigurerComponent extends React.Component {
 	};
 
 	render() {
-		console.log(this.props.selectedTest);
 		if (!this.props.selectedTest) {
 			return null;
 		}
