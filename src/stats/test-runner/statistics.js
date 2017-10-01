@@ -1,11 +1,12 @@
 import {Vector, Normality} from 'jerzy';
-import {cumulativeStdNormalProbability, mean, sampleCorrelation, sum} from 'simple-statistics';
+import {cumulativeStdNormalProbability, mean, sampleCorrelation, standardNormalTable, sum} from 'simple-statistics';
+import {Studentt} from 'distributions';
 
 export const PEARSON = 'PEARSON';
 export const SPEARMAN = 'SPEARMAN';
 
 /**
- * Checks whether a given array of numbers is a normal distribution.
+ * Checks whether a given array of numbers follows a normal distribution.
  * It performs a Shapiro-Wilk test and returns true if p-values test is above 0.05,
  * otherwise returns false.
  * @param arr
@@ -26,6 +27,8 @@ export const checkNormal = arr => {
  * @returns {{coefficient: number, pValue}}
  */
 export const spearman = (sample1, sample2) => {
+	handleUnevenSamples(sample1, sample2);
+	removeMissingData(sample1, sample2);
 
 	sample1 = rank(sample1);
 	sample2 = rank(sample2);
@@ -41,28 +44,13 @@ export const spearman = (sample1, sample2) => {
 		return Math.pow(yi, 2);
 	})));
 
-	const pValue = spearmanSignificance(spearmanCoefficient, Math.max(sample1.length, sample2.length));
+	const pValue = tStudentSignificance(spearmanCoefficient, sample1.length);
 
 	return {
-		coefficient: spearmanCoefficient,
-		pValue,
+		coefficient: Number(spearmanCoefficient.toFixed(3)),
+		pValue: Number(pValue.toFixed(3)),
 		testName: SPEARMAN
 	};
-};
-
-/**
- * Computes and returns p-value for a given Spearman-rho coefficient and sample size.
- * @see    //https://en.wikipedia.org/wiki/Spearman%27s_rank_correlation_coefficient#Determining_significance
- * @param coefficient
- * @param sampleSize
- * @returns {number}
- */
-const spearmanSignificance = (coefficient, sampleSize) => {
-
-	const fisherTransformation = Math.atanh(Math.abs(coefficient));
-	const z = fisherTransformation * Math.sqrt((sampleSize - 3) / 1.06);
-
-	return 1 - cumulativeStdNormalProbability(z);
 };
 
 /**
@@ -90,14 +78,43 @@ export const rank = values => {
 };
 
 export const pearson = (sample1, sample2) => {
+	handleUnevenSamples(sample1, sample2);
+	removeMissingData(sample1, sample2);
 
 	const coefficient = sampleCorrelation(sample1, sample2);
+	const significance = tStudentSignificance(coefficient, sample1.length);
 
 	return {
-		coefficient: coefficient,
-		pValue: 0,
+		coefficient: Number(coefficient.toFixed(3)),
+		pValue: Number(significance.toFixed(3)),
 		testName: PEARSON
 	};
+};
+
+/**
+ * Converts correlation coefficient to t-score and returns a probability
+ * of obtaining a score at least as big as given score.
+ * @param coefficient
+ * @param sampleSize
+ * @returns {number}
+ */
+const tStudentSignificance = (coefficient, sampleSize) => {
+	coefficient = Number(coefficient.toFixed(6));
+
+	const firstSqrt = Math.sqrt(sampleSize - 2);
+	const coefficientSquared = Math.pow(coefficient, 2);
+	const secondSqrt = Math.sqrt(1 - coefficientSquared);
+	if (secondSqrt === 0) {
+		return 0; //if coefficient is 1, we return p-value of 0 (in reality it's not zero, but we truncate it here)
+	}
+	const t = (coefficient * firstSqrt) / secondSqrt;
+
+	return cumulativeTStudentProbability(t, sampleSize - 2);
+};
+
+const cumulativeTStudentProbability = (tStatistic, df) => {
+	const tDistribution = new Studentt(df);
+	return tDistribution.cdf(tStatistic) * 2; //two tailed
 };
 
 export const sortNumbers = arr => {
@@ -119,4 +136,64 @@ export const deviation = values => {
 		result[i] = values[i] - meanValue;
 	}
 	return result;
+};
+
+/**
+ * This function will attempt to make each sample have the same length.
+ * Shorter sample arrays will be filled with nulls.
+ * @param samples
+ */
+export const handleUnevenSamples = (...samples) => {
+
+	const smallestSample = smallestLength(samples);
+	const largestSample = largestLength(samples);
+
+	for (let i = smallestSample; i < largestSample; i++) {
+		for (let j = 0; j < samples.length; j++) {
+			const sample = samples[j];
+			const value = sample[i];
+			if (value === undefined) {
+				sample.push(null);
+			}
+		}
+	}
+};
+
+const smallestLength = arrays => {
+	return sortNumbers(arrays.map(arr => arr.length))[0];
+};
+
+const largestLength = arrays => {
+	return sortNumbers(arrays.map(arr => arr.length)).reverse()[0];
+};
+
+/**
+ * Removes rows where any of the samples have undefined or null values.
+ * Assumes samples of equal length, use handleUnevenSamples function first.
+ * @param samples
+ */
+const removeMissingData = (...samples) => {
+
+	const sampleSize = samples[0].length;
+	const indicesToRemove = [];
+
+	for (let i = 0; i < sampleSize; i++) {
+		let anySampleHasMissingValue = false;
+		for (let j = 0; j < samples.length; j++) {
+			const sample = samples[j];
+			const value = sample[i];
+			if (value === undefined || value === null) {
+				anySampleHasMissingValue = true;
+			}
+		}
+		if (anySampleHasMissingValue) {
+			indicesToRemove.push(i);
+		}
+	}
+
+	for (let i = indicesToRemove.length - 1; i >= 0; i--) {
+		for (let j = 0; j < samples.length; j++) {
+			samples[j].splice(indicesToRemove[i], 1);
+		}
+	}
 };

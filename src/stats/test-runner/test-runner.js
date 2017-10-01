@@ -6,7 +6,7 @@ export const runTest = test => {
 	if (!runner) {
 		throw new Error('Invalid test type! ' + test.type);
 	}
-	return testRunners[test.type](test);
+	return runner(test);
 };
 
 const correlation = test => {

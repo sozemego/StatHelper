@@ -6,7 +6,8 @@ const scales = [
 	{name: 'Scale1', result: [1, 2, 2, 3, 4, 5, 1, 2, 3, 4, 5, 4, 4, 4, 4, 5, 5, 5, 1, 1, 1, 2, 2, 2]},
 	{name: 'Scale2', result: [5, 2, 2, 1, 1, 1, 1, 12, 3, 4, 5]},
 	{name: 'Scale3', result: [1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 5, 5]},
-	{name: 'Scale4', result: [1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 5, 5]}
+	{name: 'Scale4', result: [1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 5, 5]},
+	{name: 'Scale5', result: [1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 5, 5, 5, 5, 1, 1, 1, 2, 2, 2]}
 ];
 
 describe('test runner', () => {
@@ -31,7 +32,7 @@ describe('test runner', () => {
 		expect(result[0].testName).toBe(SPEARMAN);
 	});
 	it('should calculate spearman correlation for one scale with normal distribution and another with non-normal', () => {
-		const test = {type: CORRELATION, name: 'Test', scales: [scales[0], scales[3]]};
+		const test = {type: CORRELATION, name: 'Test', scales: [scales[0], scales[4]]};
 		const result = runTest(test);
 		expect(result.length).toBe(1);
 		expect(result[0].testName).toBe(SPEARMAN);

@@ -5,7 +5,6 @@ import {runTest} from '../test-runner/test-runner';
 export const RUN_TESTS = 'RUN_TESTS';
 export const runTests = () => {
 	return dispatch => {
-		console.log(store.getState());
 		const {scales, stats, experimentalDesign, fileProcessing} = store.getState();
 		const {data} = fileProcessing;
 		const {tests} = experimentalDesign;

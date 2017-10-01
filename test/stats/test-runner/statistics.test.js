@@ -81,13 +81,33 @@ describe('spearman-rho statistic', () => {
 		expect(result.coefficient).toEqual(0);
 		expect(result.pValue).toBeGreaterThanOrEqual(0.5);
 	});
+	it('should give correct statistic for two correlated, uneven samples', () => {
+		const sample1 = [1, 2, 3, 4, 5, 1, 2, 3, 4, 5];
+		const sample2 = [1, 2, 3, 4, 5];
+		const result = spearman(sample1, sample2);
+		expect(result.coefficient).toBeCloseTo(1, precisionForStatisticalTests);
+		expect(result.pValue).toBeCloseTo(0, precisionForStatisticalTests);
+	});
+	it('should give correct statistic for two correlated, uneven samples, v2', () => {
+		const sample1 = [1, 2, 3, 4, 5, 1, 2, 3, 4, 5];
+		const sample2 = [1, null, 3, null, 5, null, 2, null, 4, null];
+		const result = spearman(sample1, sample2);
+		expect(result.coefficient).toBeCloseTo(1, precisionForStatisticalTests);
+		expect(result.pValue).toBeCloseTo(0, precisionForStatisticalTests);
+	});
+	it('should give correct statistic for larger samples', () => {
+		const sample1 = [1, 2, 3, 4, 1, 5, 1, 56, 3, 6, 2, 4, 7, 2, 4, 7, 23, 4, 7, 2, 45, 7, 3, 4, 7, 3, 4, 2, 3, 6, 4, 3, 6, 4, 4, 6, 7, 3, 4, 7, 3, 4, 7, 7, 3, 4, 6, 7, 3, 7];
+		const sample2 = [3, 4, 5, 2, 3, 5, 6, 2, 3, 6, 67, 2, 3, 56, 7, 3, 6, 6, 6, 3, 5, 6, 7, 8, 3, 8, 9, 5, 5, 5, 7, 8, 4, 5, 8, 4, 5, 6, 8, 5, 8, 8, 4, 5, 8, 8, 4, 5, 7, 8];
+		const result = spearman(sample1, sample2);
+		expect(result.coefficient).toBeCloseTo(-0.223, precisionForStatisticalTests);
+		expect(result.pValue).toBeCloseTo(0.119, precisionForStatisticalTests);
+	});
 });
 
 describe('pearson correlation test', () => {
 	it('should give correct statistic for two identical samples', () => {
 		const sample1 = [1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 5, 5];
 		const sample2 = [1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 5, 5];
-
 		const result = pearson(sample1, sample2);
 		expect(result.coefficient).toBeCloseTo(1, precisionForStatisticalTests);
 		expect(result.pValue).toBeCloseTo(0, precisionForStatisticalTests);
@@ -105,6 +125,27 @@ describe('pearson correlation test', () => {
 		const result = pearson(sample1, sample2);
 		expect(result.coefficient).toEqual(0);
 		expect(result.pValue).toBeGreaterThanOrEqual(0.5);
+	});
+	it('should give correct statistic for two correlated, uneven samples', () => {
+		const sample1 = [1, 2, 3, 4, 5, 1, 2, 3, 4, 5];
+		const sample2 = [1, 2, 3, 4, 5];
+		const result = pearson(sample1, sample2);
+		expect(result.coefficient).toBeCloseTo(1, precisionForStatisticalTests);
+		expect(result.pValue).toBeCloseTo(0, precisionForStatisticalTests);
+	});
+	it('should give correct statistic for two correlated, uneven samples, v2', () => {
+		const sample1 = [1, 2, 3, 4, 5, 1, 2, 3, 4, 5];
+		const sample2 = [1, null, 3, null, 5, null, 2, null, 4, null];
+		const result = pearson(sample1, sample2);
+		expect(result.coefficient).toBeCloseTo(1, precisionForStatisticalTests);
+		expect(result.pValue).toBeCloseTo(0, precisionForStatisticalTests);
+	});
+	it('should give correct statistic for larger samples', () => {
+		const sample1 = [1, 2, 3, 4, 1, 5, 1, 56, 3, 6, 2, 4, 7, 2, 4, 7, 23, 4, 7, 2, 45, 7, 3, 4, 7, 3, 4, 2, 3, 6, 4, 3, 6, 4, 4, 6, 7, 3, 4, 7, 3, 4, 7, 7, 3, 4, 6, 7, 3, 7];
+		const sample2 = [3, 4, 5, 2, 3, 5, 6, 2, 3, 6, 67, 2, 3, 56, 7, 3, 6, 6, 6, 3, 5, 6, 7, 8, 3, 8, 9, 5, 5, 5, 7, 8, 4, 5, 8, 4, 5, 6, 8, 5, 8, 8, 4, 5, 8, 8, 4, 5, 7, 8];
+		const result = pearson(sample1, sample2);
+		expect(result.coefficient).toBeCloseTo(-0.133, precisionForStatisticalTests);
+		expect(result.pValue).toBeCloseTo(0.358, precisionForStatisticalTests);
 	});
 });
 
