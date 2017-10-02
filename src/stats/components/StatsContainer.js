@@ -3,22 +3,11 @@ import {connect} from 'react-redux';
 import {Divider, FlatButton} from 'material-ui';
 import {runTests} from '../actions/stats-actions';
 import {RunningTestSpinnerComponent} from './RunningTestSpinnerComponent';
+import {CorrelationTestResultComponent} from './CorrelationTestResultComponent';
+import {CORRELATION} from '../../experimental-design/model/test';
 
-const container = {
-	display: 'flex'
-};
-
-const verticalListContainer = {
-	width: '30%'
-};
-
-const designContainer = {
-	width: '70%'
-};
-
-const button = {
-	margin: 'auto',
-	width: '100%'
+const resultComponentMap = {
+	[CORRELATION]: CorrelationTestResultComponent
 };
 
 class StatsContainer extends React.Component {
@@ -26,6 +15,14 @@ class StatsContainer extends React.Component {
 	constructor(props) {
 		super(props);
 	}
+
+	_getTestComponent = (test) => {
+		if (test.results) {
+			return React.createElement(resultComponentMap[test.type], {test}, null);
+		} else {
+			return <RunningTestSpinnerComponent/>;
+		}
+	};
 
 	render() {
 		return (
@@ -39,11 +36,11 @@ class StatsContainer extends React.Component {
 				/>
 				<Divider/>
 				{this.props.runningTests.map((test, index) => {
-					if (test.result) {
+					return <div key={index}>
+						<h2 style={{textAlign: 'center', width: '100%'}}>{test.name}</h2>
+						{this._getTestComponent(test)}
+					</div>;
 
-					} else {
-						return <RunningTestSpinnerComponent name={test.name} key={index}/>;
-					}
 				})}
 			</div>
 		);

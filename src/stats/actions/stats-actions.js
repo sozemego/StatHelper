@@ -8,30 +8,35 @@ export const runTests = () => {
 		const {scales, stats, experimentalDesign, fileProcessing} = store.getState();
 		const {data} = fileProcessing;
 		const {tests} = experimentalDesign;
+
 		dispatch(notifyTestsRunning(tests.map(test => {
-			return {name: test.name};
+			return {
+				name: test.name,
+				type: test.type
+			};
 		})));
 
 		for (let i = 0; i < tests.length; i++) {
-			const test = tests[i];
-			const scaleObjects = [];
-			for (let i = 0; i < test.scales.length; i++) {
-				const scale = scales.scales[test.scales[i]];
-				scaleObjects.push(Object.assign({}, scale));
-			}
+			setTimeout(() => {
+				const test = tests[i];
+				const scaleObjects = [];
+				for (let i = 0; i < test.scales.length; i++) {
+					const scale = scales.scales[test.scales[i]];
+					scaleObjects.push(Object.assign({}, scale));
+				}
 
-			for (let i = 0; i < scaleObjects.length; i++) {
-				const scale = scaleObjects[i];
-				scale.result = getResultForScale(scale, data);
-			}
+				for (let i = 0; i < scaleObjects.length; i++) {
+					const scale = scaleObjects[i];
+					scale.result = getResultForScale(scale, data);
+				}
 
-			const testCopy = Object.assign({}, test);
-			testCopy.scales = scaleObjects;
+				const testCopy = Object.assign({}, test);
+				testCopy.scales = scaleObjects;
 
-			const result = runTest(testCopy);
-			dispatch(notifyTestResults(test.name, result));
+				const results = runTest(testCopy);
+				dispatch(notifyTestResults(test.name, results));
+			}, 0);
 		}
-		dispatch(notifyTestsDone());
 	};
 };
 
@@ -70,7 +75,4 @@ export const NOTIFY_TESTS_RUNNING = 'NOTIFY_TESTS_RUNNING';
 export const notifyTestsRunning = makeActionCreator(NOTIFY_TESTS_RUNNING, 'tests');
 
 export const NOTIFY_TEST_RESULTS = 'NOTIFY_TEST_RESULTS';
-export const notifyTestResults = makeActionCreator(NOTIFY_TEST_RESULTS, 'test', 'results');
-
-export const TESTS_DONE = 'TESTS_DONE';
-export const notifyTestsDone = makeActionCreator(TESTS_DONE);
+export const notifyTestResults = makeActionCreator(NOTIFY_TEST_RESULTS, 'name', 'results');

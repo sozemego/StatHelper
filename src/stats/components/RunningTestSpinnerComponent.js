@@ -10,7 +10,6 @@ export class RunningTestSpinnerComponent extends React.Component {
 	render() {
 		return (
 			<div>
-				<h2 style={{textAlign: 'center', width: '100%'}}>{this.props.name}</h2>
 				<div style={{
 					width: '100px',
 					height: '100px',
