@@ -115,6 +115,14 @@ describe('spearman-rho statistic', () => {
 		expect(result.pValue).toBeCloseTo(0, precisionForStatisticalTests);
 		expect(result.pValue).toBeLessThanOrEqual(1);
 	});
+	it('should give correct statistic for larger samples, v3', () => {
+		const sample1 = [41, 33, 38, 41, 30, 61, 35, 33, 32, 34, 37, 31, 24, 71, 45, 64, 41, 30, 41, 34, 37, 30, 41, 42, 35, 36, 43, 73, 41, 33, 38, 41, 30, 61, 35, 33, 32, 32, 37, 31, 24, 71, 45, 64, 41, 30, 41, 32, 37, 30, 41, 42, 35, 36, 40, 78, 41, 33, 38, 41, 38, 61, 35, 30, 32, 29, 37, 31, 24, 65, 45, 64, 41, 30, 41, 32, 37, 30, 27, 42, 35, 36, 45, 75, 41, 33, 38, 41, 30, 61, 35, 33, 32, 32, 29, 31, 24, 63, 45, 64, 35, 30, 27, 32, 37, 30, 30, 36, 35, 22, 43, 73, 30, 27, 38, 27, 30, 61, 35, 33, 26, 32, 37, 31, 24, 63, 45, 64, 41, 30, 41, 32, 37, 30, 41, 36, 35, 22, 43, 73];
+		const sample2 = [8, 12, 11, 11, 7, 14, 8, 8, 12, 12, 13, 12, 7, 14, 12, 8, 9, 10, 13, 13, 12, 9, 8, 12, 9, 13, 5, 9, 8, 12, 11, 11, 7, 14, 8, 8, 12, 13, 13, 12, 7, 14, 12, 8, 7, 9, 13, 14, 13, 9, 8, 12, 9, 13, 5, 9, 8, 12, 11, 11, 7, 14, 8, 8, 13, 12, 13, 12, 7, 14, 12, 8, 7, 10, 13, 14, 12, 9, 8, 12, 9, 13, 5, 9, 8, 12, 11, 11, 7, 14, 8, 8, 12, 12, 13, 12, 7, 14, 12, 8, 7, 9, 13, 14, 13, 9, 8, 12, 9, 13, 5, 9, 9, 12, 11, 11, 7, 14, 8, 8, 12, 12, 14, 12, 7, 14, 12, 8, 7, 9, 13, 14, 13, 9, 8, 12, 10, 13, 5, 9];
+		const result = spearman(sample1, sample2);
+		expect(result.coefficient).toBeCloseTo(0.096, precisionForStatisticalTests);
+		expect(result.pValue).toBeCloseTo(0.259, precisionForStatisticalTests);
+		expect(result.pValue).toBeLessThanOrEqual(1);
+	});
 });
 
 describe('pearson correlation test', () => {
@@ -166,6 +174,14 @@ describe('pearson correlation test', () => {
 		const result = pearson(sample1, sample2);
 		expect(result.coefficient).toBeCloseTo(0.990, precisionForStatisticalTests);
 		expect(result.pValue).toBeCloseTo(0, precisionForStatisticalTests);
+		expect(result.pValue).toBeLessThanOrEqual(1);
+	});
+	it('should give correct statistic for larger samples, v3', () => {
+		const sample1 = [41, 33, 38, 41, 30, 61, 35, 33, 32, 34, 37, 31, 24, 71, 45, 64, 41, 30, 41, 34, 37, 30, 41, 42, 35, 36, 43, 73, 41, 33, 38, 41, 30, 61, 35, 33, 32, 32, 37, 31, 24, 71, 45, 64, 41, 30, 41, 32, 37, 30, 41, 42, 35, 36, 40, 78, 41, 33, 38, 41, 38, 61, 35, 30, 32, 29, 37, 31, 24, 65, 45, 64, 41, 30, 41, 32, 37, 30, 27, 42, 35, 36, 45, 75, 41, 33, 38, 41, 30, 61, 35, 33, 32, 32, 29, 31, 24, 63, 45, 64, 35, 30, 27, 32, 37, 30, 30, 36, 35, 22, 43, 73, 30, 27, 38, 27, 30, 61, 35, 33, 26, 32, 37, 31, 24, 63, 45, 64, 41, 30, 41, 32, 37, 30, 41, 36, 35, 22, 43, 73];
+		const sample2 = [8, 12, 11, 11, 7, 14, 8, 8, 12, 12, 13, 12, 7, 14, 12, 8, 9, 10, 13, 13, 12, 9, 8, 12, 9, 13, 5, 9, 8, 12, 11, 11, 7, 14, 8, 8, 12, 13, 13, 12, 7, 14, 12, 8, 7, 9, 13, 14, 13, 9, 8, 12, 9, 13, 5, 9, 8, 12, 11, 11, 7, 14, 8, 8, 13, 12, 13, 12, 7, 14, 12, 8, 7, 10, 13, 14, 12, 9, 8, 12, 9, 13, 5, 9, 8, 12, 11, 11, 7, 14, 8, 8, 12, 12, 13, 12, 7, 14, 12, 8, 7, 9, 13, 14, 13, 9, 8, 12, 9, 13, 5, 9, 9, 12, 11, 11, 7, 14, 8, 8, 12, 12, 14, 12, 7, 14, 12, 8, 7, 9, 13, 14, 13, 9, 8, 12, 10, 13, 5, 9];
+		const result = pearson(sample1, sample2);
+		expect(result.coefficient).toBeCloseTo(0.088, precisionForStatisticalTests);
+		expect(result.pValue).toBeCloseTo(0.304, precisionForStatisticalTests);
 		expect(result.pValue).toBeLessThanOrEqual(1);
 	});
 });

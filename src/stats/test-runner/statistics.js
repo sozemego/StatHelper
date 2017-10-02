@@ -109,7 +109,11 @@ const calculateCorrelationSignificance = (coefficient, sampleSize) => {
 	if (t > 5.893 && (sampleSize - 2) >= 5) return 0;
 
 	const tDistribution = new Studentt(sampleSize - 2);
-	return tDistribution.cdf(t) * 2;
+	const p = tDistribution.cdf(t) * 2;
+	if (p > 1) {
+		return 2 - p;
+	}
+	return p;
 };
 
 export const sortNumbers = arr => {
