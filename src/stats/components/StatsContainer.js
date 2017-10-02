@@ -5,6 +5,7 @@ import {runTests} from '../actions/stats-actions';
 import {RunningTestSpinnerComponent} from './RunningTestSpinnerComponent';
 import {CorrelationTestResultComponent} from './CorrelationTestResultComponent';
 import {CORRELATION} from '../../experimental-design/model/test';
+import SelectableElementCollectionComponent from '../../common/component/SelectableElementCollectionComponent';
 
 const resultComponentMap = {
 	[CORRELATION]: CorrelationTestResultComponent
@@ -16,7 +17,7 @@ class StatsContainer extends React.Component {
 		super(props);
 	}
 
-	_getTestComponent = (test) => {
+	_getTestComponent = test => {
 		if (test.results) {
 			return React.createElement(resultComponentMap[test.type], {
 				test,
@@ -27,7 +28,14 @@ class StatsContainer extends React.Component {
 		}
 	};
 
+	jumpToIndex = index => {
+		const url = location.href;
+		location.href = '#' + this.props.tests.find((test, i) => index === i).name;
+		history.replaceState(null, null, url);
+	};
+
 	render() {
+		const {tests, runningTests} = this.props;
 		return (
 			<div>
 				<FlatButton
@@ -38,15 +46,17 @@ class StatsContainer extends React.Component {
 					onTouchTap={this.props.runTests}
 				/>
 				<Divider/>
-				<div style={{display: 'flex', margin: '10px auto 10px auto', justifyContent: 'center'}}>
-					{this.props.runningTests.map((test, index) => {
-						return <a key={index} style={{textDecoration: 'none', color: 'inherit'}}
-								  href={'#' + test.name}>
-							<Chip style={{cursor: 'pointer', borderRadius: '4px', margin: '1px'}}>{test.name}</Chip>
-						</a>;
-					})}
-				</div>
-				{this.props.runningTests.map((test, index) => {
+				{/*<div style={{display: 'flex', margin: '10px auto 10px auto', justifyContent: 'center'}}>*/}
+				{/*{this.props.runningTests.map((test, index) => {*/}
+				{/*return <a key={index} style={{textDecoration: 'none', color: 'inherit'}}*/}
+				{/*href={'#' + test.name}>*/}
+				{/*<Chip style={{cursor: 'pointer', borderRadius: '4px', margin: '1px'}}>{test.name}</Chip>*/}
+				{/*</a>;*/}
+				{/*})}*/}
+				{/*</div>*/}
+				<SelectableElementCollectionComponent selectElement={this.jumpToIndex}
+													  elements={tests.map(test => test.name)}/>
+				{runningTests.map((test, index) => {
 					return <div id={test.name} key={index} style={{display: 'flex', margin: '10px 0px 0px 40px'}}>
 						<div style={{
 							width: '15%',
