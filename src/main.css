@@ -126,6 +126,7 @@ html {
 
 .vertical-navigation-arrow {
     position: fixed;
+    cursor: pointer;
     animation: 0.5s arrow-pop-up ease-out forwards;
     border-radius: 40px;
     background-color: #01579B;

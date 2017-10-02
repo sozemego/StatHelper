@@ -40,10 +40,10 @@ class StatsContainer extends React.Component {
 				<Divider/>
 				<div style={{display: 'flex', margin: '10px auto 10px auto', justifyContent: 'center'}}>
 					{this.props.runningTests.map((test, index) => {
-						return <Chip key={index}>
-							<a style={{cursor: 'pointer', textDecoration: 'none', color: 'inherit'}}
-							   href={'#' + test.name}>{test.name}</a>
-						</Chip>;
+						return <a key={index} style={{textDecoration: 'none', color: 'inherit'}}
+								  href={'#' + test.name}>
+							<Chip style={{cursor: 'pointer'}}>{test.name}</Chip>
+						</a>;
 					})}
 				</div>
 				{this.props.runningTests.map((test, index) => {
