@@ -18,7 +18,10 @@ class StatsContainer extends React.Component {
 
 	_getTestComponent = (test) => {
 		if (test.results) {
-			return React.createElement(resultComponentMap[test.type], {test}, null);
+			return React.createElement(resultComponentMap[test.type], {
+				test,
+				minSignificance: this.props.minSignificance
+			}, null);
 		} else {
 			return <RunningTestSpinnerComponent/>;
 		}
@@ -36,18 +39,22 @@ class StatsContainer extends React.Component {
 				/>
 				<Divider/>
 				{this.props.runningTests.map((test, index) => {
-					return <Paper zDepth={1} style={{
+					return <div key={index} style={{
 						display: 'flex',
 						flexDirection: 'column',
 						margin: '0 auto 10px auto',
-						width: '80%'
+						width: '70%'
 					}}>
-						<h2 style={{textAlign: 'center', width: '100%'}}>{test.name}</h2>
-						<Divider/>
-						<div key={index}>
-							{this._getTestComponent(test)}
-						</div>
-					</Paper>
+						<Paper zDepth={1}>
+							<div style={{backgroundColor: '#80DEEA'}}>
+								<h2 style={{textAlign: 'center', width: '100%', margin: '0'}}>{test.name}</h2>
+							</div>
+							<Divider/>
+							<div>
+								{this._getTestComponent(test)}
+							</div>
+						</Paper>
+					</div>
 				})}
 			</div>
 		);
@@ -59,7 +66,8 @@ const mapStateToProps = state => {
 	const {experimentalDesign, stats} = state;
 	return {
 		tests: experimentalDesign.tests,
-		runningTests: stats.runningTests
+		runningTests: stats.runningTests,
+		minSignificance: stats.minSignificance
 	};
 };
 

@@ -1,6 +1,8 @@
 /* #GENERAL */
 html {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Charter', serif;
+    font-size: 0.85em;
+    line-height: 135%;
 }
 /**
  * https://github.com/loadingio/css-spinner/blob/master/microsoft.html

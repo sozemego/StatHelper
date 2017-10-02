@@ -1,6 +1,7 @@
-import {NOTIFY_TEST_RESULTS, NOTIFY_TESTS_RUNNING, RUN_TESTS, TESTS_DONE} from '../actions/stats-actions';
+import {NOTIFY_TEST_RESULTS, NOTIFY_TESTS_RUNNING, RUN_TESTS} from '../actions/stats-actions';
 
 const initialState = {
+	minSignificance: 0.05,
 	results: [],
 	testsRunning: false,
 	runningTests: []
