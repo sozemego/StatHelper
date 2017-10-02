@@ -46,14 +46,6 @@ class StatsContainer extends React.Component {
 					onTouchTap={this.props.runTests}
 				/>
 				<Divider/>
-				{/*<div style={{display: 'flex', margin: '10px auto 10px auto', justifyContent: 'center'}}>*/}
-				{/*{this.props.runningTests.map((test, index) => {*/}
-				{/*return <a key={index} style={{textDecoration: 'none', color: 'inherit'}}*/}
-				{/*href={'#' + test.name}>*/}
-				{/*<Chip style={{cursor: 'pointer', borderRadius: '4px', margin: '1px'}}>{test.name}</Chip>*/}
-				{/*</a>;*/}
-				{/*})}*/}
-				{/*</div>*/}
 				<SelectableElementCollectionComponent selectElement={this.jumpToIndex}
 													  elements={tests.map(test => test.name)}/>
 				{runningTests.map((test, index) => {
