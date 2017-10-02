@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Divider, FlatButton, Paper} from 'material-ui';
+import {Chip, Divider, FlatButton, Paper} from 'material-ui';
 import {runTests} from '../actions/stats-actions';
 import {RunningTestSpinnerComponent} from './RunningTestSpinnerComponent';
 import {CorrelationTestResultComponent} from './CorrelationTestResultComponent';
@@ -38,15 +38,23 @@ class StatsContainer extends React.Component {
 					onTouchTap={this.props.runTests}
 				/>
 				<Divider/>
+				<div style={{display: 'flex', margin: '10px auto 10px auto', justifyContent: 'center'}}>
+					{this.props.runningTests.map((test, index) => {
+						return <Chip key={index}>
+							<a style={{cursor: 'pointer', textDecoration: 'none', color: 'inherit'}}
+							   href={'#' + test.name}>{test.name}</a>
+						</Chip>;
+					})}
+				</div>
 				{this.props.runningTests.map((test, index) => {
-					return <div key={index} style={{
+					return <div key={index} id={test.name} style={{
 						display: 'flex',
 						flexDirection: 'column',
 						margin: '0 auto 10px auto',
 						width: '70%'
 					}}>
 						<Paper zDepth={1}>
-							<div style={{backgroundColor: '#80DEEA'}}>
+							<div style={{backgroundColor: '#80deea'}}>
 								<h2 style={{textAlign: 'center', width: '100%', margin: '0'}}>{test.name}</h2>
 							</div>
 							<Divider/>

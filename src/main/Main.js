@@ -4,29 +4,64 @@ import DataContainer from '../file-processing/component/DataContainer';
 import ScalesContainer from '../scales/components/ScalesContainer';
 import ExperimentalDesignContainer from '../experimental-design/components/ExperimentalDesignContainer';
 import StatsContainer from '../stats/components/StatsContainer';
+import {NavigationArrowUpward} from 'material-ui/svg-icons/index';
 
 export default class Main extends React.Component {
 
 	constructor(props) {
 		super(props);
+		this.state = {
+			arrowUp: false
+		};
 	}
+
+	onScroll = () => {
+		const scrollTop = (window.pageYOffset !== undefined) ? window.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
+		if (scrollTop > 0 && !this.state.arrowUp) {
+			this.setState({arrowUp: true});
+		}
+		if (scrollTop === 0 && this.state.arrowUp) {
+			this.setState({arrowUp: false});
+		}
+	};
+
+	componentWillMount = () => {
+		document.addEventListener('scroll', this.onScroll);
+	};
+
+	componentWillUnmount = () => {
+		document.removeEventListener('scroll', this.onScroll);
+	};
+
+	getNavigationArrowClassName = () => {
+		const className = 'vertical-navigation-arrow';
+		return `${className} ${this.state.arrowUp ? '' : 'vertical-navigation-arrow-hidden'}`;
+	};
+
+	onNavigationArrowClick = () => {
+		window.scrollTo(0, 0);
+	};
 
 	render() {
 		return (
-			<Tabs>
-                <Tab label="Data" value={1}>
-                    <DataContainer/>
-                </Tab>
-                <Tab label="Scales" value={2}>
-                    <ScalesContainer/>
-                </Tab>
-                <Tab label="Experimental design" value={3}>
-                    <ExperimentalDesignContainer/>
-                </Tab>
-                <Tab label="Stats" value={4}>
-                    <StatsContainer/>
-                </Tab>
-            </Tabs>
+			<div>
+				<Tabs>
+					<Tab label="Data" value={1}>
+						<DataContainer/>
+					</Tab>
+					<Tab label="Scales" value={2}>
+						<ScalesContainer/>
+					</Tab>
+					<Tab label="Experimental design" value={3}>
+						<ExperimentalDesignContainer/>
+					</Tab>
+					<Tab label="Stats" value={4}>
+						<StatsContainer/>
+					</Tab>
+				</Tabs>
+				<NavigationArrowUpward className={this.getNavigationArrowClassName()}
+									   onTouchTap={this.onNavigationArrowClick}/>
+			</div>
 		);
 	}
 

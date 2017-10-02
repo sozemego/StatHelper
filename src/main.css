@@ -121,3 +121,38 @@ html {
     -webkit-animation-delay: -0.437s;
     animation-delay: -0.437s;
 }
+
+/** #VERTICAL-NAVIGATION-ARROW */
+
+.vertical-navigation-arrow {
+    position: fixed;
+    animation: 0.5s arrow-pop-up ease-out forwards;
+    border-radius: 40px;
+    background-color: #01579B;
+    bottom: 0;
+    right: 0;
+    z-index: 9999;
+}
+
+.vertical-navigation-arrow-hidden {
+    animation: 0.5s arrow-pop-off ease-out forwards;
+}
+
+@keyframes arrow-pop-up {
+    0% {
+        transform: translate(-50%, -50%) scale(0);
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(2);
+    }
+}
+
+@keyframes arrow-pop-off {
+    0% {
+        transform: translate(-50%, -50%) scale(2);
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(0);
+        display: none !important;
+    }
+}
