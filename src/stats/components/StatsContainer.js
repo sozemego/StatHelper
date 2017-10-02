@@ -42,7 +42,7 @@ class StatsContainer extends React.Component {
 					{this.props.runningTests.map((test, index) => {
 						return <a key={index} style={{textDecoration: 'none', color: 'inherit'}}
 								  href={'#' + test.name}>
-							<Chip style={{cursor: 'pointer'}}>{test.name}</Chip>
+							<Chip style={{cursor: 'pointer', borderRadius: '4px', margin: '1px'}}>{test.name}</Chip>
 						</a>;
 					})}
 				</div>

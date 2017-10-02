@@ -7,6 +7,11 @@ const container = {
 	marginTop: '6px'
 };
 
+const elementStyle = {
+	borderRadius: '4px',
+	margin: '1px'
+};
+
 const selectedElement = {
 	backgroundColor: 'orange'
 };
@@ -28,7 +33,7 @@ export default class SelectableElementCollectionComponent extends React.Componen
 					return <Chip
 						onTouchTap={() => this.props.selectElement(index)}
 						key={index}
-						style={this._isElementSelected(index) ? selectedElement : {}}
+						style={this._isElementSelected(index) ? selectedElement : elementStyle}
 					>
 						{element}
 					</Chip>;

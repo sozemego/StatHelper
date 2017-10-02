@@ -12,7 +12,8 @@ const dataContainerStyle = {
 const elementStyle = {
 	padding: '4px',
 	margin: '2px',
-	fontSize: '1.1em'
+	color: 'rgba(0, 0, 0, 0.87)',
+	borderRadius: '4px'
 };
 
 export default class DataDisplayComponent extends React.Component {
