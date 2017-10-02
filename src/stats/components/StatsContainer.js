@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Divider, FlatButton} from 'material-ui';
+import {Divider, FlatButton, Paper} from 'material-ui';
 import {runTests} from '../actions/stats-actions';
 import {RunningTestSpinnerComponent} from './RunningTestSpinnerComponent';
 import {CorrelationTestResultComponent} from './CorrelationTestResultComponent';
@@ -36,11 +36,18 @@ class StatsContainer extends React.Component {
 				/>
 				<Divider/>
 				{this.props.runningTests.map((test, index) => {
-					return <div key={index}>
+					return <Paper zDepth={1} style={{
+						display: 'flex',
+						flexDirection: 'column',
+						margin: '0 auto 10px auto',
+						width: '80%'
+					}}>
 						<h2 style={{textAlign: 'center', width: '100%'}}>{test.name}</h2>
-						{this._getTestComponent(test)}
-					</div>;
-
+						<Divider/>
+						<div key={index}>
+							{this._getTestComponent(test)}
+						</div>
+					</Paper>
 				})}
 			</div>
 		);
