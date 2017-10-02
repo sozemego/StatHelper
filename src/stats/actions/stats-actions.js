@@ -35,7 +35,7 @@ export const runTests = () => {
 
 				const results = runTest(testCopy);
 				dispatch(notifyTestResults(test.name, results));
-			}, 0);
+			}, i * 50);
 		}
 	};
 };
