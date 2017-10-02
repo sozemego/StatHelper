@@ -9,7 +9,7 @@ export class CorrelationTestResultComponent extends React.Component {
 	render() {
 		const {test, minSignificance} = this.props;
 		return (
-			<div style={{display: 'flex', flexDirection: 'column', marginLeft: '25px', marginRight: '25px'}}>
+			<div style={{display: 'flex', flexDirection: 'column', margin: '4px 25px 4px 25px'}}>
 				<div>Test type: {test.type}</div>
 				<br/>
 				<div>Results:</div>

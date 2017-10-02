@@ -47,21 +47,15 @@ class StatsContainer extends React.Component {
 					})}
 				</div>
 				{this.props.runningTests.map((test, index) => {
-					return <div key={index} id={test.name} style={{
-						display: 'flex',
-						flexDirection: 'column',
-						margin: '0 auto 10px auto',
-						width: '70%'
-					}}>
-						<Paper zDepth={1}>
-							<div style={{backgroundColor: '#80deea'}}>
-								<h2 style={{textAlign: 'center', width: '100%', margin: '0'}}>{test.name}</h2>
-							</div>
-							<Divider/>
-							<div>
-								{this._getTestComponent(test)}
-							</div>
-						</Paper>
+					return <div id={test.name} key={index} style={{display: 'flex', margin: '10px 0px 0px 40px'}}>
+						<div style={{
+							width: '15%',
+							backgroundColor: '#80deea',
+							textAlign: 'center',
+							fontSize: '1.25rem',
+							paddingTop: '4px'
+						}}>{test.name}</div>
+						<Paper zDepth={1} style={{width: '85%'}}>{this._getTestComponent(test)}</Paper>
 					</div>
 				})}
 			</div>
