@@ -29,9 +29,8 @@ class StatsContainer extends React.Component {
 	};
 
 	jumpToIndex = index => {
-		const url = location.href;
 		location.href = '#' + this.props.tests.find((test, i) => index === i).name;
-		history.replaceState(null, null, url);
+		history.replaceState(null, null, location.href);
 	};
 
 	render() {
@@ -41,7 +40,7 @@ class StatsContainer extends React.Component {
 				<FlatButton
 					label='Run tests'
 					fullWidth={true}
-					style={{height: '65px'}}
+					style={{height: '55px'}}
 					labelStyle={{fontSize: '2rem'}}
 					onTouchTap={this.props.runTests}
 				/>
