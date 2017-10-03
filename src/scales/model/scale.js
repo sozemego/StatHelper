@@ -1,4 +1,7 @@
-export const MEASUREMENT_LEVELS = ['Nominal', 'Ordinal', 'Ratio'];
+export const NOMINAL = 'NOMINAL';
+export const ORDINAL = 'ORDINAL';
+export const RATIO = 'RATIO';
+export const MEASUREMENT_LEVELS = [NOMINAL, ORDINAL, RATIO];
 
 let scalesCreated = 0;
 export const createNewScale = () => {
