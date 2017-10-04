@@ -30,7 +30,15 @@ const nominalScaleHandler = scale => {
 };
 
 const ordinalScaleHandler = scale => {
+	const {result} = scale;
 
+	const frequencies = createFrequencyCount(result);
+	console.log(frequencies);
+
+	return {
+		frequencies,
+		sampleSize: result.length
+	};
 };
 
 const ratioScaleHandler = scale => {
@@ -59,7 +67,7 @@ const createFrequencyCount = results => {
 	for (const key in map) {
 		const descriptive = {
 			count: map[key],
-			value: key,
+			value: Number.isNaN(key) ? key : parseFloat(key),
 			percent: Number(((map[key] / results.length) * 100).toFixed(1))
 		};
 		frequencies.push(descriptive);
