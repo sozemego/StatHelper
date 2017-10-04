@@ -33,7 +33,6 @@ const ordinalScaleHandler = scale => {
 	const {result} = scale;
 
 	const frequencies = createFrequencyCount(result);
-	console.log(frequencies);
 
 	return {
 		frequencies,
@@ -63,15 +62,26 @@ const createFrequencyCount = results => {
 	}
 
 	const frequencies = [];
+	for (let i = 0; i < results.length; i++) {
+		const result = results[i];
+		const index = frequencies.findIndex(frequency => frequency.value === result);
 
-	for (const key in map) {
-		const descriptive = {
-			count: map[key],
-			value: Number.isNaN(key) ? key : parseFloat(key),
-			percent: Number(((map[key] / results.length) * 100).toFixed(1))
-		};
-		frequencies.push(descriptive);
+		if (index === -1) {
+			const frequency = {
+				count: 1,
+				value: Number.isNaN(parseFloat(result)) ? result : parseFloat(result)
+			};
+			frequencies.push(frequency);
+		} else {
+			frequencies[index].count = ++frequencies[index].count;
+		}
 	}
+
+	for (let i = 0; i < frequencies.length; i++) {
+		const frequency = frequencies[i];
+		frequency.percent = Number(((frequency.count / results.length) * 100).toFixed(1));
+	}
+
 	frequencies.sort((a, b) => b.count - a.count);
 	return frequencies;
 };
