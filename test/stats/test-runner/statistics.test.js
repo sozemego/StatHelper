@@ -1,4 +1,7 @@
-import {checkNormal, deviation, pearson, rank, sortNumbers, spearman} from '../../../src/stats/test-runner/statistics';
+import {
+	checkNormal, deviation, pearson, rank, removeMissingData, sortNumbers,
+	spearman
+} from '../../../src/stats/test-runner/statistics';
 
 describe('sortNumbers', () => {
 	it('should return a sorted array of numbers', () => {
@@ -201,6 +204,15 @@ describe('Normality test', () => {
 		const array = [1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 5, 5, 6, 6, 7, 7, 7, 8, 8, 8, 8, 8, 8, 9, 9, 9, 10, 10];
 		const isNormal = checkNormal(array);
 		expect(isNormal).toBe(false);
+	});
+});
+
+describe('remove missing data should', () => {
+	it('should remove nulls, undefined', () => {
+		const arr = [1, 2, 3, 4, null, null, 1, 2, undefined, , null, 1];
+		const expected = [1, 2, 3, 4, 1, 2, 1];
+		removeMissingData(arr);
+		expect(arr).toEqual(expected);
 	});
 });
 

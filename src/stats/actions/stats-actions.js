@@ -15,7 +15,7 @@ export const runTests = () => {
 				type: test.type
 			};
 		})));
-
+		//TODO first calculate scale results, handle missing data, then get descriptives then run tests
 		for (let i = 0; i < tests.length; i++) {
 			setTimeout(() => {
 				const test = tests[i];

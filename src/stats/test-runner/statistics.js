@@ -1,5 +1,5 @@
 import {Vector, Normality} from 'jerzy';
-import {cumulativeStdNormalProbability, mean, sampleCorrelation, standardNormalTable, sum} from 'simple-statistics';
+import {mean, sampleCorrelation, sum} from 'simple-statistics';
 import {Studentt} from 'distributions';
 
 export const PEARSON = 'PEARSON';
@@ -171,7 +171,7 @@ const largestLength = arrays => {
  * Assumes samples of equal length, use handleUnevenSamples function first.
  * @param samples
  */
-const removeMissingData = (...samples) => {
+export const removeMissingData = (...samples) => {
 
 	const sampleSize = samples[0].length;
 	const indicesToRemove = [];

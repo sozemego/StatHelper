@@ -45,10 +45,10 @@ describe('descriptive statistics for nominal scale', () => {
 		expect(frequencies.find(element => element.value === 'great').percent).toBe(33.3);
 		expect(frequencies.find(element => element.value === 'amazing').percent).toBe(22.2);
 		expect(frequencies.find(element => element.value === 'fine').percent).toBe(22.2);
-		expect(frequencies.findIndex(element => element.value === 'amazing')).toBe(0);
+		expect(frequencies.findIndex(element => element.value === 'great')).toBe(0);
 		expect(frequencies.findIndex(element => element.value === 'cool')).toBe(1);
-		expect(frequencies.findIndex(element => element.value === 'great')).toBe(2);
-		expect(frequencies.findIndex(element => element.value === 'fine')).toBe(3);
+		expect(frequencies.findIndex(element => element.value === 'fine')).toBe(2);
+		expect(frequencies.findIndex(element => element.value === 'amazing')).toBe(3);
 		expect(sampleSize).toBe(9);
 	});
 });

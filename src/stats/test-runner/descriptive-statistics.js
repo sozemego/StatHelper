@@ -19,25 +19,29 @@ export const getDescriptives = scale => {
 
 const nominalScaleHandler = scale => {
 	const {result} = scale;
-	const frequencies = [];
-	for (let i = 0; i < result.length; i++) {
-		frequencies.push({});
-	}
 
-	createFrequencyCount(result, frequencies);
+	const frequencies = createFrequencyCount(result);
 
 	return {
-		frequencies
+		frequencies,
+		sampleSize: result.length
 	};
 };
 
+const ordinalScaleHandler = scale => {
+
+};
+
+const ratioScaleHandler = scale => {
+
+};
+
 /**
- * Counts all occurences of all values in an result array,
- * and for each occurence, appends a
+ * Counts all occurrences of all values in an result array,
+ * and for each occurrence, appends a
  * @param results
- * @param frequencyMap
  */
-const createFrequencyCount = (results, frequencyMap) => {
+const createFrequencyCount = results => {
 	const map = {};
 
 	for (let i = 0; i < results.length; i++) {
@@ -49,21 +53,18 @@ const createFrequencyCount = (results, frequencyMap) => {
 		}
 	}
 
-	let i = 0;
+	const frequencies = [];
+
 	for (const key in map) {
-		frequencyMap[i].count = map[key];
-		frequencyMap[i].value = key;
-		i++;
+		const descriptive = {
+			count: map[key],
+			value: key,
+			percent: Number(((map[key] / results.length) * 100).toFixed(1))
+		};
+		frequencies.push(descriptive);
 	}
-	frequencyMap.sort((a, b) => b.count - a.count);
-};
-
-const ordinalScaleHandler = scale => {
-
-};
-
-const ratioScaleHandler = scale => {
-
+	frequencies.sort((a, b) => b.count - a.count);
+	return frequencies;
 };
 
 const scaleHandlers = {
