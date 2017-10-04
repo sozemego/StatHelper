@@ -97,8 +97,8 @@ describe('descriptive statistics for ordinal scale', () => {
 		expect(frequencies.findIndex(element => element.value === 2)).toBe(1);
 		expect(frequencies.findIndex(element => element.value === 12)).toBe(2);
 		expect(frequencies.findIndex(element => element.value === 5)).toBe(3);
-		expect(frequencies.findIndex(element => element.value === 4)).toBe(4);
-		expect(frequencies.findIndex(element => element.value === 6)).toBe(5);
+		expect(frequencies.findIndex(element => element.value === 6)).toBe(4);
+		expect(frequencies.findIndex(element => element.value === 4)).toBe(5);
 		expect(frequencies.findIndex(element => element.value === 8)).toBe(6);
 		expect(sampleSize).toBe(13);
 	});
@@ -122,14 +122,14 @@ describe('descriptive statistics for ordinal scale', () => {
 		expect(frequencies.find(element => element.value === 8).count).toBe(1);
 		expect(frequencies.findIndex(element => element.value === 1)).toBe(0);
 		expect(frequencies.findIndex(element => element.value === 4)).toBe(1);
-		expect(frequencies.findIndex(element => element.value === 14)).toBe(2);
-		expect(frequencies.findIndex(element => element.value === 2)).toBe(3);
-		expect(frequencies.findIndex(element => element.value === 0)).toBe(4);
-		expect(frequencies.findIndex(element => element.value === 12)).toBe(5);
-		expect(frequencies.findIndex(element => element.value === 15)).toBe(6);
-		expect(frequencies.findIndex(element => element.value === 6)).toBe(7);
-		expect(frequencies.findIndex(element => element.value === 8)).toBe(8);
-		expect(sampleSize).toBe(9);
+		expect(frequencies.findIndex(element => element.value === 2)).toBe(2);
+		expect(frequencies.findIndex(element => element.value === 14)).toBe(3);
+		expect(frequencies.findIndex(element => element.value === 12)).toBe(4);
+		expect(frequencies.findIndex(element => element.value === 0)).toBe(5);
+		expect(frequencies.findIndex(element => element.value === 6)).toBe(6);
+		expect(frequencies.findIndex(element => element.value === 8)).toBe(7);
+		expect(frequencies.findIndex(element => element.value === 15)).toBe(8);
+		expect(sampleSize).toBe(25);
 	});
 	it('should return correct mode', () => {
 		const scale = {
@@ -143,6 +143,19 @@ describe('descriptive statistics for ordinal scale', () => {
 		expect(modes.length).toBe(1);
 		expect(modes[0]).toBe(1);
 	});
+	it('should return correct mode, two-modal distribution', () => {
+		const scale = {
+			name: 'scale',
+			measurementLevel: ORDINAL,
+			result: [1, 2, 6, 4, 1, 2, 8, 12, 1, 6, 12, 6]
+		};
+		const descriptives = getDescriptives(scale);
+		const {modes} = descriptives;
+		expect(modes).toBeDefined();
+		expect(modes.length).toBe(2);
+		expect(modes[0]).toBe(1);
+		expect(modes[1]).toBe(6);
+	});
 	it('should return correct median', () => {
 		const scale = {
 			name: 'scale',
@@ -154,4 +167,5 @@ describe('descriptive statistics for ordinal scale', () => {
 		expect(median).toBeDefined();
 		expect(median).toBe(2);
 	});
+
 });
