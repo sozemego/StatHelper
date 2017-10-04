@@ -1,3 +1,6 @@
+import {NOMINAL, ORDINAL, RATIO} from '../../scales/model/scale-constants';
+
+
 /**
  * Returns descriptive statistics for a scale. The statistics depend on the
  * scale level of measurement.
@@ -7,8 +10,6 @@
  * All scales get a measure of sample size.
  * @param scale
  */
-import {NOMINAL, ORDINAL, RATIO} from '../../scales/model/scale';
-
 export const getDescriptives = scale => {
 	const handler = scaleHandlers[scale.measurementLevel];
 	if (!handler) {

@@ -1,5 +1,5 @@
-import {NOMINAL, ORDINAL} from '../../../src/scales/model/scale';
 import {getDescriptives} from '../../../src/stats/test-runner/descriptive-statistics';
+import {NOMINAL} from '../../../src/scales/model/scale-constants';
 
 describe('descriptive statistics for invalid scale', () => {
 	it('should throw error for an unknown measurement level', () => {

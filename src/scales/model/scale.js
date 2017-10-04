@@ -1,9 +1,7 @@
-export const NOMINAL = 'NOMINAL';
-export const ORDINAL = 'ORDINAL';
-export const RATIO = 'RATIO';
-export const MEASUREMENT_LEVELS = [NOMINAL, ORDINAL, RATIO];
+import {MEASUREMENT_LEVELS} from './scale-constants';
 
 let scalesCreated = 0;
+
 export const createNewScale = () => {
 	const name = 'Scale' + ++scalesCreated;
 	const measurementLevel = MEASUREMENT_LEVELS[0];
