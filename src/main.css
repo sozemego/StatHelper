@@ -3,7 +3,9 @@ html {
     font-family: 'Charter', serif;
     font-size: 0.85em;
     line-height: 135%;
+    overflow-y: scroll;
 }
+
 /**
  * https://github.com/loadingio/css-spinner/blob/master/microsoft.html
  */

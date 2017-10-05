@@ -1,37 +1,19 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Chip, Divider, FlatButton, Paper} from 'material-ui';
+import {Chip, Divider, FlatButton, Paper, Tab, Tabs} from 'material-ui';
 import {runTests} from '../actions/stats-actions';
 import {RunningTestSpinnerComponent} from './RunningTestSpinnerComponent';
 import {CorrelationTestResultComponent} from './CorrelationTestResultComponent';
 import {CORRELATION} from '../../experimental-design/model/test';
 import SelectableElementCollectionComponent from '../../common/component/SelectableElementCollectionComponent';
-
-const resultComponentMap = {
-	[CORRELATION]: CorrelationTestResultComponent
-};
+import {TestResultsComponent} from './TestResultsComponent';
+import {DescriptivesComponent} from './DescriptivesComponent';
 
 class StatsContainer extends React.Component {
 
 	constructor(props) {
 		super(props);
 	}
-
-	_getTestComponent = test => {
-		if (test.results) {
-			return React.createElement(resultComponentMap[test.type], {
-				test,
-				minSignificance: this.props.minSignificance
-			}, null);
-		} else {
-			return <RunningTestSpinnerComponent/>;
-		}
-	};
-
-	jumpToIndex = index => {
-		location.href = '#' + this.props.tests.find((test, i) => index === i).name;
-		history.replaceState(null, null, location.href);
-	};
 
 	render() {
 		const {tests, runningTests} = this.props;
@@ -44,21 +26,14 @@ class StatsContainer extends React.Component {
 					labelStyle={{fontSize: '2rem'}}
 					onTouchTap={this.props.runTests}
 				/>
-				<Divider/>
-				<SelectableElementCollectionComponent selectElement={this.jumpToIndex}
-													  elements={tests.map(test => test.name)}/>
-				{runningTests.map((test, index) => {
-					return <div id={test.name} key={index} style={{display: 'flex', margin: '10px 0px 0px 40px'}}>
-						<div style={{
-							width: '15%',
-							backgroundColor: '#80deea',
-							textAlign: 'center',
-							fontSize: '1.25rem',
-							paddingTop: '4px'
-						}}>{test.name}</div>
-						<Paper zDepth={1} style={{width: '85%'}}>{this._getTestComponent(test)}</Paper>
-					</div>
-				})}
+				<Tabs tabItemContainerStyle={{backgroundColor: '#424242'}}>
+					<Tab label="Test results" value={1}>
+						<TestResultsComponent tests={tests} runningTests={runningTests}/>
+					</Tab>
+					<Tab label="Descriptives" value={2}>
+						<DescriptivesComponent/>
+					</Tab>
+				</Tabs>
 			</div>
 		);
 	}

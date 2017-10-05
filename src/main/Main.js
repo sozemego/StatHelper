@@ -45,7 +45,7 @@ export default class Main extends React.Component {
 	render() {
 		return (
 			<div>
-				<Tabs>
+				<Tabs tabItemContainerStyle={{backgroundColor: '#212121'}}>
 					<Tab label="Data" value={1}>
 						<DataContainer/>
 					</Tab>
