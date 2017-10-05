@@ -1,5 +1,5 @@
 import {NOMINAL, ORDINAL, RATIO} from '../../scales/model/scale-constants';
-
+import {mode} from 'simple-statistics';
 
 /**
  * Returns descriptive statistics for a scale. The statistics depend on the
@@ -22,10 +22,12 @@ const nominalScaleHandler = scale => {
 	const {result} = scale;
 
 	const frequencies = createFrequencyCount(result);
+	const modes = calculateModes(result);
 
 	return {
 		frequencies,
-		sampleSize: result.length
+		sampleSize: result.length,
+		modes
 	};
 };
 
@@ -33,10 +35,12 @@ const ordinalScaleHandler = scale => {
 	const {result} = scale;
 
 	const frequencies = createFrequencyCount(result);
+	const modes = calculateModes(result);
 
 	return {
 		frequencies,
-		sampleSize: result.length
+		sampleSize: result.length,
+		modes
 	};
 };
 
@@ -50,16 +54,6 @@ const ratioScaleHandler = scale => {
  * @param results
  */
 const createFrequencyCount = results => {
-	const map = {};
-
-	for (let i = 0; i < results.length; i++) {
-		const result = results[i];
-		if (!map[result]) {
-			map[result] = 1;
-		} else {
-			map[result] = ++map[result];
-		}
-	}
 
 	const frequencies = [];
 	for (let i = 0; i < results.length; i++) {
@@ -84,6 +78,22 @@ const createFrequencyCount = results => {
 
 	frequencies.sort((a, b) => b.count - a.count);
 	return frequencies;
+};
+
+const calculateModes = results => {
+	const firstMode = mode(results);
+
+	const resultsCopy = results.slice();
+
+
+	results
+		.filter(result => result === firstMode)
+		.forEach(result => {
+			const index = results.findIndex(res => res === result);
+			resultsCopy.splice(index, 1);
+		});
+
+	return [firstMode, mode(resultsCopy)];
 };
 
 const scaleHandlers = {
