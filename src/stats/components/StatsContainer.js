@@ -26,7 +26,7 @@ class StatsContainer extends React.Component {
 					labelStyle={{fontSize: '2rem'}}
 					onTouchTap={this.props.runTests}
 				/>
-				<Tabs tabItemContainerStyle={{backgroundColor: '#424242'}}>
+				<Tabs tabItemContainerStyle={{backgroundColor: '#424242'}} inkBarStyle={{backgroundColor: 'orange'}}>
 					<Tab label="Test results" value={1}>
 						<TestResultsComponent tests={tests} runningTests={runningTests}/>
 					</Tab>
