@@ -1,5 +1,5 @@
 import {NOMINAL, ORDINAL, RATIO} from '../../scales/model/scale-constants';
-import {mode} from 'simple-statistics';
+import {median, mode} from 'simple-statistics';
 
 /**
  * Returns descriptive statistics for a scale. The statistics depend on the
@@ -23,11 +23,13 @@ const nominalScaleHandler = scale => {
 
 	const frequencies = createFrequencyCount(result);
 	const modes = calculateModes(result);
+	const median = calculateMedian(result);
 
 	return {
 		frequencies,
 		sampleSize: result.length,
-		modes
+		modes,
+		median
 	};
 };
 
@@ -36,11 +38,13 @@ const ordinalScaleHandler = scale => {
 
 	const frequencies = createFrequencyCount(result);
 	const modes = calculateModes(result);
+	const median = calculateMedian(result);
 
 	return {
 		frequencies,
 		sampleSize: result.length,
-		modes
+		modes,
+		median
 	};
 };
 
@@ -82,18 +86,19 @@ const createFrequencyCount = results => {
 
 const calculateModes = results => {
 	const firstMode = mode(results);
+	const secondMode = mode(results.filter(result => result !== firstMode));
 
-	const resultsCopy = results.slice();
+	const occurrencesOfFirstMode = results.filter(result => result === firstMode).length;
+	const occurrencesOfSecondMode = results.filter(result => result === secondMode).length;
+	if (occurrencesOfFirstMode === occurrencesOfSecondMode) {
+		return [firstMode, secondMode]; //two-modal distribution
+	}
 
+	return [firstMode];
+};
 
-	results
-		.filter(result => result === firstMode)
-		.forEach(result => {
-			const index = results.findIndex(res => res === result);
-			resultsCopy.splice(index, 1);
-		});
-
-	return [firstMode, mode(resultsCopy)];
+const calculateMedian = results => {
+	return median(results);
 };
 
 const scaleHandlers = {

@@ -167,5 +167,16 @@ describe('descriptive statistics for ordinal scale', () => {
 		expect(median).toBeDefined();
 		expect(median).toBe(2);
 	});
+	it('should return correct median, v2', () => {
+		const scale = {
+			name: 'scale',
+			measurementLevel: ORDINAL,
+			result: [1, 2, 6, 4, 1, 2, 8, 12, 1, 5, 5, 5, 5, 5, 5, 5, 5, 25, 25, 25, 25, 123, 2, 2, 2, 2]
+		};
+		const descriptives = getDescriptives(scale);
+		const {median} = descriptives;
+		expect(median).toBeDefined();
+		expect(median).toBe(5);
+	});
 
 });
