@@ -1,12 +1,13 @@
 import {NOMINAL, ORDINAL, RATIO} from '../../scales/model/scale-constants';
-import {median, mode} from 'simple-statistics';
+import {mean, median, mode, standardDeviation} from 'simple-statistics';
+import {calculateShapiroWilk} from './statistics';
 
 /**
  * Returns descriptive statistics for a scale. The statistics depend on the
  * scale level of measurement.
  * For nominal scales, returns frequency of items in order and percentages for each answer.
  * For ordinal mode, median, frequency map and frequency percentages.
- * For ratio scales, returns mean, standard deviation, variance, distribution normality check.
+ * For ratio scales, returns mean, median, standard deviation, variance, distribution normality check.
  * All scales get a measure of sample size.
  * @param scale
  */
@@ -49,7 +50,20 @@ const ordinalScaleHandler = scale => {
 };
 
 const ratioScaleHandler = scale => {
+	const {result} = scale;
 
+	const mean = calculateMean(result);
+	const median = calculateMedian(result);
+	const standardDeviation = calculateStandardDeviation(result);
+	const normality = calculateNormality(result);
+
+	return {
+		sampleSize: result.length,
+		median,
+		mean: Number(mean.toFixed(2)),
+		standardDeviation: Number(standardDeviation.toFixed(2)),
+		normality
+	};
 };
 
 /**
@@ -99,6 +113,22 @@ const calculateModes = results => {
 
 const calculateMedian = results => {
 	return median(results);
+};
+
+const calculateMean = results => {
+	return mean(results);
+};
+
+const calculateStandardDeviation = results => {
+	return standardDeviation(results);
+};
+
+const calculateNormality = results => {
+	const shapiroWilk = calculateShapiroWilk(results);
+	return {
+		test: 'Shapiro-Wilk',
+		pValue: shapiroWilk.p
+	};
 };
 
 const scaleHandlers = {

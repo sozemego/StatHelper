@@ -13,9 +13,13 @@ export const SPEARMAN = 'SPEARMAN';
  * @returns {boolean}
  */
 export const checkNormal = arr => {
-	const vector = new Vector(arr);
-	const shapiroWilk = Normality.shapiroWilk(vector);
+	const shapiroWilk = calculateShapiroWilk(arr);
 	return shapiroWilk.p > 0.05;
+};
+
+export const calculateShapiroWilk = arr => {
+	const vector = new Vector(arr);
+	return Normality.shapiroWilk(vector);
 };
 
 // taken from https://github.com/agrueneberg/Spearson/

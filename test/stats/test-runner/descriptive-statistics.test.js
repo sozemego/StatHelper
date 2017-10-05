@@ -1,5 +1,5 @@
 import {getDescriptives} from '../../../src/stats/test-runner/descriptive-statistics';
-import {NOMINAL, ORDINAL} from '../../../src/scales/model/scale-constants';
+import {NOMINAL, ORDINAL, RATIO} from '../../../src/scales/model/scale-constants';
 
 describe('descriptive statistics for invalid scale', () => {
 	it('should throw error for an unknown measurement level', () => {
@@ -178,5 +178,99 @@ describe('descriptive statistics for ordinal scale', () => {
 		expect(median).toBeDefined();
 		expect(median).toBe(5);
 	});
+});
 
+describe('descriptive statistics for ratio scale', () => {
+	it('should calculate correct mean', () => {
+		const scale = {
+			name: 'scale',
+			measurementLevel: RATIO,
+			result: [1, 2, 6, 4, 1, 2, 8, 12, 1, 5, 5, 5, 5, 5, 5, 5, 5, 25, 25, 25, 25, 123, 2, 2, 2, 2]
+		};
+		const descriptives = getDescriptives(scale);
+		const {mean} = descriptives;
+		expect(mean).toBe(11.85);
+	});
+	it('should calculate correct mean, v2', () => {
+		const scale = {
+			name: 'scale',
+			measurementLevel: RATIO,
+			result: [5, 5, 123, 122, 4, 1, 4, 5, 5, 1, 2, 4, 1, -2, 4, -2, -2, -2, -100, 10]
+		};
+		const descriptives = getDescriptives(scale);
+		const {mean} = descriptives;
+		expect(mean).toBe(9.4);
+	});
+	it('should calculate correct median', () => {
+		const scale = {
+			name: 'scale',
+			measurementLevel: RATIO,
+			result: [1, 2, 6, 4, 1, 2, 8, 12, 1, 5, 5, 5, 5, 5, 5, 5, 5, 25, 25, 25, 25, 123, 2, 2, 2, 2]
+		};
+		const descriptives = getDescriptives(scale);
+		const {median} = descriptives;
+		expect(median).toBe(5);
+	});
+	it('should calculate correct median, v2', () => {
+		const scale = {
+			name: 'scale',
+			measurementLevel: RATIO,
+			result: [5, 5, 123, 122, 4, 1, 4, 5, 5, 1, 2, 4, 1, -2, 4, -2, -2, -2, -100, 10]
+		};
+		const descriptives = getDescriptives(scale);
+		const {median} = descriptives;
+		expect(median).toBe(4);
+	});
+	it('should calculate correct standard deviation', () => {
+		const scale = {
+			name: 'scale',
+			measurementLevel: RATIO,
+			result: [1, 2, 6, 4, 1, 2, 8, 12, 1, 5, 5, 5, 5, 5, 5, 5, 5, 25, 25, 25, 25, 123, 2, 2, 2, 2]
+		};
+		const descriptives = getDescriptives(scale);
+		const {standardDeviation} = descriptives;
+		expect(standardDeviation).toBe(23.59);
+	});
+	it('should calculate correct standard deviation, v2', () => {
+		const scale = {
+			name: 'scale',
+			measurementLevel: RATIO,
+			result: [5, 5, 123, 122, 4, 1, 4, 5, 5, 1, 2, 4, 1, -2, 4, -2, -2, -2, -100, 10]
+		};
+		const descriptives = getDescriptives(scale);
+		const {standardDeviation} = descriptives;
+		expect(standardDeviation).toBe(43.89);
+	});
+	it('should correctly determine distribution normality', () => {
+		const scale = {
+			name: 'scale',
+			measurementLevel: RATIO,
+			result: [1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 5, 5]
+		};
+		const descriptives = getDescriptives(scale);
+		const {normality} = descriptives;
+		expect(normality.test).toBe('Shapiro-Wilk');
+		expect(normality.pValue).toBeGreaterThan(0.05);
+	});
+	it('should correctly determine distribution normality, v2', () => {
+		const scale = {
+			name: 'scale',
+			measurementLevel: RATIO,
+			result: [5, 1, 1, 2, 2, 2, 1, 2, 1, 2, 1, 2, 1, 2, 50, 50, 50, 50, 50]
+		};
+		const descriptives = getDescriptives(scale);
+		const {normality} = descriptives;
+		expect(normality.test).toBe('Shapiro-Wilk');
+		expect(normality.pValue).toBeLessThan(0.05);
+	});
+	it('should return sample size', () => {
+		const scale = {
+			name: 'scale',
+			measurementLevel: RATIO,
+			result: [1, 2, 6, 4, 1, 2, 8, 12, 1, 5, 5, 5, 5, 5, 5, 5, 5, 25, 25, 25, 25, 123, 2, 2, 2, 2]
+		};
+		const descriptives = getDescriptives(scale);
+		const {sampleSize} = descriptives;
+		expect(sampleSize).toBe(26);
+	});
 });
