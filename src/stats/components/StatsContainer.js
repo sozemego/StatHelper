@@ -22,9 +22,11 @@ class StatsContainer extends React.Component {
 				<FlatButton
 					label='Run tests'
 					fullWidth={true}
-					style={{height: '55px'}}
-					labelStyle={{fontSize: '2rem'}}
+					style={{height: '35px', margin: '20px'}}
+					labelStyle={{fontSize: '2rem', backgroundColor: '#F5F5F5', border: '1px solid rgba(0, 0, 0, 0.05)'}}
 					onTouchTap={this.props.runTests}
+					hoverColor="rgba(0, 0, 0, 0)"
+					disableTouchRipple={true}
 				/>
 				<Tabs tabItemContainerStyle={{backgroundColor: '#424242'}} inkBarStyle={{backgroundColor: 'orange'}}>
 					<Tab label="Test results" value={1}>
