@@ -35,7 +35,6 @@ export class TestResultsComponent extends React.Component {
 		const {tests, runningTests} = this.props;
 		return (
 			<div>
-				<Divider/>
 				<SelectableElementCollectionComponent selectElement={this.jumpToIndex}
 													  elements={tests.map(test => test.name)}/>
 				{runningTests.map((test, index) => {

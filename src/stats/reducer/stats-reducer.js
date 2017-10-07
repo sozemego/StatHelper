@@ -4,13 +4,12 @@ const initialState = {
 	minSignificance: 0.05,
 	results: [],
 	testsRunning: false,
-	runningTests: []
+	runningTests: [],
+	descriptives: []
 };
 
 const stats = (state = initialState, action) => {
 	switch (action.type) {
-		case RUN_TESTS:
-			return {...state, testsRunning: true};
 		case NOTIFY_TESTS_RUNNING:
 			return {...state, runningTests: action.tests};
 		case NOTIFY_TEST_RESULTS:
