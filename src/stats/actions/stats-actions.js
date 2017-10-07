@@ -2,39 +2,47 @@ import {makeActionCreator} from '../../common/actions/utils';
 import {store} from '../../store/store-init';
 import {runTest} from '../test-runner/test-runner';
 import {getResultForScale} from '../test-runner/result-calculator';
+import {copy} from '../../common/utils';
+import {getDescriptives} from '../test-runner/descriptive-statistics';
 
 export const runTests = () => {
 	return dispatch => {
-		const {scales, stats, experimentalDesign, fileProcessing} = store.getState();
+		const {stats, experimentalDesign, fileProcessing} = store.getState();
+		const scales = store.getState().scales.scales;
 		const {data} = fileProcessing;
 		const {tests} = experimentalDesign;
 
-		dispatch(notifyTestsRunning(tests.map(test => {
-			return {
-				name: test.name,
-				type: test.type
-			};
-		})));
-		//TODO first calculate scale results, handle missing data, then get descriptives then run tests
+		dispatch(notifyTestsRunning(tests.map(({name, type}) => ({name, type}))));
+
+		const scaleResults = {};
+		for (const scale of scales) {
+			scaleResults[scale.name] = getResultForScale(scale, data);
+		}
+
 		for (let i = 0; i < tests.length; i++) {
 			setTimeout(() => {
 				const test = tests[i];
-				const scaleObjects = [];
-				for (let i = 0; i < test.scales.length; i++) {
-					const scale = scales.scales[test.scales[i]];
-					scaleObjects.push(Object.assign({}, scale));
+				const scalesForTest = [];
+				for (let j = 0; j < test.scales.length; j++) {
+					const scale = scales[test.scales[j]];
+					scale.result = scaleResults[scale.name];
+					scalesForTest.push(copy(scale));
 				}
 
-				for (let i = 0; i < scaleObjects.length; i++) {
-					const scale = scaleObjects[i];
-					scale.result = getResultForScale(scale, data);
-				}
-
-				const testCopy = Object.assign({}, test);
-				testCopy.scales = scaleObjects;
+				const testCopy = copy(test);
+				testCopy.scales = scalesForTest;
 
 				const results = runTest(testCopy);
 				dispatch(notifyTestResults(test.name, results));
+			}, i * 50);
+		}
+
+		dispatch(notifyDescriptivesRunning(scales.map(({name, measurementLevel}) => ({name, measurementLevel}))));
+		for (let i = 0; i < scales.length; i++) {
+			setTimeout(() => {
+				const scale = scales[i];
+				const descriptives = getDescriptives(scale);
+				dispatch(notifyDescriptivesResults(scale.name, descriptives));
 			}, i * 50);
 		}
 	};
@@ -46,3 +54,9 @@ export const notifyTestsRunning = makeActionCreator(NOTIFY_TESTS_RUNNING, 'tests
 
 export const NOTIFY_TEST_RESULTS = 'NOTIFY_TEST_RESULTS';
 export const notifyTestResults = makeActionCreator(NOTIFY_TEST_RESULTS, 'name', 'results');
+
+export const NOTIFY_DESCRIPTIVES_RUNNING = 'NOTIFY_DESCRIPTIVES_RUNNING';
+export const notifyDescriptivesRunning = makeActionCreator(NOTIFY_DESCRIPTIVES_RUNNING, 'descriptives');
+
+export const NOTIFY_DESCRIPTIVES_RESULTS = 'NOTIFY_DESCRIPTIVES_RESULTS';
+export const notifyDescriptivesResults = makeActionCreator(NOTIFY_DESCRIPTIVES_RESULTS, 'name', 'results');

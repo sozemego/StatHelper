@@ -16,7 +16,7 @@ class StatsContainer extends React.Component {
 	}
 
 	render() {
-		const {tests, runningTests} = this.props;
+		const {tests, runningTests, descriptives, scales} = this.props;
 		return (
 			<div>
 				<FlatButton
@@ -33,7 +33,7 @@ class StatsContainer extends React.Component {
 						<TestResultsComponent tests={tests} runningTests={runningTests}/>
 					</Tab>
 					<Tab label="Descriptives" value={2}>
-						<DescriptivesComponent/>
+						<DescriptivesComponent scales={scales} descriptives={descriptives}/>
 					</Tab>
 				</Tabs>
 			</div>
@@ -43,11 +43,13 @@ class StatsContainer extends React.Component {
 }
 
 const mapStateToProps = state => {
-	const {experimentalDesign, stats} = state;
+	const {experimentalDesign, stats, scales} = state;
 	return {
 		tests: experimentalDesign.tests,
 		runningTests: stats.runningTests,
-		minSignificance: stats.minSignificance
+		minSignificance: stats.minSignificance,
+		descriptives: stats.descriptives,
+		scales: scales.scales
 	};
 };
 

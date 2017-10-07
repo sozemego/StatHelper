@@ -3,7 +3,7 @@ import SelectableElementCollectionComponent from '../../common/component/Selecta
 import {Divider, FlatButton, Paper} from 'material-ui';
 import {CORRELATION} from '../../experimental-design/model/test';
 import {CorrelationTestResultComponent} from './CorrelationTestResultComponent';
-import {RunningTestSpinnerComponent} from './RunningTestSpinnerComponent';
+import {RunningTestSpinnerComponent, SpinnerComponent} from './RunningTestSpinnerComponent';
 
 const resultComponentMap = {
 	[CORRELATION]: CorrelationTestResultComponent
@@ -22,7 +22,7 @@ export class TestResultsComponent extends React.Component {
 				minSignificance: this.props.minSignificance
 			}, null);
 		} else {
-			return <RunningTestSpinnerComponent/>;
+			return <SpinnerComponent/>;
 		}
 	};
 
