@@ -14,16 +14,22 @@ export class CorrelationTestResultComponent extends React.Component {
 				<br/>
 				<div>Results:</div>
 				{test.results.map((result, index) => {
+					const {
+						testName,
+						coefficient,
+						pValue,
+						scales
+					} = result;
 					return <div key={index}>
-						<div>You performed a {result.testName} correlation on {result.scales[0].name}{'\u00a0'}
-							and {result.scales[1].name}.
+						<div>You performed a {testName} correlation on {scales[0].name}{'\u00a0'}
+							and {scales[1].name}.
 						</div>
-						<div>The sample size for this test was {result.scales[0].result.length}.</div>
-						<div>You obtained a correlation coefficient of {result.coefficient}{'\u00a0'}
-							(r = {result.coefficient}) at a {result.pValue} (p = {result.pValue}) significance level.
+						<div>The sample size for this test was {scales[0].result.length}.</div>
+						<div>You obtained a correlation coefficient of {coefficient}{'\u00a0'}
+							(r = {coefficient}) at a {pValue} (p = {pValue}) significance level.
 						</div>
 						<div>This result indicates that this correlation coefficient
-							is {result.pValue > minSignificance ? 'NOT' : ''} {result.pValue > minSignificance ? 'significant' :
+							is {pValue > minSignificance ? 'NOT' : ''} {pValue > minSignificance ? 'significant' :
 								<b>significant</b>}.
 						</div>
 						<br/>
