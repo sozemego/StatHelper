@@ -1,7 +1,7 @@
 import React from 'react';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui';
 
-export class FrequenciesTableComponent extends React.Component {
+export class FrequenciesTableComponent extends React.PureComponent {
 
 	constructor(props) {
 		super(props);
