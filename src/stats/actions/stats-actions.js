@@ -24,9 +24,9 @@ export const runTests = () => {
 				const test = tests[i];
 				const scalesForTest = [];
 				for (let j = 0; j < test.scales.length; j++) {
-					const scale = scales[test.scales[j]];
+					const scale = copy(scales[test.scales[j]]);
 					scale.result = scaleResults[scale.name];
-					scalesForTest.push(copy(scale));
+					scalesForTest.push(scale);
 				}
 
 				const testCopy = copy(test);
@@ -40,7 +40,8 @@ export const runTests = () => {
 		dispatch(notifyDescriptivesRunning(scales.map(({name, measurementLevel}) => ({name, measurementLevel}))));
 		for (let i = 0; i < scales.length; i++) {
 			setTimeout(() => {
-				const scale = scales[i];
+				const scale = copy(scales[i]);
+				scale.result = scaleResults[scale.name];
 				const descriptives = getDescriptives(scale);
 				dispatch(notifyDescriptivesResults(scale.name, descriptives));
 			}, i * 50);
