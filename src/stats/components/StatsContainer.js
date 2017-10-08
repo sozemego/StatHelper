@@ -19,15 +19,16 @@ class StatsContainer extends React.Component {
 		const {tests, runningTests, descriptives, scales} = this.props;
 		return (
 			<div>
-				<FlatButton
-					label='Run tests'
-					fullWidth={true}
-					style={{height: '35px', margin: '20px'}}
-					labelStyle={{fontSize: '2rem', backgroundColor: '#F5F5F5', border: '1px solid rgba(0, 0, 0, 0.05)'}}
-					onTouchTap={this.props.runTests}
-					hoverColor="rgba(0, 0, 0, 0)"
-					disableTouchRipple={true}
-				/>
+				<Paper zDepth={4} style={{margin: '0px 0px 4px 0px'}}>
+					<FlatButton
+						label='Run tests'
+						fullWidth={true}
+						style={{height: '55px'}}
+						onTouchTap={this.props.runTests}
+						hoverColor="rgba(0, 0, 0, 0)"
+						disableTouchRipple={false}
+					/>
+				</Paper>
 				<Tabs tabItemContainerStyle={{backgroundColor: '#424242'}} inkBarStyle={{backgroundColor: 'orange'}}>
 					<Tab label="Test results" value={1}>
 						<TestResultsComponent tests={tests} runningTests={runningTests}/>

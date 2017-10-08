@@ -29,10 +29,7 @@ export class NominalScaleDescriptivesComponent extends React.Component {
 				</div>
 				<div>
 					Found {modes.length} mode{bimodalDistribution ? 's' : ''}.{'\u00a0'}
-					{bimodalDistribution > 1 ? 'They were ' + modes[0] + ' and ' + modes[1] : 'It\'s equal to ' + modes[0]}
-				</div>
-				<div>
-					Frequencies:
+					{bimodalDistribution > 1 ? 'They were ' + modes[0] + ' and ' + modes[1] : 'It\'s equal to ' + modes[0]}.
 				</div>
 				<div>
 					<FrequenciesTableComponent frequencies={frequencies}/>

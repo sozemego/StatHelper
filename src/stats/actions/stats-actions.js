@@ -34,7 +34,7 @@ export const runTests = () => {
 
 				const results = runTest(testCopy);
 				dispatch(notifyTestResults(test.name, results));
-			}, i * 50);
+			}, i * 125);
 		}
 
 		dispatch(notifyDescriptivesRunning(scales.map(({name, measurementLevel}) => ({name, measurementLevel}))));
@@ -44,7 +44,7 @@ export const runTests = () => {
 				scale.result = scaleResults[scale.name];
 				const descriptives = getDescriptives(scale);
 				dispatch(notifyDescriptivesResults(scale.name, descriptives));
-			}, i * 50);
+			}, (tests.length + i) * 125);
 		}
 	};
 };

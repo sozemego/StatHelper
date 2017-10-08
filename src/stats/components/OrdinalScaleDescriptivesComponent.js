@@ -26,9 +26,6 @@ export class OrdinalScaleDescriptivesComponent extends React.Component {
 					The median was {median}.
 				</div>
 				<div>
-					Frequencies:
-				</div>
-				<div>
 					<FrequenciesTableComponent frequencies={frequencies}/>
 				</div>
 			</div>

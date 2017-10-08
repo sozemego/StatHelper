@@ -23,6 +23,11 @@ export class FrequenciesTableComponent extends React.PureComponent {
 					enableSelectAll={false}
 				>
 					<TableRow>
+						<TableHeaderColumn colSpan="3" style={{textAlign: 'center'}}>
+							Frequencies
+						</TableHeaderColumn>
+					</TableRow>
+					<TableRow>
 						<TableHeaderColumn>Value</TableHeaderColumn>
 						<TableHeaderColumn>Count</TableHeaderColumn>
 						<TableHeaderColumn>Percent</TableHeaderColumn>
