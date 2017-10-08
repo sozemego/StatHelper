@@ -11,3 +11,6 @@ gradlew.bat
 build/
 *.log*
 coverage/
+
+# files which fire initial actions for easier development and testing
+*_dev.js

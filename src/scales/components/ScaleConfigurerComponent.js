@@ -1,8 +1,8 @@
 import React from 'react';
 import {Chip, FlatButton, RadioButton, RadioButtonGroup, TextField} from 'material-ui';
-import {MEASUREMENT_LEVELS} from '../model/scale';
 import {ActionHelpOutline} from 'material-ui/svg-icons/index';
 import ToolTipComponent from '../../common/component/ToolTipComponent';
+import {MEASUREMENT_LEVELS} from '../model/scale-constants';
 
 const configurerContainer = {
 	height: '100%',
