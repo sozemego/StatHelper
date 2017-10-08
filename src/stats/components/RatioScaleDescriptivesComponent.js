@@ -18,6 +18,7 @@ export class RatioScaleDescriptivesComponent extends React.Component {
 				</div>
 				<div>
 					On average, your participants scored {results.mean} (m = {results.mean}).
+					Maximum score they achieved was {results.min} and maximum was {results.max}.
 				</div>
 				<div>
 					The median was {results.median} and standard deviation {results.standardDeviation} (SD

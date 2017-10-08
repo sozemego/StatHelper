@@ -273,4 +273,26 @@ describe('descriptive statistics for ratio scale', () => {
 		const {sampleSize} = descriptives;
 		expect(sampleSize).toBe(26);
 	});
+	it('should return correct min and max values', () => {
+		const scale = {
+			name: 'scale',
+			measurementLevel: RATIO,
+			result: [5, 2, 12, 125, 1, 1, 1, 1, 5, 125]
+		};
+		const descriptives = getDescriptives(scale);
+		const {min, max} = descriptives;
+		expect(min).toBe(1);
+		expect(max).toBe(125);
+	});
+	it('should return correct min and max values, v2', () => {
+		const scale = {
+			name: 'scale',
+			measurementLevel: RATIO,
+			result: [-5, 2, 12, 125, 1, 1, 1, 1, 5, 12500, 65]
+		};
+		const descriptives = getDescriptives(scale);
+		const {min, max} = descriptives;
+		expect(min).toBe(-5);
+		expect(max).toBe(12500);
+	});
 });

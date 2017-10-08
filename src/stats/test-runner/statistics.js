@@ -1,5 +1,5 @@
 import {Vector, Normality} from 'jerzy';
-import {mean, sampleCorrelation, sum} from 'simple-statistics';
+import {mean, sampleCorrelation, sum, min, max} from 'simple-statistics';
 import {Studentt} from 'distributions';
 
 export const PEARSON = 'PEARSON';
@@ -199,4 +199,12 @@ export const removeMissingData = (...samples) => {
 			samples[j].splice(indicesToRemove[i], 1);
 		}
 	}
+};
+
+export const minValue = arr => {
+	return min(arr);
+};
+
+export const maxValue = arr => {
+	return max(arr);
 };

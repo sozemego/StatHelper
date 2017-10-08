@@ -1,6 +1,6 @@
 import {NOMINAL, ORDINAL, RATIO} from '../../scales/model/scale-constants';
 import {mean, median, mode, standardDeviation} from 'simple-statistics';
-import {calculateShapiroWilk} from './statistics';
+import {calculateShapiroWilk, maxValue, minValue} from './statistics';
 
 /**
  * Returns descriptive statistics for a scale. The statistics depend on the
@@ -56,13 +56,17 @@ const ratioScaleHandler = scale => {
 	const median = calculateMedian(result);
 	const standardDeviation = calculateStandardDeviation(result);
 	const normality = calculateNormality(result);
+	const min = calculateMin(result);
+	const max = calculateMax(result);
 
 	return {
 		sampleSize: result.length,
 		median,
 		mean: Number(mean.toFixed(2)),
 		standardDeviation: Number(standardDeviation.toFixed(2)),
-		normality
+		normality,
+		min,
+		max
 	};
 };
 
@@ -129,6 +133,14 @@ const calculateNormality = results => {
 		test: 'Shapiro-Wilk',
 		pValue: Number(shapiroWilk.p.toFixed(3))
 	};
+};
+
+const calculateMin = result => {
+	return minValue(result);
+};
+
+const calculateMax = result => {
+	return maxValue(result);
 };
 
 const scaleHandlers = {
