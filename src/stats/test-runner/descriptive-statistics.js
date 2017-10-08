@@ -127,7 +127,7 @@ const calculateNormality = results => {
 	const shapiroWilk = calculateShapiroWilk(results);
 	return {
 		test: 'Shapiro-Wilk',
-		pValue: shapiroWilk.p
+		pValue: Number(shapiroWilk.p.toFixed(3))
 	};
 };
 
