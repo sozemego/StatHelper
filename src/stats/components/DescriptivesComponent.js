@@ -3,11 +3,14 @@ import {SpinnerComponent} from './RunningTestSpinnerComponent';
 import SelectableElementCollectionComponent from '../../common/component/SelectableElementCollectionComponent';
 import {Paper} from 'material-ui';
 import {NOMINAL, ORDINAL, RATIO} from '../../scales/model/scale-constants';
+import {NominalScaleDescriptivesComponent} from './NominalScaleDescriptivesComponent';
+import {OrdinalScaleDescriptivesComponent} from './OrdinalScaleDescriptivesComponent';
+import {RatioScaleDescriptivesComponent} from './RatioScaleDescriptivesComponent';
 
 const resultComponentMap = {
-	[NOMINAL]: (props) => <div>NOMINAL</div>,
-	[ORDINAL]: (props) => <div>ORDINAL</div>,
-	[RATIO]: (props) => <div>RATIO</div>
+	[NOMINAL]: NominalScaleDescriptivesComponent,
+	[ORDINAL]: OrdinalScaleDescriptivesComponent,
+	[RATIO]: RatioScaleDescriptivesComponent
 };
 
 export class DescriptivesComponent extends React.Component {
@@ -18,7 +21,9 @@ export class DescriptivesComponent extends React.Component {
 
 	_getDescriptivesComponent = descriptive => {
 		if (descriptive.results) {
-			return React.createElement(resultComponentMap[descriptive.measurementLevel], {}, null);
+			return React.createElement(resultComponentMap[descriptive.measurementLevel], {
+				descriptive
+			}, null);
 		} else {
 			return <SpinnerComponent/>;
 		}

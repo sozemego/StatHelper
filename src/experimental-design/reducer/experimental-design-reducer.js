@@ -6,6 +6,7 @@ import {MOUSE_UP} from '../../common/actions/common-actions';
 
 const initialState = {
 	tests: [],
+	selectingItems: false,
 	selectedTest: -1
 };
 
