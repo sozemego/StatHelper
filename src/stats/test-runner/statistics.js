@@ -4,6 +4,7 @@ import {Studentt} from 'distributions';
 
 export const PEARSON = 'PEARSON';
 export const SPEARMAN = 'SPEARMAN';
+export const CHI_SQUARE_INDEPENDENCE = 'CHI_SQUARE_INDEPENDENCE';
 
 /**
  * Checks whether a given array of numbers follows a normal distribution.
@@ -118,6 +119,16 @@ const calculateCorrelationSignificance = (coefficient, sampleSize) => {
 		return 2 - p;
 	}
 	return p;
+};
+
+export const chiSquareIndependence = (sample1, sample2) => {
+
+
+	return {
+		coefficient: -200,
+		pValue: 600,
+		testName: CHI_SQUARE_INDEPENDENCE
+	};
 };
 
 export const sortNumbers = arr => {

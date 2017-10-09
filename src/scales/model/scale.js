@@ -13,6 +13,6 @@ export const createNewScale = () => {
 	};
 };
 
-export const isMeasurementLevelValid = (measurementLevel) => {
-	return MEASUREMENT_LEVELS.find((level) => level === measurementLevel);
+export const isMeasurementLevelValid = measurementLevel => {
+	return MEASUREMENT_LEVELS.find(level => level === measurementLevel);
 };

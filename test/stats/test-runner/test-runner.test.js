@@ -1,13 +1,27 @@
 import {runTest} from '../../../src/stats/test-runner/test-runner';
 import {CORRELATION} from '../../../src/experimental-design/model/test';
-import {PEARSON, SPEARMAN} from '../../../src/stats/test-runner/statistics';
+import {CHI_SQUARE_INDEPENDENCE, PEARSON, SPEARMAN} from '../../../src/stats/test-runner/statistics';
+import {NOMINAL, ORDINAL, RATIO} from '../../../src/scales/model/scale-constants';
 
 const scales = [
-	{name: 'Scale1', result: [1, 2, 2, 3, 4, 5, 1, 2, 3, 4, 5, 4, 4, 4, 4, 5, 5, 5, 1, 1, 1, 2, 2, 2]},
-	{name: 'Scale2', result: [5, 2, 2, 1, 1, 1, 1, 12, 3, 4, 5]},
-	{name: 'Scale3', result: [1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 5, 5]},
-	{name: 'Scale4', result: [1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 5, 5]},
-	{name: 'Scale5', result: [1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 5, 5, 5, 5, 1, 1, 1, 2, 2, 2]}
+	{
+		name: 'Scale0',
+		measurementLevel: RATIO,
+		result: [1, 2, 2, 3, 4, 5, 1, 2, 3, 4, 5, 4, 4, 4, 4, 5, 5, 5, 1, 1, 1, 2, 2, 2]
+	},
+	{name: 'Scale1', measurementLevel: ORDINAL, result: [5, 2, 2, 1, 1, 1, 1, 12, 3, 4, 5]},
+	{name: 'Scale2', measurementLevel: RATIO, result: [1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 5, 5]},
+	{name: 'Scale3', measurementLevel: RATIO, result: [1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 5, 5]},
+	{
+		name: 'Scale4',
+		measurementLevel: RATIO,
+		result: [1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 5, 5, 5, 5, 1, 1, 1, 2, 2, 2]
+	},
+	{name: 'Scale5', result: []},
+	{name: 'Scale6', measurementLevel: 'ast', result: []},
+	{name: 'Scale7', measurementLevel: NOMINAL, result: [1, 1, 1, 1, 1, 4, 4, 4, 4, 4, 5, 5, 5, 5]},
+	{name: 'Scale8', measurementLevel: NOMINAL, result: [2, 2, 1, 1, 1, 2, 3, 3, 3, 4, 5, 4, 4, 4]},
+	{name: 'Scale8', measurementLevel: NOMINAL, result: [1, 1, 1, 1, 1, 2, 3, 3, 3, 1, 1]}
 ];
 
 describe('test runner', () => {
@@ -16,7 +30,15 @@ describe('test runner', () => {
 		expect(() => runTest(test)).toThrow();
 	});
 	it('should throw an exception for less than two scales', () => {
-		const test = {type: CORRELATION, name: 'Test', scales: [{}]};
+		const test = {type: CORRELATION, name: 'Test', scales: []};
+		expect(() => runTest(test)).toThrow();
+	});
+	it('should throw an exception for scale with invalid measurement level', () => {
+		const test = {type: CORRELATION, name: 'Test', scales: [scales[5], scales[6]]};
+		expect(() => runTest(test)).toThrow();
+	});
+	it('should throw an exception for scale with invalid measurement level', () => {
+		const test = {type: CORRELATION, name: 'Test', scales: [scales[6], scales[7]]};
 		expect(() => runTest(test)).toThrow();
 	});
 	it('should calculate pearson correlation test for two scales with normally distributed samples', () => {
@@ -40,6 +62,26 @@ describe('test runner', () => {
 	it('should perform 3 tests for 3 scales, one for each scale pair', () => {
 		const test = {type: CORRELATION, name: 'Test', scales: [scales[0], scales[1], scales[2]]};
 		const result = runTest(test);
+		expect(result.length).toBe(3);
+	});
+	it('should perform chi-square test for ordinal scales', () => {
+		const test = {type: CORRELATION, name: 'Test', scales: [scales[7], scales[8]]};
+		const result = runTest(test);
+		expect(result[0].testName).toBe(CHI_SQUARE_INDEPENDENCE);
+		expect(result.length).toBe(1);
+	});
+	it('should perform chi-square test for three ordinal scales', () => {
+		const test = {type: CORRELATION, name: 'Test', scales: [scales[7], scales[8], scales[9]]};
+		const result = runTest(test);
+		expect(result[0].testName).toBe(CHI_SQUARE_INDEPENDENCE);
+		expect(result.length).toBe(3);
+	});
+	it('should perform 3 correlations, two spearman-rho and one pearson for 3 scales (one of them being ordinal)', () => {
+		const test = {type: CORRELATION, name: 'Test', scales: [scales[0], scales[3], scales[4]]};
+		const result = runTest(test);
+		expect(result[0].testName).toBe(PEARSON);
+		expect(result[1].testName).toBe(SPEARMAN);
+		expect(result[2].testName).toBe(SPEARMAN);
 		expect(result.length).toBe(3);
 	});
 });
