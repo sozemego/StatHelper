@@ -132,81 +132,24 @@ export const chiSquareIndependence = (sample1, sample2) => {
 	const sample2Uniques = getSet(sample2);
 
 	//find all possible combinations of sample values
-	const crosstabs = {};
-	for (let i = 0; i < sample1Uniques.length; i++) {
-		for (let j = 0; j < sample2Uniques.length; j++) {
-			crosstabs[sample1Uniques[i] + ':' + sample2Uniques[j]] = {
-				observed: 0
-			};
-		}
-	}
+	const crossTabs = createPossiblePairs(sample1Uniques, sample2Uniques);
 
 	// count occurrences for each possible combination
-	for (let i = 0; i < sample1.length; i++) {
-		const crosstabsValue = crosstabs[sample1[i] + ':' + sample2[i]];
-		++crosstabsValue.observed;
-	}
+	calculateObservedCounts(sample1, sample2, crossTabs);
 
-	const totals = {
-		total: sample1.length,
-		rows: {},
-		columns: {}
-	};
-	//count row totals
-	for (let i = 0; i < sample1Uniques.length; i++) {
-		let sum = 0;
-		for (const key in crosstabs) {
-			const [row, column] = key.split(':');
-			if (row == sample1Uniques[i]) {
-				sum += crosstabs[key].observed;
-			}
-		}
-		totals.rows[sample1Uniques[i]] = sum;
-	}
-
-	//count column totals
-	for (let i = 0; i < sample2Uniques.length; i++) {
-		let sum = 0;
-		for (const key in crosstabs) {
-			const [row, column] = key.split(':');
-			if (column == sample2Uniques[i]) {
-				sum += crosstabs[key].observed;
-			}
-		}
-		totals.columns[sample2Uniques[i]] = sum;
-	}
+	const totals = createTotals(sample1Uniques, sample2Uniques, crossTabs);
+	totals.total = sample1.length;
 
 	//calculate expected values for each combination (RowTotal*ColTotal)/GridTotal
-	for (const key in crosstabs) {
-		const [row, column] = key.split(':');
-		crosstabs[key].expected = (totals.rows[row] * totals.columns[column]) / totals.total;
-	}
+	calculateExpectedCounts(crossTabs, totals);
+	const chiSquare = calculateChiSquare(crossTabs);
+	const coefficientType = getChiSquareCoefficientType(sample1Uniques, sample2Uniques);
+	const coefficientDf = Math.min(sample1Uniques.length - 1, sample2Uniques.length - 1);
 
-	let chiSquare = 0;
-	for (const key in crosstabs) {
-		const {observed, expected} = crosstabs[key];
-		if (expected !== 0) {
-			chiSquare += Math.pow(observed - expected, 2) / expected;
-		}
-	}
+	const coefficient = calculateChiSquareCoefficient(chiSquare, totals.total, coefficientDf, coefficientType);
 
-	let coefficientType;
-	if (sample1Uniques.length === 2 && sample2Uniques.length === 2) {
-		coefficientType = PHI;
-	} else {
-		coefficientType = CRAMERS_V;
-	}
-
-	let coefficient = NaN;
-	if (coefficientType === PHI) {
-		coefficient = Math.sqrt(chiSquare / totals.total);
-	} else if (coefficientType === CRAMERS_V) {
-		const df = Math.min(sample1Uniques.length - 1, sample2Uniques.length - 1);
-		coefficient = Math.sqrt(chiSquare / (totals.total * df));
-	}
-
-	const df = (sample1Uniques.length - 1) * (sample2Uniques.length - 1);
-	const pValue = 1 - cdf(chiSquare, df);
+	const significanceDf = (sample1Uniques.length - 1) * (sample2Uniques.length - 1);
+	const pValue = 1 - cdf(chiSquare, significanceDf);
 
 	return {
 		chiSquare,
@@ -214,8 +157,92 @@ export const chiSquareIndependence = (sample1, sample2) => {
 		pValue,
 		testName: CHI_SQUARE_INDEPENDENCE,
 		coefficientType,
-		crosstabs
+		crossTabs
 	};
+};
+
+const createPossiblePairs = (set1, set2) => {
+	const crossTabs = {};
+	for (let i = 0; i < set1.length; i++) {
+		for (let j = 0; j < set2.length; j++) {
+			crossTabs[set1[i] + ':' + set2[j]] = {
+				observed: 0
+			};
+		}
+	}
+	return crossTabs;
+};
+
+const calculateObservedCounts = (sample1, sample2, crossTabs) => {
+	for (let i = 0; i < sample1.length; i++) {
+		const crossTabsValue = crossTabs[sample1[i] + ':' + sample2[i]];
+		++crossTabsValue.observed;
+	}
+};
+
+const createTotals = (set1, set2, crossTabs) => {
+	const totals = {
+		rows: {},
+		columns: {}
+	};
+	//count row totals
+	for (let i = 0; i < set1.length; i++) {
+		let sum = 0;
+		for (const key in crossTabs) {
+			const [row, column] = key.split(':');
+			if (row == set1[i]) {
+				sum += crossTabs[key].observed;
+			}
+		}
+		totals.rows[set1[i]] = sum;
+	}
+
+	//count column totals
+	for (let i = 0; i < set2.length; i++) {
+		let sum = 0;
+		for (const key in crossTabs) {
+			const [row, column] = key.split(':');
+			if (column == set2[i]) {
+				sum += crossTabs[key].observed;
+			}
+		}
+		totals.columns[set2[i]] = sum;
+	}
+	return totals;
+};
+
+const calculateExpectedCounts = (crossTabs, totals) => {
+	for (const key in crossTabs) {
+		const [row, column] = key.split(':');
+		crossTabs[key].expected = (totals.rows[row] * totals.columns[column]) / totals.total;
+	}
+};
+
+const calculateChiSquare = crossTabs => {
+	let chiSquare = 0;
+	for (const key in crossTabs) {
+		const {observed, expected} = crossTabs[key];
+		if (expected !== 0) {
+			chiSquare += Math.pow(observed - expected, 2) / expected;
+		}
+	}
+	return chiSquare;
+};
+
+const getChiSquareCoefficientType = (set1, set2) => {
+	if (set1.length === 2 && set2.length === 2) {
+		return PHI;
+	} else {
+		return CRAMERS_V;
+	}
+};
+
+const calculateChiSquareCoefficient = (chiSquare, sampleSize, df, coefficientType) => {
+	if (coefficientType === PHI) {
+		return Math.sqrt(chiSquare / sampleSize);
+	} else if (coefficientType === CRAMERS_V) {
+		return Math.sqrt(chiSquare / (sampleSize * df));
+	}
 };
 
 export const sortNumbers = arr => {
