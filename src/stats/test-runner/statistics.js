@@ -152,9 +152,9 @@ export const chiSquareIndependence = (sample1, sample2) => {
 	const pValue = 1 - cdf(chiSquare, significanceDf);
 
 	return {
-		chiSquare,
-		coefficient,
-		pValue,
+		chiSquare: Number(chiSquare.toFixed(3)),
+		coefficient: Number(coefficient.toFixed(3)),
+		pValue: Number(pValue.toFixed(3)),
 		testName: CHI_SQUARE_INDEPENDENCE,
 		coefficientType,
 		crossTabs
