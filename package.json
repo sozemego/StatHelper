@@ -35,7 +35,8 @@
     "redux-thunk": "^2.2.0",
     "simple-statistics": "^4.1.1",
     "xlsx": "^0.8.1",
-    "distributions": "^1.0.0"
+    "distributions": "^1.0.0",
+    "chi-squared": "^1.1.0"
   },
   "jest": {
     "testEnvironment": "node",

@@ -1,5 +1,5 @@
 import {
-	checkNormal, deviation, pearson, rank, removeMissingData, sortNumbers,
+	checkNormal, chiSquareIndependence, CRAMERS_V, deviation, pearson, PHI, rank, removeMissingData, sortNumbers,
 	spearman
 } from '../../../src/stats/test-runner/statistics';
 
@@ -186,6 +186,45 @@ describe('pearson correlation test', () => {
 		expect(result.coefficient).toBeCloseTo(0.088, precisionForStatisticalTests);
 		expect(result.pValue).toBeCloseTo(0.304, precisionForStatisticalTests);
 		expect(result.pValue).toBeLessThanOrEqual(1);
+	});
+});
+
+describe('chi-square independence', () => {
+	it('should calculate correct statistics', () => {
+		const sample1 = [1, 2, 2, 2, 3, 4, 4, 5, 6, 2, 1, 2, 1, 6, 1, 2, 1, 2, 4, 5];
+		const sample2 = [1, 2, 4, 5, 6, 1, 2, 5, 6, 1, 2, 6, 3, 2, 3, 4, 4, 2, 2, 4];
+		const result = chiSquareIndependence(sample1, sample2);
+		expect(result.chiSquare).toBeCloseTo(24.929, precisionForStatisticalTests);
+		expect(result.coefficient).toBeCloseTo(0.499, precisionForStatisticalTests);
+		expect(result.coefficientType).toBe(CRAMERS_V, precisionForStatisticalTests);
+		expect(result.pValue).toBeCloseTo(0.466, precisionForStatisticalTests);
+	});
+	it('should calculate correct statistics, v2', () => {
+		const sample1 = [6, 6, 6, 6, 5, 2, 1, 5, null, 5, 5, 4, 5, 5, 4, 5, 4, 5, 7, 8, 5, 5, 2, 5, 5];
+		const sample2 = [5, 5, 2, 4, 4, 5, 2, 4, 2, 5, 5, 4, null, 4, 4, 4, 5, 4, 5, 5, 5, 5, 4, 5, 5];
+		const result = chiSquareIndependence(sample1, sample2);
+		expect(result.chiSquare).toBeCloseTo(16.127, precisionForStatisticalTests);
+		expect(result.coefficient).toBeCloseTo(0.592, precisionForStatisticalTests);
+		expect(result.coefficientType).toBe(CRAMERS_V, precisionForStatisticalTests);
+		expect(result.pValue).toBeCloseTo(0.185, precisionForStatisticalTests);
+	});
+	it('should calculate correct statistics, v3, phi', () => {
+		const sample1 = [1, 2, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 1, 2, 2, 1, 1, 2, 1, 2, 2, 1, 2, 2, 2];
+		const sample2 = [1, 1, 1, 1, 2, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 1, 1, 1, 2, 1, 2];
+		const result = chiSquareIndependence(sample1, sample2);
+		expect(result.chiSquare).toBeCloseTo(0.027, precisionForStatisticalTests);
+		expect(result.coefficient).toBeCloseTo(0.033, precisionForStatisticalTests);
+		expect(result.coefficientType).toBe(PHI, precisionForStatisticalTests);
+		expect(result.pValue).toBeCloseTo(0.870, precisionForStatisticalTests);
+	});
+	it('should calculate correct statistics, v4, phi', () => {
+		const sample1 = [1, 1, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 1, 2, 2, 1, 1, 2, 1, 2, 2, 1, 2, 2, 2];
+		const sample2 = [1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 1, 2, 1, 2, 2, 1, 1, 2, 1, 1, 2, 1, 2, 2, 2];
+		const result = chiSquareIndependence(sample1, sample2);
+		expect(result.chiSquare).toBeCloseTo(14.490, precisionForStatisticalTests);
+		expect(result.coefficient).toBeCloseTo(0.761, precisionForStatisticalTests);
+		expect(result.coefficientType).toBe(PHI, precisionForStatisticalTests);
+		expect(result.pValue).toBeCloseTo(0.000, precisionForStatisticalTests);
 	});
 });
 

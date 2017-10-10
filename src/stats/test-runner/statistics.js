@@ -1,10 +1,13 @@
 import {Vector, Normality} from 'jerzy';
 import {mean, sampleCorrelation, sum, min, max} from 'simple-statistics';
 import {Studentt} from 'distributions';
+import {cdf} from 'chi-squared';
 
 export const PEARSON = 'PEARSON';
 export const SPEARMAN = 'SPEARMAN';
 export const CHI_SQUARE_INDEPENDENCE = 'CHI_SQUARE_INDEPENDENCE';
+export const PHI = 'PHI';
+export const CRAMERS_V = 'CRAMERS_V';
 
 /**
  * Checks whether a given array of numbers follows a normal distribution.
@@ -122,12 +125,96 @@ const calculateCorrelationSignificance = (coefficient, sampleSize) => {
 };
 
 export const chiSquareIndependence = (sample1, sample2) => {
+	handleUnevenSamples(sample1, sample2);
+	removeMissingData(sample1, sample2);
 
+	const sample1Uniques = getSet(sample1);
+	const sample2Uniques = getSet(sample2);
+
+	//find all possible combinations of sample values
+	const crosstabs = {};
+	for (let i = 0; i < sample1Uniques.length; i++) {
+		for (let j = 0; j < sample2Uniques.length; j++) {
+			crosstabs[sample1Uniques[i] + ':' + sample2Uniques[j]] = {
+				observed: 0
+			};
+		}
+	}
+
+	// count occurrences for each possible combination
+	for (let i = 0; i < sample1.length; i++) {
+		const crosstabsValue = crosstabs[sample1[i] + ':' + sample2[i]];
+		++crosstabsValue.observed;
+	}
+
+	const totals = {
+		total: sample1.length,
+		rows: {},
+		columns: {}
+	};
+	//count row totals
+	for (let i = 0; i < sample1Uniques.length; i++) {
+		let sum = 0;
+		for (const key in crosstabs) {
+			const [row, column] = key.split(':');
+			if (row == sample1Uniques[i]) {
+				sum += crosstabs[key].observed;
+			}
+		}
+		totals.rows[sample1Uniques[i]] = sum;
+	}
+
+	//count column totals
+	for (let i = 0; i < sample2Uniques.length; i++) {
+		let sum = 0;
+		for (const key in crosstabs) {
+			const [row, column] = key.split(':');
+			if (column == sample2Uniques[i]) {
+				sum += crosstabs[key].observed;
+			}
+		}
+		totals.columns[sample2Uniques[i]] = sum;
+	}
+
+	//calculate expected values for each combination (RowTotal*ColTotal)/GridTotal
+	for (const key in crosstabs) {
+		const [row, column] = key.split(':');
+		crosstabs[key].expected = (totals.rows[row] * totals.columns[column]) / totals.total;
+	}
+
+	let chiSquare = 0;
+	for (const key in crosstabs) {
+		const {observed, expected} = crosstabs[key];
+		if (expected !== 0) {
+			chiSquare += Math.pow(observed - expected, 2) / expected;
+		}
+	}
+
+	let coefficientType;
+	if (sample1Uniques.length === 2 && sample2Uniques.length === 2) {
+		coefficientType = PHI;
+	} else {
+		coefficientType = CRAMERS_V;
+	}
+
+	let coefficient = NaN;
+	if (coefficientType === PHI) {
+		coefficient = Math.sqrt(chiSquare / totals.total);
+	} else if (coefficientType === CRAMERS_V) {
+		const df = Math.min(sample1Uniques.length - 1, sample2Uniques.length - 1);
+		coefficient = Math.sqrt(chiSquare / (totals.total * df));
+	}
+
+	const df = (sample1Uniques.length - 1) * (sample2Uniques.length - 1);
+	const pValue = 1 - cdf(chiSquare, df);
 
 	return {
-		coefficient: -200,
-		pValue: 600,
-		testName: CHI_SQUARE_INDEPENDENCE
+		chiSquare,
+		coefficient,
+		pValue,
+		testName: CHI_SQUARE_INDEPENDENCE,
+		coefficientType,
+		crosstabs
 	};
 };
 
@@ -218,4 +305,13 @@ export const minValue = arr => {
 
 export const maxValue = arr => {
 	return max(arr);
+};
+
+/**
+ * Given an array, returns an array without duplicates, a set.
+ * @param arr
+ */
+export const getSet = arr => {
+	const set = new Set(arr);
+	return [...set];
 };
