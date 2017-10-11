@@ -8,7 +8,7 @@ export const sortAsc = (arr) => {
 
 /**
  * Performs a deep copy of a json object.
- * Does not work for ANY java object, but works for simple objects
+ * Does not work for ANY javascript object, but works for simple objects
  * containing only arrays, strings, booleans, undefined, nulls, numbers.
  * @param obj
  */
