@@ -1,5 +1,8 @@
 import {MOUSE_UP} from '../../common/actions/common-actions';
-import {ADD_SCALE, SELECT_ITEMS, SELECT_SCALE, SET_SCALES, START_SELECTING_ITEMS} from '../actions/scales-actions';
+import {
+  ADD_SCALE, SELECT_ITEMS, SELECT_SCALE, SET_SCALE_RESULTS, SET_SCALES,
+  START_SELECTING_ITEMS
+} from '../actions/scales-actions';
 
 const initialState = {
   scales: [],
@@ -21,6 +24,8 @@ const scales = (state = initialState, action) => {
       return {...state, selectedScale: action.scaleIndex};
     case SET_SCALES:
       return {...state, scales: action.scales};
+    case SET_SCALE_RESULTS:
+      return {...state, scales: setResults(state.scales, action.scaleId, action.results)};
     default:
       return state;
   }
@@ -34,6 +39,12 @@ const selectItems = (scales, scaleIndex, selectedItems) => {
 
 const addScale = (scale, scales) => {
   return scales.concat([scale]);
+};
+
+const setResults = (scales, scaleId, results) => {
+  const scale = scales.find(scale => scale.id.toString() === scaleId.toString());
+  scale.results = results;
+  return [...scales];
 };
 
 export default scales;

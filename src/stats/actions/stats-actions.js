@@ -4,6 +4,7 @@ import {runTest} from '../test-runner/test-runner';
 import {getResultForScale} from '../test-runner/result-calculator';
 import {copy} from '../../common/utils';
 import {getDescriptives} from '../test-runner/descriptive-statistics';
+import {setScaleResults} from '../../scales/actions/scales-actions';
 
 export const runTests = () => {
   return dispatch => {
@@ -15,9 +16,11 @@ export const runTests = () => {
     dispatch(notifyTestsRunning(tests.map(({name, type}) => ({name, type}))));
 
     const scaleResults = {};
-    for (const scale of scales) {
-      scaleResults[scale.name] = getResultForScale(scale, data);
-    }
+    scales.forEach(scale => {
+      const results = getResultForScale(scale, data);
+      scaleResults[scale.name] = results;
+      dispatch(setScaleResults(scale.id, results));
+    });
 
     for (let i = 0; i < tests.length; i++) {
       setTimeout(() => {
@@ -25,7 +28,6 @@ export const runTests = () => {
         const scalesForTest = [];
         for (let j = 0; j < test.scales.length; j++) {
           const scale = copy(scales[test.scales[j]]);
-          scale.result = scaleResults[scale.name];
           scalesForTest.push(scale);
         }
 

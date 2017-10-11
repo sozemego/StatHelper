@@ -85,3 +85,6 @@ export const setMeasurementLevel = (scaleIndex, measurementLevel) => {
   };
 };
 
+export const SET_SCALE_RESULTS = 'SET_SCALE_RESULTS';
+export const setScaleResults = makeActionCreator(SET_SCALE_RESULTS, 'scaleId', 'results');
+
