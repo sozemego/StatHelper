@@ -1,22 +1,22 @@
 import {CORRELATION} from '../../experimental-design/model/test';
 import {
-	checkNormal,
-	chiSquareIndependence,
-	pearson,
-	spearman,
-	PEARSON,
-	SPEARMAN,
-	CHI_SQUARE_INDEPENDENCE,
+  checkNormal,
+  CHI_SQUARE_INDEPENDENCE,
+  chiSquareIndependence,
+  PEARSON,
+  pearson,
+  SPEARMAN,
+  spearman,
 } from './statistics';
 import {isMeasurementLevelValid} from '../../scales/model/scale';
-import {NOMINAL, ORDINAL, RATIO} from '../../scales/model/scale-constants';
+import {NOMINAL, RATIO} from '../../scales/model/scale-constants';
 
 export const runTest = test => {
-	const runner = testRunners[test.type];
-	if (!runner) {
-		throw new Error('Invalid test type! ' + test.type);
-	}
-	return runner(test);
+  const runner = testRunners[test.type];
+  if (!runner) {
+    throw new Error('Invalid test type! ' + test.type);
+  }
+  return runner(test);
 };
 
 /**
@@ -35,12 +35,12 @@ export const runTest = test => {
  * @returns {Array}
  */
 const correlation = test => {
-	const {scales} = test;
+  const {scales} = test;
 
-	validateScales(scales);
-	const normalDistributionResults = calculateNormality(scales);
-	const allPairs = getAllPairs(scales);
-	return runCorrelations(allPairs, normalDistributionResults);
+  validateScales(scales);
+  const normalDistributionResults = calculateNormality(scales);
+  const allPairs = getAllPairs(scales);
+  return runCorrelations(allPairs, normalDistributionResults);
 };
 
 /**
@@ -48,81 +48,81 @@ const correlation = test => {
  * @param scales
  */
 const validateScales = scales => {
-	if (!scales || scales.length < 2) {
-		throw new Error('You need to have at least two scales to run a correlation test.');
-	}
-	// validate if all scales have a measurement level and if it's valid
-	for (const scale of scales) {
-		const {measurementLevel} = scale;
-		if (!measurementLevel || !isMeasurementLevelValid(measurementLevel)) {
-			throw new Error('Invalid measurement level: ' + measurementLevel);
-		}
-	}
+  if (!scales || scales.length < 2) {
+    throw new Error('You need to have at least two scales to run a correlation test.');
+  }
+  // validate if all scales have a measurement level and if it's valid
+  for (const scale of scales) {
+    const {measurementLevel} = scale;
+    if (!measurementLevel || !isMeasurementLevelValid(measurementLevel)) {
+      throw new Error('Invalid measurement level: ' + measurementLevel);
+    }
+  }
 };
 
 const calculateNormality = scales => {
-	// first check normality of all ratio scales
-	const normalDistributionResults = {};
-	scales
-		.filter(scale => scale.measurementLevel === RATIO)
-		.forEach(scale => normalDistributionResults[scale.name] = checkNormal(scale.result));
-	return normalDistributionResults;
+  // first check normality of all ratio scales
+  const normalDistributionResults = {};
+  scales
+  .filter(scale => scale.measurementLevel === RATIO)
+  .forEach(scale => normalDistributionResults[scale.name] = checkNormal(scale.result));
+  return normalDistributionResults;
 };
 
 const getAllPairs = scales => {
-	const pairs = [];
-	for (let i = 0; i < scales.length; i++) {
-		for (let j = i + 1; j < scales.length; j++) {
-			pairs.push([scales[i], scales[j]]);
-		}
-	}
-	return pairs;
+  const pairs = [];
+  for (let i = 0; i < scales.length; i++) {
+    for (let j = i + 1; j < scales.length; j++) {
+      pairs.push([scales[i], scales[j]]);
+    }
+  }
+  return pairs;
 };
 
 const getCorrelationType = (scale1, scale2, normalDistributions) => {
-	const firstScaleLevel = scale1.measurementLevel;
-	const secondScaleLevel = scale2.measurementLevel;
+  const firstScaleLevel = scale1.measurementLevel;
+  const secondScaleLevel = scale2.measurementLevel;
 
-	if (firstScaleLevel === RATIO && secondScaleLevel === RATIO) {
-		const firstScaleNormal = normalDistributions[scale1.name];
-		const secondScaleNormal = normalDistributions[scale2.name];
-		return firstScaleNormal && secondScaleNormal ? PEARSON : SPEARMAN;
-	}
+  if (firstScaleLevel === RATIO && secondScaleLevel === RATIO) {
+    const firstScaleNormal = normalDistributions[scale1.name];
+    const secondScaleNormal = normalDistributions[scale2.name];
+    return firstScaleNormal && secondScaleNormal ? PEARSON : SPEARMAN;
+  }
 
-	// this covers the case of any of the two being either ratio or ordinal
-	if (firstScaleLevel !== NOMINAL && secondScaleLevel !== NOMINAL) {
-		return SPEARMAN;
-	}
+  // this covers the case of any of the two being either ratio or ordinal
+  if (firstScaleLevel !== NOMINAL && secondScaleLevel !== NOMINAL) {
+    return SPEARMAN;
+  }
 
-	if (firstScaleLevel === NOMINAL || secondScaleLevel === NOMINAL) {
-		return CHI_SQUARE_INDEPENDENCE;
-	}
+  if (firstScaleLevel === NOMINAL || secondScaleLevel === NOMINAL) {
+    return CHI_SQUARE_INDEPENDENCE;
+  }
 };
 
 const runCorrelations = (allPairs, normalDistributionResults) => {
-	const results = [];
-	for (let i = 0; i < allPairs.length; i++) {
-		const firstScale = allPairs[i][0];
-		const secondScale = allPairs[i][1];
+  const results = [];
+  for (let i = 0; i < allPairs.length; i++) {
+    const firstScale = allPairs[i][0];
+    const secondScale = allPairs[i][1];
 
-		const correlationType = getCorrelationType(firstScale, secondScale, normalDistributionResults);
-		const correlationCalculator = correlationCalculators[correlationType];
+    const correlationType = getCorrelationType(firstScale, secondScale, normalDistributionResults);
+    const correlationCalculator = correlationCalculators[correlationType];
 
-		const result = correlationCalculator(firstScale.result, secondScale.result);
-		result.scales = [firstScale, secondScale];
-		results.push(result);
-	}
+    const result = correlationCalculator(firstScale.result, secondScale.result);
+    result.scales = [firstScale, secondScale];
+    results.push(result);
+  }
 
-	return results;
+  return results;
 };
 
 const correlationCalculators = {
-	PEARSON: pearson,
-	SPEARMAN: spearman,
-	CHI_SQUARE_INDEPENDENCE: chiSquareIndependence
+  PEARSON: pearson,
+  SPEARMAN: spearman,
+  CHI_SQUARE_INDEPENDENCE: chiSquareIndependence
 };
 
 const testRunners = {
-	[CORRELATION]: correlation
+  [CORRELATION]: correlation
 };
 

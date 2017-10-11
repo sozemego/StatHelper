@@ -2,43 +2,43 @@ import React from 'react';
 import {Chip} from 'material-ui';
 
 const container = {
-	display: 'flex',
-	flexWrap: 'wrap',
-	marginTop: '6px'
+  display: 'flex',
+  flexWrap: 'wrap',
+  marginTop: '6px'
 };
 
 const elementStyle = {
-	borderRadius: '4px',
-	margin: '1px'
+  borderRadius: '4px',
+  margin: '1px'
 };
 
 const selectedElement = {
-	backgroundColor: 'orange'
+  backgroundColor: 'orange'
 };
 
 export default class SelectableElementCollectionComponent extends React.Component {
 
-	constructor(props) {
-		super(props);
-	}
+  constructor(props) {
+    super(props);
+  }
 
-	_isElementSelected = (index) => {
-		return this.props.selectedElementIndex === index;
-	};
+  _isElementSelected = (index) => {
+    return this.props.selectedElementIndex === index;
+  };
 
-	render() {
-		return (
-			<div style={container}>
-				{this.props.elements.map((element, index) => {
-					return <Chip
-						onTouchTap={() => this.props.selectElement(index)}
-						key={index}
-						style={this._isElementSelected(index) ? selectedElement : elementStyle}
-					>
-						{element}
-					</Chip>;
-				})}
-			</div>
-		);
-	}
+  render() {
+    return (
+      <div style={container}>
+        {this.props.elements.map((element, index) => {
+          return <Chip
+            onTouchTap={() => this.props.selectElement(index)}
+            key={index}
+            style={this._isElementSelected(index) ? selectedElement : elementStyle}
+          >
+            {element}
+          </Chip>;
+        })}
+      </div>
+    );
+  }
 }

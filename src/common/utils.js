@@ -1,9 +1,9 @@
 export const sortAsc = (arr) => {
-	if (!(arr instanceof Array)) {
-		throw new Error('Sort only arrays.');
-	}
-	arr.sort((a, b) => a - b);
-	return arr;
+  if (!(arr instanceof Array)) {
+    throw new Error('Sort only arrays.');
+  }
+  arr.sort((a, b) => a - b);
+  return arr;
 };
 
 /**
@@ -13,5 +13,5 @@ export const sortAsc = (arr) => {
  * @param obj
  */
 export const copy = obj => {
-	return JSON.parse(JSON.stringify(obj));
+  return JSON.parse(JSON.stringify(obj));
 };
