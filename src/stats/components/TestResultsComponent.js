@@ -1,9 +1,9 @@
 import React from 'react';
 import SelectableElementCollectionComponent from '../../common/component/SelectableElementCollectionComponent';
 import {Paper} from 'material-ui';
-import {CORRELATION} from '../../experimental-design/model/test';
+import {CORRELATION} from '../../experimental-design/model/test-constants';
 import {CorrelationTestResultComponent} from './CorrelationTestResultComponent';
-import {RunningTestSpinnerComponent, SpinnerComponent} from './RunningTestSpinnerComponent';
+import {SpinnerComponent} from '../../common/component/SpinnerComponent';
 
 const resultComponentMap = {
   [CORRELATION]: CorrelationTestResultComponent

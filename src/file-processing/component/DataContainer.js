@@ -11,17 +11,22 @@ export class DataContainer extends React.Component {
   }
 
   render() {
+    const {
+      onFileUpload,
+      parsing,
+      data
+    } = this.props;
     return (
       <div>
-        <FileUploadComponent onFileUpload={this.props.onFileUpload} parsing={this.props.parsing}/>
-        <DataDisplayComponent data={this.props.data[0]}/>
+        <FileUploadComponent onFileUpload={onFileUpload} parsing={parsing}/>
+        <DataDisplayComponent data={data[0]}/>
       </div>
     );
   }
 
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const {fileProcessing} = state;
   return {
     data: fileProcessing.data,
@@ -30,9 +35,9 @@ const mapStateToProps = (state) => {
   };
 };
 
-const dispatchToProps = (dispatch) => {
+const dispatchToProps = dispatch => {
   return {
-    onFileUpload: (file) => {
+    onFileUpload: file => {
       dispatch(parseFile(file));
     }
   };

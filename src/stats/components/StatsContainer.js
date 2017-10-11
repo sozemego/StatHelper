@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {FlatButton, Paper, Tab, Tabs} from 'material-ui';
 import {runTests} from '../actions/stats-actions';
-import {RunningTestSpinnerComponent} from './RunningTestSpinnerComponent';
+import {RunningTestSpinnerComponent} from '../../common/component/SpinnerComponent';
 import {TestResultsComponent} from './TestResultsComponent';
 import {DescriptivesComponent} from './DescriptivesComponent';
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import {SpinnerComponent} from './RunningTestSpinnerComponent';
+import {SpinnerComponent} from '../../common/component/SpinnerComponent';
 import SelectableElementCollectionComponent from '../../common/component/SelectableElementCollectionComponent';
 import {Paper} from 'material-ui';
 import {NOMINAL, ORDINAL, RATIO} from '../../scales/model/scale-constants';

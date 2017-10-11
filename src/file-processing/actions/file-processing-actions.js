@@ -1,36 +1,22 @@
 import XLSX from 'xlsx';
 import Papa from 'papaparse';
+import {makeActionCreator} from '../../common/actions/utils';
 
 export const FILE_PARSING_START = 'FILE_PARSING_START';
-const parsing = () => {
-  return {
-    type: FILE_PARSING_START
-  };
-};
+const parsing = makeActionCreator(FILE_PARSING_START);
 
 export const FILE_PARSING_END = 'FILE_PARSING_END';
-const parsed = (parsedFile) => {
-  return {
-    type: FILE_PARSING_END,
-    parsedFile
-  };
-};
+const parsed = makeActionCreator(FILE_PARSING_END, 'parsedFile');
 
 export const FILE_PARSING_ERROR = 'FILE_PARSING_ERROR';
-const error = (error) => {
-  return {
-    type: FILE_PARSING_ERROR,
-    error
-  };
-};
+const error = makeActionCreator(FILE_PARSING_ERROR, 'error');
 
-export const parseFile = (file) => {
-  return (dispatch) => {
+export const parseFile = file => {
+  return dispatch => {
     dispatch(parsing());
 
-    const extension = getFileExtension(file);
     return readFile(file)
-    .then(file => parse(extension, file))
+      .then(file => parse(getFileExtension(file), file))
     .then(result => {
       dispatch(parsed(result));
     })
@@ -38,12 +24,12 @@ export const parseFile = (file) => {
   };
 };
 
-const getFileExtension = (file) => {
-  let tokens = file.name.split('.');
+const getFileExtension = ({name}) => {
+  const tokens = name.split('.');
   return tokens[tokens.length - 1];
 };
 
-const readFile = (file) => {
+const readFile = file => {
   return new Promise((resolve, reject) => {
     const fileReader = new FileReader();
     fileReader.addEventListener('loadend', function () {
@@ -61,10 +47,12 @@ const parse = (extension, file) => {
       return parseExcel(file);
     case 'csv':
       return parseCsv(file);
+    default:
+      throw new Error('Invalid extension, only .xlsx, .xls and .csv are allowed!');
   }
 };
 
-const parseExcel = (file) => {
+const parseExcel = file => {
   return new Promise((resolve, reject) => {
     let workbook = XLSX.read(file, {type: 'binary'});
 
@@ -77,15 +65,15 @@ const parseExcel = (file) => {
   });
 };
 
-const parseCsv = (file) => {
+const parseCsv = file => {
   return new Promise((resolve, reject) => {
     Papa.parse(file, {
-      complete: (results) => {
-        if (results.errors.length > 0) {
-          return reject(results.errors[0].message);
+      complete: ({errors, data}) => {
+        if (errors.length > 0) {
+          return reject(errors[0].message);
         }
         //results.data contains array of rows
-        resolve(results.data);
+        resolve(data);
       }
     });
   });

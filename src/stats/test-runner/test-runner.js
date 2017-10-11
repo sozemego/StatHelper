@@ -1,4 +1,4 @@
-import {CORRELATION} from '../../experimental-design/model/test';
+import {CORRELATION} from '../../experimental-design/model/test-constants';
 import {
   checkNormal,
   CHI_SQUARE_INDEPENDENCE,

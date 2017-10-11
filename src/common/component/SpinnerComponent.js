@@ -1,6 +1,6 @@
 import React from 'react';
 
-const spinnerComponent = (props) => {
+const spinnerComponent = props => {
   return (
     <div>
       <div style={{

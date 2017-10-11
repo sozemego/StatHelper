@@ -1,4 +1,5 @@
 import React from 'react';
+import {SpinnerComponent} from '../../common/component/SpinnerComponent';
 
 export default class FileUploadComponent extends React.Component {
 
@@ -6,26 +7,25 @@ export default class FileUploadComponent extends React.Component {
     super(props);
   }
 
+  _getSpinner = () => {
+    return this.props.parsing ? <SpinnerComponent/> : null;
+  };
+
+  _extractFile = event => {
+    this.props.onFileUpload(event.target.files[0]);
+  };
+
   render() {
-    const spinner = this._getSpinner();
+    const {
+      _extractFile,
+      _getSpinner
+    } = this;
     return (
       <div>
-        <input type="file" onChange={this._extractFile} accept=".xls,.xlsx,.csv"/>
-        {spinner}
+        <input type="file" onChange={_extractFile} accept=".xls,.xlsx,.csv"/>
+        {_getSpinner()}
       </div>
     );
   }
-
-  _getSpinner = () => {
-    const {parsing} = this.props;
-    if (parsing) {
-      return <span>Parsing</span>;
-    }
-    return null;
-  };
-
-  _extractFile = (event) => {
-    this.props.onFileUpload(event.target.files[0]);
-  };
 
 }
