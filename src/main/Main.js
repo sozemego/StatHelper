@@ -6,6 +6,14 @@ import ExperimentalDesignContainer from '../experimental-design/components/Exper
 import StatsContainer from '../stats/components/StatsContainer';
 import {NavigationArrowUpward} from 'material-ui/svg-icons/index';
 
+const tabItemContainerStyle = {
+  backgroundColor: '#212121'
+};
+
+const inkBarStyle = {
+  backgroundColor: 'orange'
+};
+
 export default class Main extends React.Component {
 
   constructor(props) {
@@ -34,8 +42,7 @@ export default class Main extends React.Component {
   };
 
   getNavigationArrowClassName = () => {
-    const className = 'vertical-navigation-arrow';
-    return `${className} ${this.state.arrowUp ? '' : 'vertical-navigation-arrow-hidden'}`;
+    return `vertical-navigation-arrow ${this.state.arrowUp ? '' : 'vertical-navigation-arrow-hidden'}`;
   };
 
   onNavigationArrowClick = () => {
@@ -43,9 +50,13 @@ export default class Main extends React.Component {
   };
 
   render() {
+    const {
+      getNavigationArrowClassName,
+      onNavigationArrowClick
+    } = this;
     return (
       <div>
-        <Tabs tabItemContainerStyle={{backgroundColor: '#212121'}} inkBarStyle={{backgroundColor: 'orange'}}>
+        <Tabs tabItemContainerStyle={tabItemContainerStyle} inkBarStyle={inkBarStyle}>
           <Tab label="Data" value={1}>
             <DataContainer/>
           </Tab>
@@ -59,8 +70,8 @@ export default class Main extends React.Component {
             <StatsContainer/>
           </Tab>
         </Tabs>
-        <NavigationArrowUpward className={this.getNavigationArrowClassName()}
-                               onTouchTap={this.onNavigationArrowClick}/>
+        <NavigationArrowUpward className={getNavigationArrowClassName()}
+                               onTouchTap={onNavigationArrowClick}/>
       </div>
     );
   }
