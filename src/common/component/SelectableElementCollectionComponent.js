@@ -1,7 +1,7 @@
 import React from 'react';
 import {Chip} from 'material-ui';
 
-const container = {
+const containerStyle = {
   display: 'flex',
   flexWrap: 'wrap',
   marginTop: '6px'
@@ -12,7 +12,7 @@ const elementStyle = {
   margin: '1px'
 };
 
-const selectedElement = {
+const selectedElementStyle = {
   backgroundColor: 'orange'
 };
 
@@ -22,21 +22,29 @@ export default class SelectableElementCollectionComponent extends React.Componen
     super(props);
   }
 
-  _isElementSelected = (index) => {
+  _isElementSelected = index => {
     return this.props.selectedElementIndex === index;
   };
 
+  _getElementStyle = index => {
+    return this._isElementSelected(index) ? selectedElementStyle : elementStyle;
+  };
+
   render() {
+    const {
+      elements,
+      selectElement
+    } = this.props;
     return (
-      <div style={container}>
-        {this.props.elements.map((element, index) => {
+      <div style={containerStyle}>
+        {elements.map((element, index) => {
           return <Chip
-            onTouchTap={() => this.props.selectElement(index)}
+            onTouchTap={() => selectElement(index)}
             key={index}
-            style={this._isElementSelected(index) ? selectedElement : elementStyle}
+            style={this._getElementStyle(index)}
           >
             {element}
-          </Chip>;
+          </Chip>
         })}
       </div>
     );
