@@ -1,5 +1,5 @@
 import {runTest} from '../../../src/stats/test-runner/test-runner';
-import {CORRELATION} from '../../../src/experimental-design/model/test';
+import {CORRELATION} from '../../../src/experimental-design/model/test-constants';
 import {CHI_SQUARE_INDEPENDENCE, PEARSON, SPEARMAN} from '../../../src/stats/test-runner/statistics';
 import {NOMINAL, ORDINAL, RATIO} from '../../../src/scales/model/scale-constants';
 

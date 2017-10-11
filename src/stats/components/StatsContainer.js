@@ -6,6 +6,22 @@ import {RunningTestSpinnerComponent} from '../../common/component/SpinnerCompone
 import {TestResultsComponent} from './TestResultsComponent';
 import {DescriptivesComponent} from './DescriptivesComponent';
 
+const statsContainerStyle = {
+  margin: '0px 0px 4px 0px'
+};
+
+const runTestsButtonStyle = {
+  height: '55px'
+};
+
+const tabItemContainerStyle = {
+  backgroundColor: '#212121'
+};
+
+const inkBarStyle = {
+  backgroundColor: 'orange'
+};
+
 class StatsContainer extends React.Component {
 
   constructor(props) {
@@ -13,20 +29,27 @@ class StatsContainer extends React.Component {
   }
 
   render() {
-    const {tests, runningTests, descriptives, scales} = this.props;
+    const {
+      tests,
+      runningTests,
+      descriptives,
+      scales,
+      runTests
+    } = this.props;
+
     return (
       <div>
-        <Paper zDepth={4} style={{margin: '0px 0px 4px 0px'}}>
+        <Paper zDepth={4} style={statsContainerStyle}>
           <FlatButton
             label='Run tests'
             fullWidth={true}
-            style={{height: '55px'}}
-            onTouchTap={this.props.runTests}
+            style={runTestsButtonStyle}
+            onTouchTap={props.runTests}
             hoverColor="rgba(0, 0, 0, 0)"
             disableTouchRipple={false}
           />
         </Paper>
-        <Tabs tabItemContainerStyle={{backgroundColor: '#424242'}} inkBarStyle={{backgroundColor: 'orange'}}>
+        <Tabs tabItemContainerStyle={tabItemContainerStyle} inkBarStyle={inkBarStyle}>
           <Tab label="Test results" value={1}>
             <TestResultsComponent tests={tests} runningTests={runningTests}/>
           </Tab>

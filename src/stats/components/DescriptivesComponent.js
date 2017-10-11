@@ -13,6 +13,23 @@ const resultComponentMap = {
   [RATIO]: RatioScaleDescriptivesComponent
 };
 
+const descriptiveLabelStyle = {
+  display: 'flex',
+  margin: '10px 0px 0px 40px'
+};
+
+const descriptiveNameStyle = {
+  width: '15%',
+  backgroundColor: '#BDBDBD',
+  textAlign: 'center',
+  fontSize: '1.25rem',
+  paddingTop: '4px'
+};
+
+const descriptiveTextContainerStyle = {
+  width: '85%'
+};
+
 export class DescriptivesComponent extends React.Component {
 
   constructor(props) {
@@ -35,22 +52,27 @@ export class DescriptivesComponent extends React.Component {
   };
 
   render() {
-    const {scales, descriptives} = this.props;
+    const {
+      scales,
+      descriptives
+    } = this.props;
+
+    const scaleNames = scales.map(scale => scale.name);
+
+    const {
+      jumpToIndex,
+      _getDescriptivesComponent
+    } = this;
+
     return (
       <div>
-        <SelectableElementCollectionComponent selectElement={this.jumpToIndex}
-                                              elements={scales.map(scale => scale.name)}/>
+        <SelectableElementCollectionComponent selectElement={jumpToIndex}
+                                              elements={scaleNames}/>
         {descriptives.map((descriptive, index) => {
           return <div id={descriptive.name} key={index}
-                      style={{display: 'flex', margin: '10px 0px 0px 40px'}}>
-            <div style={{
-              width: '15%',
-              backgroundColor: '#BDBDBD',
-              textAlign: 'center',
-              fontSize: '1.25rem',
-              paddingTop: '4px'
-            }}>{descriptive.name}</div>
-            <Paper zDepth={1} style={{width: '85%'}}>{this._getDescriptivesComponent(descriptive)}</Paper>
+                      style={descriptiveLabelStyle}>
+            <div style={descriptiveNameStyle}>{descriptive.name}</div>
+            <Paper zDepth={1} style={descriptiveTextContainerStyle}>{_getDescriptivesComponent(descriptive)}</Paper>
           </div>;
         })}
       </div>

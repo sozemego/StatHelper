@@ -1,6 +1,12 @@
 import React from 'react';
 import {FrequenciesTableComponent} from './FrequenciesTableComponent';
 
+const descriptiveContainerStyle = {
+  display: 'flex',
+  flexDirection: 'column',
+  margin: '4px 25px 4px 25px'
+};
+
 export class OrdinalScaleDescriptivesComponent extends React.Component {
 
   constructor(props) {
@@ -8,16 +14,24 @@ export class OrdinalScaleDescriptivesComponent extends React.Component {
   }
 
   render() {
-    const {descriptive} = this.props;
-    const {results} = descriptive;
+    const {
+      descriptive
+    } = this.props;
+
+    const {
+      results,
+      measurementLevel
+    } = descriptive;
+
     const {
       sampleSize,
       median,
       frequencies
     } = results;
+
     return (
-      <div style={{display: 'flex', flexDirection: 'column', margin: '4px 25px 4px 25px'}}>
-        <div>Measurement level: {descriptive.measurementLevel}</div>
+      <div style={descriptiveContainerStyle}>
+        <div>Measurement level: {measurementLevel}</div>
         <br/>
         <div>
           Sample size of this scale is {sampleSize} (n = {sampleSize}).

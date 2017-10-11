@@ -1,6 +1,10 @@
 import React from 'react';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui';
 
+const superHeaderStyle = {
+  textAlign: 'center'
+};
+
 export class FrequenciesTableComponent extends React.PureComponent {
 
   constructor(props) {
@@ -12,7 +16,14 @@ export class FrequenciesTableComponent extends React.PureComponent {
   };
 
   render() {
-    const {frequencies} = this.props;
+    const {
+      frequencies
+    } = this.props;
+
+    const {
+      _getStrippedStyle
+    } = this;
+
     return (
       <Table
         selectable={false}
@@ -23,7 +34,7 @@ export class FrequenciesTableComponent extends React.PureComponent {
           enableSelectAll={false}
         >
           <TableRow>
-            <TableHeaderColumn colSpan="3" style={{textAlign: 'center'}}>
+            <TableHeaderColumn colSpan="3" style={superHeaderStyle}>
               Frequencies
             </TableHeaderColumn>
           </TableRow>
@@ -40,7 +51,7 @@ export class FrequenciesTableComponent extends React.PureComponent {
           showRowHover={true}
         >
           {frequencies.map((frequency, index) => {
-            return <TableRow key={index} style={this._getStrippedStyle(index)}>
+            return <TableRow key={index} style={_getStrippedStyle(index)}>
               <TableRowColumn>{frequency.value}</TableRowColumn>
               <TableRowColumn>{frequency.count}</TableRowColumn>
               <TableRowColumn>{frequency.percent}%</TableRowColumn>

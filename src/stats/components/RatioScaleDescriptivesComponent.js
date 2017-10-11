@@ -1,5 +1,11 @@
 import React from 'react';
 
+const descriptiveContainerStyle = {
+  display: 'flex',
+  flexDirection: 'column',
+  margin: '4px 25px 4px 25px'
+};
+
 export class RatioScaleDescriptivesComponent extends React.Component {
 
   constructor(props) {
@@ -7,8 +13,15 @@ export class RatioScaleDescriptivesComponent extends React.Component {
   }
 
   render() {
-    const {descriptive} = this.props;
-    const {results} = descriptive;
+    const {
+      descriptive
+    } = this.props;
+
+    const {
+      results,
+      measurementLevel
+    } = descriptive;
+
     const {
       sampleSize,
       mean,
@@ -18,9 +31,15 @@ export class RatioScaleDescriptivesComponent extends React.Component {
       standardDeviation,
       normality
     } = results;
+
+    const {
+      test: normalityTest,
+      pValue: normalityPValue
+    } = normality;
+
     return (
-      <div style={{display: 'flex', flexDirection: 'column', margin: '4px 25px 4px 25px'}}>
-        <div>Measurement level: {descriptive.measurementLevel}</div>
+      <div style={descriptiveContainerStyle}>
+        <div>Measurement level: {measurementLevel}</div>
         <br/>
         <div>
           Sample size of this scale is {sampleSize} (n = {sampleSize}).
@@ -34,10 +53,10 @@ export class RatioScaleDescriptivesComponent extends React.Component {
           = {standardDeviation}).
         </div>
         <div>
-          {normality.test} test was used to determine if results of this scale
-          follow a normal distribution. Its significance level was {normality.pValue} (p
-          = {normality.pValue}).
-          This result shows that results {normality.pValue > 0.05 ? 'follow' : 'DO NOT follow'} a
+          {normalityTest} test was used to determine if results of this scale
+          follow a normal distribution. Its significance level was {normalityPValue} (p
+          = {normalityPValue}).
+          This result shows that results {normalityPValue > 0.05 ? 'follow' : 'DO NOT follow'} a
           normal distribution.
         </div>
       </div>

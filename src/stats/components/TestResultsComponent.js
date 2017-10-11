@@ -9,6 +9,22 @@ const resultComponentMap = {
   [CORRELATION]: CorrelationTestResultComponent
 };
 
+const runningTestContainerStyle = {
+  display: 'flex', margin: '10px 0px 0px 40px'
+};
+
+const testNameStyle = {
+  width: '15%',
+  backgroundColor: '#BDBDBD',
+  textAlign: 'center',
+  fontSize: '1.25rem',
+  paddingTop: '4px'
+};
+
+const testResultContainerStyle = {
+  width: '85%'
+};
+
 export class TestResultsComponent extends React.Component {
 
   constructor(props) {
@@ -32,21 +48,26 @@ export class TestResultsComponent extends React.Component {
   };
 
   render() {
-    const {tests, runningTests} = this.props;
+    const {
+      tests,
+      runningTests
+    } = this.props;
+
+    const {
+      jumpToIndex,
+      _getTestComponent
+    } = this;
+
+    const testNames = tests.map(test => test.name);
+
     return (
       <div>
-        <SelectableElementCollectionComponent selectElement={this.jumpToIndex}
-                                              elements={tests.map(test => test.name)}/>
+        <SelectableElementCollectionComponent selectElement={jumpToIndex}
+                                              elements={testNames}/>
         {runningTests.map((test, index) => {
-          return <div id={test.name} key={index} style={{display: 'flex', margin: '10px 0px 0px 40px'}}>
-            <div style={{
-              width: '15%',
-              backgroundColor: '#BDBDBD',
-              textAlign: 'center',
-              fontSize: '1.25rem',
-              paddingTop: '4px'
-            }}>{test.name}</div>
-            <Paper zDepth={1} style={{width: '85%'}}>{this._getTestComponent(test)}</Paper>
+          return <div id={test.name} key={index} style={runningTestContainerStyle}>
+            <div style={testNameStyle}>{test.name}</div>
+            <Paper zDepth={1} style={testResultContainerStyle}>{_getTestComponent(test)}</Paper>
           </div>;
         })}
       </div>
