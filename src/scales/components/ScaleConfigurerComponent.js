@@ -4,44 +4,44 @@ import {ActionHelpOutline} from 'material-ui/svg-icons/index';
 import ToolTipComponent from '../../common/component/ToolTipComponent';
 import {MEASUREMENT_LEVELS} from '../model/scale-constants';
 
-const configurerContainer = {
+const configurerContainerStyle = {
   height: '100%',
   display: 'flex',
   flexDirection: 'column',
   margin: '10px 25px 0px 25px'
 };
 
-const field = {
+const fieldStyle = {
   display: 'flex',
   justifyContent: 'flex-start'
 };
 
-const fieldName = {
+const fieldNameStyle = {
   marginRight: '10px'
 };
 
-const measurementLevel = {
+const measurementLevelStyle = {
   display: 'flex',
   flexDirection: 'row'
 };
 
-const measurementLevelItem = {
+const measurementLevelItemStyle = {
   display: 'block',
   margin: 'auto',
   paddingRight: '6px'
 };
 
-const itemsContainer = {
+const itemsContainerStyle = {
   display: 'flex',
   flexWrap: 'wrap',
   justifyContent: 'flex-start'
 };
 
-const itemStyle = {
+const itemStyleStyle = {
   margin: 'auto 0px auto 0px'
 };
 
-const iconStyle = {
+const iconStyleStyle = {
   margin: 'auto 0px auto 0px',
   height: '100%'
 };
@@ -65,49 +65,56 @@ export default class ScaleConfigurerComponent extends React.Component {
   };
 
   render() {
-    const {scale} = this.props;
+    const {
+      scale,
+      removeScale
+    } = this.props;
     if (!scale) {
       return null;
     }
     const {items} = scale;
+    const {
+      _onScaleNameChange,
+      _onScaleMeasurementLevelChange
+    } = this;
     return (
-      <div style={configurerContainer}>
-        <div style={field}>
-          <p style={fieldName}>Scale name</p>
+      <div style={configurerContainerStyle}>
+        <div style={fieldStyle}>
+          <p style={fieldNameStyle}>Scale name</p>
           <TextField
             hintText="Scale name"
             fullWidth={false}
             value={scale.name}
             underlineShow={false}
-            onChange={this._onScaleNameChange}/>
+            onChange={_onScaleNameChange}/>
         </div>
-        <div style={field}>
-          <p style={fieldName}>Level of measurement</p>
+        <div style={fieldStyle}>
+          <p style={fieldNameStyle}>Level of measurement</p>
           <RadioButtonGroup
             name="Measurement level"
-            style={measurementLevel}
+            style={measurementLevelStyle}
             valueSelected={scale.measurementLevel}
-            onChange={this._onScaleMeasurementLevelChange}
+            onChange={_onScaleMeasurementLevelChange}
           >
             {MEASUREMENT_LEVELS.map((level, index) => {
               return <RadioButton
                 key={index}
                 label={level}
                 value={level}
-                style={measurementLevelItem}
+                style={measurementLevelItemStyle}
               />;
             })}
           </RadioButtonGroup>
         </div>
-        <div style={field}>
-          <p style={fieldName}>Items</p>
-          <ToolTipComponent tooltip={itemsTooltip} style={iconStyle}>
+        <div style={fieldStyle}>
+          <p style={fieldNameStyle}>Items</p>
+          <ToolTipComponent tooltip={itemsTooltip} style={iconStyleStyle}>
             <ActionHelpOutline/>
           </ToolTipComponent>
-          <div style={itemsContainer}>
+          <div style={itemsContainerStyle}>
             {items.map((item, index) => {
               return <Chip
-                style={itemStyle}
+                style={itemStyleStyle}
                 key={index}>
                 {item}
               </Chip>;
@@ -118,7 +125,7 @@ export default class ScaleConfigurerComponent extends React.Component {
           <FlatButton
             label="Remove scale"
             fullWidth={true}
-            onTouchTap={this.props.removeScale}
+            onTouchTap={removeScale}
           />
         </div>
       </div>

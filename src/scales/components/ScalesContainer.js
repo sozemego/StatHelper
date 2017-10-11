@@ -48,34 +48,52 @@ export class ScalesContainer extends React.Component {
   };
 
   render() {
-    const selectedScale = this._getSelectedScale();
-    const {selectedScale: selectedScaleIndex} = this.props;
+    const {
+      selectedScale,
+      mouseUp,
+      itemNames,
+      toggleItem,
+      startSelectingItems,
+      createScale,
+      selectScale,
+      scales,
+      setScaleName,
+      removeScale,
+      setMeasurementLevel
+    } = this.props;
+
+    const {
+      _getSelectedScaleItems,
+      _getSelectedScale
+    } = this;
+
+    const scaleNames = scales.map(scale => scale.name);
     return (
-      <div style={containerStyle} onMouseUp={this.props.mouseUp}>
+      <div style={containerStyle} onMouseUp={mouseUp}>
         <div style={itemDisplayComponentContainerStyle}>
           <VerticalListComponent
-            data={this.props.itemNames}
-            selectedItems={this._getSelectedScaleItems()}
-            toggleItem={this.props.toggleItem}
-            startSelectingItems={this.props.startSelectingItems}
+            data={itemNames}
+            selectedItems={_getSelectedScaleItems()}
+            toggleItem={toggleItem}
+            startSelectingItems={startSelectingItems}
           />
         </div>
         <div style={scaleConfigContainerStyle}>
           <RaisedButton
             label="New scale"
             style={button}
-            onTouchTap={() => this.props.createScale()}
+            onTouchTap={() => createScale()}
           />
           <SelectableElementCollectionComponent
-            selectElement={this.props.selectScale}
-            selectedElementIndex={this.props.selectedScale}
-            elements={this.props.scales.map(item => item.name)}
+            selectElement={selectScale}
+            selectedElementIndex={selectedScale}
+            elements={scaleNames}
           />
           <ScaleConfigurerComponent
-            scale={selectedScale}
-            setScaleName={this.props.setScaleName.bind(null, selectedScaleIndex)}
-            removeScale={this.props.removeScale.bind(null, selectedScaleIndex)}
-            setMeasurementLevel={this.props.setMeasurementLevel.bind(null, selectedScaleIndex)}
+            scale={_getSelectedScale()}
+            setScaleName={(name) => setScaleName(selectedScale, name)}
+            removeScale={() => removeScale(selectedScale)}
+            setMeasurementLevel={(level) => setMeasurementLevel(selectedScale, level)}
           />
         </div>
       </div>
@@ -83,7 +101,7 @@ export class ScalesContainer extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const {fileProcessing, scales} = state;
   return {
     scales: scales.scales,
@@ -93,7 +111,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-const dispatchToProps = (dispatch) => {
+const dispatchToProps = dispatch => {
   return {
     startSelectingItems: () => {
       dispatch(startSelectingItems());
@@ -101,19 +119,19 @@ const dispatchToProps = (dispatch) => {
     mouseUp: () => {
       dispatch(mouseUp());
     },
-    toggleItem: (itemIndex) => {
+    toggleItem: itemIndex => {
       dispatch(toggleItem(itemIndex));
     },
     createScale: () => {
       dispatch(createScale());
     },
-    selectScale: (index) => {
+    selectScale: index => {
       dispatch(selectScale(index));
     },
     setScaleName: (scaleIndex, scaleName) => {
       dispatch(setScaleName(scaleIndex, scaleName));
     },
-    removeScale: (scaleIndex) => {
+    removeScale: scaleIndex => {
       dispatch(removeScale(scaleIndex));
     },
     setMeasurementLevel: (scaleIndex, measurementLevel) => {

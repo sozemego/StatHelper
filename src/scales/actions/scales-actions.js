@@ -1,37 +1,18 @@
 import {createNewScale, isMeasurementLevelValid} from '../model/scale';
 import {sortAsc} from '../../common/utils';
+import {makeActionCreator} from '../../common/actions/utils';
 
 export const START_SELECTING_ITEMS = 'START_SELECTING_ITEMS';
-export const startSelectingItems = () => {
-  return {
-    type: START_SELECTING_ITEMS
-  };
-};
+export const startSelectingItems = makeActionCreator(START_SELECTING_ITEMS);
 
 export const SELECT_ITEMS = 'SELECT_ITEMS';
-const selectItems = (scaleIndex, selectedItems) => {
-  return {
-    type: SELECT_ITEMS,
-    scaleIndex,
-    selectedItems
-  };
-};
+export const selectItems = makeActionCreator(SELECT_ITEMS, 'scaleIndex', 'selectedItems');
 
 export const ADD_SCALE = 'ADD_SCALE';
-const addScale = (scale) => {
-  return {
-    type: ADD_SCALE,
-    scale
-  };
-};
+export const addScale = makeActionCreator(ADD_SCALE, 'scale');
 
 export const SELECT_SCALE = 'SELECT_SCALE';
-export const selectScale = (scaleIndex) => {
-  return {
-    type: SELECT_SCALE,
-    scaleIndex
-  };
-};
+export const selectScale = makeActionCreator(SELECT_SCALE, 'scaleIndex');
 
 export const createScale = () => {
   return (dispatch, getState) => {
@@ -41,7 +22,7 @@ export const createScale = () => {
   };
 };
 
-export const toggleItem = (itemIndex) => {
+export const toggleItem = itemIndex => {
   return (dispatch, getState) => {
     const scales = getState().scales;
     if (scales.selectingItems && scales.selectedScale > -1) {
@@ -54,11 +35,9 @@ export const toggleItem = (itemIndex) => {
 };
 
 const _toggleItem = (itemIndex, selectedItems) => {
-  const index = selectedItems.findIndex((item) => {
-    return item === itemIndex;
-  });
+  const index = selectedItems.findIndex(item => item === itemIndex);
 
-  const nextSelectedItems = selectedItems.slice();
+  const nextSelectedItems = [...selectedItems];
   if (index === -1) {
     nextSelectedItems.push(itemIndex);
   } else {
@@ -69,12 +48,7 @@ const _toggleItem = (itemIndex, selectedItems) => {
 };
 
 export const SET_SCALES = 'SET_SCALES';
-const setScales = (scales) => {
-  return {
-    type: SET_SCALES,
-    scales
-  };
-};
+const setScales = makeActionCreator(SET_SCALES, 'scales');
 
 export const setScaleName = (scaleIndex, scaleName) => {
   return (dispatch, getState) => {
@@ -87,11 +61,11 @@ export const setScaleName = (scaleIndex, scaleName) => {
   };
 };
 
-const isScaleNameValid = (scaleName) => {
-  return (scaleName || scaleName.trim());
+const isScaleNameValid = scaleName => {
+  return scaleName || scaleName.trim();
 };
 
-export const removeScale = (scaleIndex) => {
+export const removeScale = scaleIndex => {
   return (dispatch, getState) => {
     dispatch(selectScale(-1));
     const scales = getState().scales.scales.slice();
