@@ -44,7 +44,7 @@ class StatsContainer extends React.Component {
             label='Run tests'
             fullWidth={true}
             style={runTestsButtonStyle}
-            onTouchTap={props.runTests}
+            onTouchTap={runTests}
             hoverColor="rgba(0, 0, 0, 0)"
             disableTouchRipple={false}
           />
