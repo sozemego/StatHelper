@@ -15,13 +15,13 @@ export default class ToolTipComponent extends React.Component {
 
   constructor(props) {
     super(props);
-    this._validateChildNode(props.children);
+    this._validateChildren(props.children);
     this.state = {
       hover: false
     };
   }
 
-  _validateChildNode = (children) => {
+  _validateChildren = (children) => {
     if (!children || children instanceof Array) {
       throw new Error('ToolTip should wrap a valid, singular node.');
     }
@@ -50,16 +50,27 @@ export default class ToolTipComponent extends React.Component {
   };
 
   render() {
-    const toolTipStyle = this._getToolTipStyle();
+    const {
+      children,
+      tooltip,
+      style
+    } = this.props;
+
+    const {
+      _onMouseEnter,
+      _onMouseLeave,
+      _getToolTipStyle
+    } = this;
+
     return (
-      <div onMouseEnter={this._onMouseEnter}
-           onMouseLeave={this._onMouseLeave}
-           style={this.props.style || {}}>
+      <div onMouseEnter={_onMouseEnter}
+           onMouseLeave={_onMouseLeave}
+           style={style || {}}>
         <div ref='tooltip'>
-          {this.props.children}
+          {children}
         </div>
-        <div style={toolTipStyle}>
-          {this.props.tooltip}
+        <div style={_getToolTipStyle()}>
+          {tooltip}
         </div>
       </div>
     );
