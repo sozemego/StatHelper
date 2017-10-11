@@ -1,0 +1,2 @@
+export const CORRELATION = 'CORRELATION';
+export const TEST_TYPES = [CORRELATION];

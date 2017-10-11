@@ -15,19 +15,19 @@ import TestConfigurerComponent from './TestConfigurerComponent';
 import VerticalListComponent from '../../common/component/VerticalListComponent';
 import {mouseUp} from '../../common/actions/common-actions';
 
-const container = {
+const containerStyle = {
   display: 'flex'
 };
 
-const verticalListContainer = {
+const verticalListContainerStyle = {
   width: '30%'
 };
 
-const designContainer = {
+const designContainerStyle = {
   width: '70%'
 };
 
-const button = {
+const buttonStyle = {
   margin: 'auto',
   width: '100%'
 };
@@ -48,33 +48,42 @@ class ExperimentalDesignContainer extends React.Component {
   };
 
   render() {
-    const {selectedTest: selectedTestIndex} = this.props;
+    const {
+      selectedTest,
+      scales,
+      mouseUp,
+      toggleScale,
+      startSelectingScales,
+      createTest
+    } = this.props;
+    const scaleNames = scales.map(scale => scale.name);
+
     return (
-      <div style={container} onMouseUp={this.props.mouseUp}>
-        <div style={verticalListContainer}>
+      <div style={containerStyle} onMouseUp={mouseUp}>
+        <div style={verticalListContainerStyle}>
           <VerticalListComponent
-            data={this.props.scales.map(scale => scale.name)}
+            data={scaleNames}
             selectedItems={this._getSelectedTestScales()}
-            toggleItem={this.props.toggleScale}
-            startSelectingItems={this.props.startSelectingScales}
+            toggleItem={toggleScale}
+            startSelectingItems={startSelectingScales}
           />
         </div>
-        <div style={designContainer}>
+        <div style={designContainerStyle}>
           <RaisedButton
             label="New test"
-            style={button}
-            onTouchTap={() => this.props.createTest()}
+            style={buttonStyle}
+            onTouchTap={() => createTest()}
           />
           <SelectableElementCollectionComponent
             selectElement={this.props.selectTest}
             elements={this.props.tests.map(test => test.name)}
-            selectedElementIndex={selectedTestIndex}
+            selectedElementIndex={selectedTest}
           />
           <TestConfigurerComponent
-            selectedTest={this.props.tests[selectedTestIndex]}
-            setTestName={this.props.setTestName.bind(null, selectedTestIndex)}
-            setTestType={this.props.setTestType.bind(null, selectedTestIndex)}
-            removeTest={this.props.removeTest.bind(null, selectedTestIndex)}
+            selectedTest={this.props.tests[selectedTest]}
+            setTestName={this.props.setTestName.bind(null, selectedTest)}
+            setTestType={this.props.setTestType.bind(null, selectedTest)}
+            removeTest={this.props.removeTest.bind(null, selectedTest)}
           />
         </div>
       </div>
@@ -100,13 +109,13 @@ const dispatchToProps = (dispatch) => {
     mouseUp: () => {
       dispatch(mouseUp());
     },
-    toggleScale: (scaleIndex) => {
+    toggleScale: scaleIndex => {
       dispatch(toggleScale(scaleIndex));
     },
     createTest: () => {
       dispatch(createTest());
     },
-    selectTest: (index) => {
+    selectTest: index => {
       dispatch(selectTest(index));
     },
     setTestName: (testIndex, testName) => {
@@ -115,7 +124,7 @@ const dispatchToProps = (dispatch) => {
     setTestType: (testIndex, testType) => {
       dispatch(setTestType(testIndex, testType));
     },
-    removeTest: (testIndex) => {
+    removeTest: testIndex => {
       dispatch(removeTest(testIndex));
     },
   };

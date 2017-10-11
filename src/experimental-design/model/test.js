@@ -1,5 +1,4 @@
-export const CORRELATION = 'CORRELATION';
-export const TEST_TYPES = [CORRELATION];
+import {TEST_TYPES} from './test-constants';
 
 let testsCreated = 0;
 

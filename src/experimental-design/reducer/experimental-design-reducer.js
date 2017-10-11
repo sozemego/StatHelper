@@ -36,11 +36,11 @@ const experimentalDesign = (state = initialState, action) => {
 const selectScales = (tests, testIndex, selectedScales) => {
   const selectedTest = tests[testIndex];
   selectedTest.scales = selectedScales;
-  return tests.slice();
+  return [...tests];
 };
 
 const addTest = (test, tests) => {
-  return tests.concat([test]);
+  return [...tests, test];
 };
 
 export default experimentalDesign;

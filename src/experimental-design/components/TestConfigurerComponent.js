@@ -1,35 +1,35 @@
 import React from 'react';
 import {Chip, FlatButton, RadioButton, RadioButtonGroup, TextField} from 'material-ui';
-import {TEST_TYPES} from '../model/test';
+import {TEST_TYPES} from '../model/test-constants';
 
-const configurerContainer = {
+const configurerContainerStyle = {
   height: '100%',
   display: 'flex',
   flexDirection: 'column',
   margin: '10px 25px 0px 25px'
 };
 
-const field = {
+const fieldStyle = {
   display: 'flex',
   justifyContent: 'flex-start'
 };
 
-const fieldName = {
+const fieldNameStyle = {
   marginRight: '10px'
 };
 
-const testTypeContainer = {
+const testTypeContainerStyle = {
   display: 'flex',
   flexDirection: 'row'
 };
 
-const testTypeItem = {
+const testTypeItemStyle = {
   display: 'block',
   margin: 'auto',
   paddingRight: '6px'
 };
 
-const itemsContainer = {
+const itemsContainerStyle = {
   display: 'flex',
   flexWrap: 'wrap',
   justifyContent: 'flex-start'
@@ -57,25 +57,28 @@ export default class TestConfigurerComponent extends React.Component {
     if (!this.props.selectedTest) {
       return null;
     }
-    const test = this.props.selectedTest;
-    const {scales} = test;
+    const {
+      selectedTest,
+      removeTest
+    } = this.props;
+    const {scales} = selectedTest;
     return (
-      <div style={configurerContainer}>
-        <div style={field}>
-          <p style={fieldName}>Test name</p>
+      <div style={configurerContainerStyle}>
+        <div style={fieldStyle}>
+          <p style={fieldNameStyle}>Test name</p>
           <TextField
             hintText="Test name"
             fullWidth={false}
-            value={test.name}
+            value={selectedTest.name}
             underlineShow={false}
             onChange={this._onTestNameChange}/>
         </div>
-        <div style={field}>
-          <p style={fieldName}>Test type</p>
+        <div style={fieldStyle}>
+          <p style={fieldNameStyle}>Test type</p>
           <RadioButtonGroup
             name="Test type"
-            style={testTypeContainer}
-            valueSelected={test.type}
+            style={testTypeContainerStyle}
+            valueSelected={selectedTest.type}
             onChange={this._onTestTypeChange}
           >
             {TEST_TYPES.map((type, index) => {
@@ -83,20 +86,21 @@ export default class TestConfigurerComponent extends React.Component {
                 key={index}
                 label={type}
                 value={type}
-                style={testTypeItem}
-              />;
+                style={testTypeItemStyle}
+              />
             })}
           </RadioButtonGroup>
         </div>
-        <div style={field}>
-          <p style={fieldName}>Scales</p>
-          <div style={itemsContainer}>
+        <div style={fieldStyle}>
+          <p style={fieldNameStyle}>Scales</p>
+          <div style={itemsContainerStyle}>
             {scales.map((scale, index) => {
               return <Chip
                 style={itemStyle}
-                key={index}>
+                key={index}
+              >
                 {scale}
-              </Chip>;
+              </Chip>
             })}
           </div>
         </div>
@@ -104,7 +108,7 @@ export default class TestConfigurerComponent extends React.Component {
           <FlatButton
             label="Remove test"
             fullWidth={true}
-            onTouchTap={this.props.removeTest}
+            onTouchTap={removeTest}
           />
         </div>
       </div>
