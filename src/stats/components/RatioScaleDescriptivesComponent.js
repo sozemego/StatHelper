@@ -1,5 +1,6 @@
 import React from 'react';
 import {FlatButton} from 'material-ui';
+import {LINE_CHART} from '../../charts/constants/chart-types';
 
 const descriptiveContainerStyle = {
   display: 'flex',
@@ -15,14 +16,18 @@ export class RatioScaleDescriptivesComponent extends React.Component {
 
   render() {
     const {
+      descriptive,
       scale,
       showChart
     } = this.props;
 
     const {
-      results,
-      measurementLevel,
-      name
+      results: descriptiveResults,
+      measurementLevel
+    } = descriptive;
+
+    const {
+      results: scaleResults
     } = scale;
 
     const {
@@ -33,7 +38,7 @@ export class RatioScaleDescriptivesComponent extends React.Component {
       median,
       standardDeviation,
       normality
-    } = results;
+    } = descriptiveResults;
 
     const {
       test: normalityTest,
@@ -64,7 +69,7 @@ export class RatioScaleDescriptivesComponent extends React.Component {
         </div>
         <FlatButton
           label="Show chart"
-          onTouchTap={() => showChart(name)}
+          onTouchTap={() => showChart(LINE_CHART, scaleResults)}
         />
       </div>
     );

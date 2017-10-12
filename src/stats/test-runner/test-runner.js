@@ -64,8 +64,8 @@ const calculateNormality = scales => {
   // first check normality of all ratio scales
   const normalDistributionResults = {};
   scales
-  .filter(scale => scale.measurementLevel === RATIO)
-  .forEach(scale => normalDistributionResults[scale.name] = checkNormal(scale.result));
+    .filter(scale => scale.measurementLevel === RATIO)
+    .forEach(scale => normalDistributionResults[scale.name] = checkNormal(scale.result));
   return normalDistributionResults;
 };
 

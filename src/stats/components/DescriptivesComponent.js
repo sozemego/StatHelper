@@ -36,15 +36,21 @@ export class DescriptivesComponent extends React.Component {
     super(props);
   }
 
-  _getDescriptivesComponent = scale => {
-    if (scale.results) {
-      return React.createElement(resultComponentMap[scale.measurementLevel], {
-        scale,
-        showChart: this.props.showChart
+  _getDescriptivesComponent = descriptive => {
+    if (descriptive.results) {
+      return React.createElement(resultComponentMap[descriptive.measurementLevel], {
+        descriptive,
+        showChart: this.props.showChart,
+        scale: this._findScaleForDescriptive(descriptive)
       }, null);
     } else {
       return <SpinnerComponent/>;
     }
+  };
+
+  _findScaleForDescriptive = (descriptive) => {
+    const scaleName = descriptive.name;
+    return this.props.scales.find(scale => scale.name === scaleName);
   };
 
   jumpToIndex = index => {

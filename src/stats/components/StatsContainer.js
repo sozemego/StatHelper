@@ -4,6 +4,7 @@ import {FlatButton, Paper, Tab, Tabs} from 'material-ui';
 import {runTests} from '../actions/stats-actions';
 import {TestResultsComponent} from './TestResultsComponent';
 import {DescriptivesComponent} from './DescriptivesComponent';
+import {showChart} from '../../charts/actions/actions';
 
 const statsContainerStyle = {
   margin: '0px 0px 4px 0px'
@@ -76,7 +77,8 @@ const mapStateToProps = state => {
 
 const dispatchToProps = dispatch => {
   return {
-    runTests: () => dispatch(runTests())
+    runTests: () => dispatch(runTests()),
+    showChart: (chartType, data) => dispatch(showChart(chartType, data))
   };
 };
 

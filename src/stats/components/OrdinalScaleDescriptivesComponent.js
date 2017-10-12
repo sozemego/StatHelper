@@ -15,19 +15,19 @@ export class OrdinalScaleDescriptivesComponent extends React.Component {
 
   render() {
     const {
-      scale
+      descriptive
     } = this.props;
 
     const {
-      results,
+      results: descriptiveResults,
       measurementLevel
-    } = scale;
+    } = descriptive;
 
     const {
       sampleSize,
       median,
       frequencies
-    } = results;
+    } = descriptiveResults;
 
     return (
       <div style={descriptiveContainerStyle}>

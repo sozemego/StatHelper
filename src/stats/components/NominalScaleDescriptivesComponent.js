@@ -15,20 +15,20 @@ export class NominalScaleDescriptivesComponent extends React.Component {
 
   render() {
     const {
-      scale
+      descriptive
     } = this.props;
 
     const {
-      results,
+      results: descriptiveResults,
       measurementLevel
-    } = scale;
+    } = descriptive;
 
     const {
       sampleSize,
       median,
       modes,
       frequencies
-    } = results;
+    } = descriptiveResults;
 
     const bimodalDistribution = modes.length === 2;
 

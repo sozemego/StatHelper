@@ -11,17 +11,33 @@ export class ChartsContainer extends React.Component {
   render() {
     return (
       <div>
-        CHARTSCONTAINER
+        <div>
+          {this.props.show}
+        </div>
+        <div>
+          {this.props.chartType}
+        </div>
+        <div>
+          {this.props.data}
+        </div>
       </div>
     );
   }
 }
 
 const mapStateToProps = state => {
+  const {chart} = state;
+  return {
+    show: chart.show,
+    chartType: chart.chartType,
+    data: chart.data
+  };
 };
 
 const dispatchToProps = dispatch => {
-  return {};
+  return {
+    hideChart: () => dispatch(hideChart())
+  };
 };
 
 export default connect(mapStateToProps, dispatchToProps)(ChartsContainer);

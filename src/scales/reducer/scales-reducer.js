@@ -34,7 +34,7 @@ const scales = (state = initialState, action) => {
 const selectItems = (scales, scaleIndex, selectedItems) => {
   const selectedScale = scales[scaleIndex];
   selectedScale.items = selectedItems;
-  return scales.slice();
+  return [...scales];
 };
 
 const addScale = (scale, scales) => {

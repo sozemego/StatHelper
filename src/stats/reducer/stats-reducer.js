@@ -22,7 +22,7 @@ const stats = (state = initialState, action) => {
     case NOTIFY_DESCRIPTIVES_RUNNING:
       return {...state, descriptives: action.descriptives};
     case NOTIFY_DESCRIPTIVES_RESULTS:
-      return {...state, descriptives: assignDescriptive(state.descriptives.slice(), action.name, action.results)};
+      return {...state, descriptives: assignDescriptive([...state.descriptives], action.name, action.results)};
     default:
       return state;
   }
@@ -31,13 +31,13 @@ const stats = (state = initialState, action) => {
 const assignResult = (runningTests, testName, results) => {
   const test = runningTests.find(test => test.name === testName);
   test.results = results;
-  return runningTests;
+  return [...runningTests];
 };
 
 const assignDescriptive = (descriptives, scaleName, results) => {
   const descriptive = descriptives.find(descriptives => descriptives.name === scaleName);
   descriptive.results = results;
-  return descriptives;
+  return [...descriptives];
 };
 
 export default stats;
