@@ -5,12 +5,14 @@ import {applyMiddleware, combineReducers, createStore} from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import {createLogger} from 'redux-logger';
 import stats from '../stats/reducer/stats-reducer';
+import chartReducer from '../charts/reducer/chart-reducer';
 
 const rootReducer = combineReducers({
   fileProcessing: fileProcessingReducer,
   scales: scalesReducer,
   experimentalDesign: experimentalDesignReducer,
-  stats
+  stats,
+  chart: chartReducer
 });
 
 export const store = createStore(

@@ -5,6 +5,7 @@ import ScalesContainer from '../scales/components/ScalesContainer';
 import ExperimentalDesignContainer from '../experimental-design/components/ExperimentalDesignContainer';
 import StatsContainer from '../stats/components/StatsContainer';
 import {NavigationArrowUpward} from 'material-ui/svg-icons/index';
+import {ChartsContainer} from '../charts/components/ChartsContainer';
 
 const tabItemContainerStyle = {
   backgroundColor: '#212121'
@@ -54,6 +55,7 @@ export default class Main extends React.Component {
       getNavigationArrowClassName,
       onNavigationArrowClick
     } = this;
+
     return (
       <div>
         <Tabs tabItemContainerStyle={tabItemContainerStyle} inkBarStyle={inkBarStyle}>
@@ -72,6 +74,7 @@ export default class Main extends React.Component {
         </Tabs>
         <NavigationArrowUpward className={getNavigationArrowClassName()}
                                onTouchTap={onNavigationArrowClick}/>
+        <ChartsContainer/>
       </div>
     );
   }
