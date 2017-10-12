@@ -15,13 +15,13 @@ export class NominalScaleDescriptivesComponent extends React.Component {
 
   render() {
     const {
-      descriptive
+      scale
     } = this.props;
 
     const {
       results,
       measurementLevel
-    } = descriptive;
+    } = scale;
 
     const {
       sampleSize,

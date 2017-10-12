@@ -2,7 +2,6 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {FlatButton, Paper, Tab, Tabs} from 'material-ui';
 import {runTests} from '../actions/stats-actions';
-import {RunningTestSpinnerComponent} from '../../common/component/SpinnerComponent';
 import {TestResultsComponent} from './TestResultsComponent';
 import {DescriptivesComponent} from './DescriptivesComponent';
 
@@ -34,7 +33,8 @@ class StatsContainer extends React.Component {
       runningTests,
       descriptives,
       scales,
-      runTests
+      runTests,
+      showChart
     } = this.props;
 
     return (
@@ -54,7 +54,7 @@ class StatsContainer extends React.Component {
             <TestResultsComponent tests={tests} runningTests={runningTests}/>
           </Tab>
           <Tab label="Descriptives" value={2}>
-            <DescriptivesComponent scales={scales} descriptives={descriptives}/>
+            <DescriptivesComponent scales={scales} descriptives={descriptives} showChart={showChart}/>
           </Tab>
         </Tabs>
       </div>

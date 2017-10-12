@@ -1,4 +1,5 @@
 import React from 'react';
+import {FlatButton} from 'material-ui';
 
 const descriptiveContainerStyle = {
   display: 'flex',
@@ -14,13 +15,15 @@ export class RatioScaleDescriptivesComponent extends React.Component {
 
   render() {
     const {
-      descriptive
+      scale,
+      showChart
     } = this.props;
 
     const {
       results,
-      measurementLevel
-    } = descriptive;
+      measurementLevel,
+      name
+    } = scale;
 
     const {
       sampleSize,
@@ -59,6 +62,10 @@ export class RatioScaleDescriptivesComponent extends React.Component {
           This result shows that results {normalityPValue > 0.05 ? 'follow' : 'DO NOT follow'} a
           normal distribution.
         </div>
+        <FlatButton
+          label="Show chart"
+          onTouchTap={() => showChart(name)}
+        />
       </div>
     );
   }
