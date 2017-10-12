@@ -1,6 +1,15 @@
 import React from 'react';
-import {hideChart} from '../actions/actions';
 import {connect} from 'react-redux';
+import {Dialog} from 'material-ui';
+import {hideChart} from '../actions/actions';
+import {BAR_CHART, LINE_CHART} from '../constants/chart-types';
+import {LineChartComponent} from './LineChartComponent';
+import {BarChartComponent} from './BarChartComponent';
+
+const chartComponents = {
+  [LINE_CHART]: LineChartComponent,
+  [BAR_CHART]: BarChartComponent
+};
 
 export class ChartsContainer extends React.Component {
 
@@ -8,19 +17,29 @@ export class ChartsContainer extends React.Component {
     super(props);
   }
 
+  _getChartComponent = (chartType, data) => {
+    const component = chartComponents[chartType];
+    if (component) {
+      return React.createElement(component, {data}, null);
+    }
+    return null;
+  };
+
   render() {
+    const {
+      show,
+      chartType,
+      data,
+      hideChart
+    } = this.props;
+
     return (
-      <div>
-        <div>
-          {this.props.show}
-        </div>
-        <div>
-          {this.props.chartType}
-        </div>
-        <div>
-          {this.props.data}
-        </div>
-      </div>
+      <Dialog
+        open={show}
+        onRequestClose={() => hideChart()}
+      >
+        {this._getChartComponent(chartType, data)}
+      </Dialog>
     );
   }
 }

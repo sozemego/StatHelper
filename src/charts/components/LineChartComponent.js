@@ -1,4 +1,5 @@
 import React from 'react';
+import Chart from 'chart.js';
 
 export class LineChartComponent extends React.Component {
 
@@ -6,11 +7,24 @@ export class LineChartComponent extends React.Component {
     super(props);
   }
 
+  componentDidMount() {
+    const {
+      data
+    } = this.props;
+
+    const canvas = this.refs.chart;
+
+    const myLineChart = new Chart(canvas, {
+      type: 'line',
+      data
+    });
+  }
+
   render() {
     return (
-      <div>
-        DATA
-      </div>
+      <canvas ref="chart">
+
+      </canvas>
     );
   }
 

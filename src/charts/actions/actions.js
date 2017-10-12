@@ -1,5 +1,5 @@
 import {makeActionCreator} from '../../common/actions/utils';
-import {CHART_TYPES, LINE_CHART} from '../constants/chart-types';
+import {BAR_CHART, CHART_TYPES, LINE_CHART} from '../constants/chart-types';
 
 export const showChart = (chartType, data) => {
   return (dispatch, getState) => {
@@ -18,6 +18,13 @@ const isDataValid = (chartType, data) => {
     const isNumbers = isArrayOfNumbers(data);
     if (!isNumbers) {
       console.warn('Trying to display a line chart with non-numeric data');
+      return false;
+    }
+  }
+  if (chartType === BAR_CHART) {
+    const isNumbers = isArrayOfNumbers(data);
+    if (!isNumbers) {
+      console.warn('Trying to display a bar chart with non-numeric data');
       return false;
     }
   }
