@@ -72,10 +72,10 @@ const ratioScaleHandler = scale => {
 
 /**
  * Counts all occurrences of all values in an result array,
- * and for each occurrence, appends a
+ * return a list of {value, count, percentage} objects.
  * @param results
  */
-const createFrequencyCount = results => {
+export const createFrequencyCount = results => {
 
   const frequencies = [];
   for (let i = 0; i < results.length; i++) {

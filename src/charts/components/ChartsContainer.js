@@ -2,13 +2,15 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {Dialog} from 'material-ui';
 import {hideChart} from '../actions/actions';
-import {BAR_CHART, LINE_CHART} from '../constants/chart-types';
+import {BAR_CHART, HISTOGRAM_CHART, LINE_CHART} from '../constants/chart-types';
 import {LineChartComponent} from './LineChartComponent';
 import {BarChartComponent} from './BarChartComponent';
+import {HistogramChartComponent} from './HistogramChartComponent';
 
 const chartComponents = {
   [LINE_CHART]: LineChartComponent,
-  [BAR_CHART]: BarChartComponent
+  [BAR_CHART]: BarChartComponent,
+  [HISTOGRAM_CHART]: HistogramChartComponent
 };
 
 export class ChartsContainer extends React.Component {
@@ -17,7 +19,11 @@ export class ChartsContainer extends React.Component {
     super(props);
   }
 
-  _getChartComponent = (chartType, data) => {
+  _getChartComponent = () => {
+    const {
+      chartType,
+      data
+    } = this.props;
     const component = chartComponents[chartType];
     if (component) {
       return React.createElement(component, {data}, null);
@@ -28,8 +34,6 @@ export class ChartsContainer extends React.Component {
   render() {
     const {
       show,
-      chartType,
-      data,
       hideChart
     } = this.props;
 
@@ -38,7 +42,7 @@ export class ChartsContainer extends React.Component {
         open={show}
         onRequestClose={() => hideChart()}
       >
-        {this._getChartComponent(chartType, data)}
+        {this._getChartComponent()}
       </Dialog>
     );
   }
