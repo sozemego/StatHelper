@@ -71,17 +71,15 @@ const barChartDataTransformer = data => {
 
 };
 
-const histogramMaxBars = 20;
-
 const histogramDataTransformer = maxGroups => data => {
-  //assume data is numeric
+  // 1. assume data is numeric, because it was checked before
 
   // 2. check how many unique data points we have
   const uniqueDataPointsLength = getSet(data).length;
 
   // 3. if we have less unique data points than maxGroups, count frequencies for each number and return
-  // two arrays one with labels (values) and second with frequencies (counts) for these labels
-  if (uniqueDataPointsLength <= histogramMaxBars) {
+  // frequencies for the data, containg values and counts for those values
+  if (uniqueDataPointsLength <= maxGroups) {
     const frequencyData = createFrequencyCount(data);
     frequencyData.sort((a, b) => a.value - b.value);
     return frequencyData;
@@ -91,13 +89,7 @@ const histogramDataTransformer = maxGroups => data => {
   // that is, quantile 0.0, 0.1, 0.2, 0.3 and so on
   // for each quantile, find the average and this will be the labels array
   // for each quantile, find the frequencies (counts) of values falling in that quantile
-  // return frequencies (value/count)
-
-  const quantilesToCheck = getEqualIntervalQuantiles(maxGroups);
-  console.log(quantilesToCheck);
-  const quantiles = quantilesToCheck.map(quantileValue => {
-    return quantile(data, quantileValue);
-  });
+  const quantiles = getEqualIntervalQuantiles(maxGroups).map(quantileValue => quantile(data, quantileValue));
 
   // find intervals between found quantiles
   const intervals = [];
@@ -132,6 +124,8 @@ const getEqualIntervalQuantiles = numberOfQuantiles => {
 
   return quantiles;
 };
+
+const histogramMaxBars = 20;
 
 const dataTransformers = {
   [HISTOGRAM_CHART]: histogramDataTransformer(histogramMaxBars)
