@@ -3,9 +3,11 @@ import {rootSelector} from '../../common/selectors/selectors-utils';
 export const scaleRootSelector = rootSelector('scales');
 
 /**
+ * Given the root state of the application, returns an array containing all scales
+ * @param scalesRoot
  * @returns {Array}
  */
-export const getScales = state => state.scaleList;
+export const getScales = scalesRoot => scalesRoot.scaleList;
 
 export const getScaleById = (state, scaleId) => {
   return getScales(state).find(scale => getScaleId(scale) === scaleId);
