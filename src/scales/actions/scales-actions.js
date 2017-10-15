@@ -12,8 +12,6 @@ import {
   scaleRootSelector
 } from '../selectors/scale-selectors';
 
-const getScalesState = () => scaleRootSelector(store.getState());
-
 export const START_SELECTING_ITEMS = 'START_SELECTING_ITEMS';
 export const startSelectingItems = makeActionCreator(START_SELECTING_ITEMS);
 
@@ -25,6 +23,9 @@ export const addScale = makeActionCreator(ADD_SCALE, 'scale');
 
 export const SELECT_SCALE = 'SELECT_SCALE';
 export const selectScale = makeActionCreator(SELECT_SCALE, 'scaleId');
+
+//used only for convenience
+const getScalesState = () => scaleRootSelector(store.getState());
 
 export const createScale = scaleId => {
   return (dispatch) => {
@@ -70,15 +71,15 @@ const _toggleItem = (itemIndex, selectedItems) => {
 
 export const setScaleName = (scaleId, scaleName) => {
   return (dispatch, getState) => {
-    validateScaleWithIdExists(scaleRootSelector(getState()), scaleId);
+    validateScaleWithIdExists(scaleId);
     if (isScaleNameValid(scaleName)) {
       dispatch(_setScaleName(scaleId, scaleName));
     }
   };
 };
 
-const validateScaleWithIdExists = (state, scaleId) => {
-  const scale = getScaleById(state, scaleId);
+const validateScaleWithIdExists = scaleId => {
+  const scale = getScaleById(getScalesState(), scaleId);
   if (!scale) throw Error(`Scale with id ${scaleId} does not exist!`);
 };
 
@@ -103,7 +104,7 @@ export const SET_MEASUREMENT_LEVEL = 'SET_MEASUREMENT_LEVEL';
 const _setMeasurementLevel = makeActionCreator(SET_MEASUREMENT_LEVEL, 'scaleId', 'measurementLevel');
 
 export const setMeasurementLevel = (scaleId, measurementLevel) => {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     if (isMeasurementLevelValid(measurementLevel)) {
       dispatch(_setMeasurementLevel(scaleId, measurementLevel));
     }
