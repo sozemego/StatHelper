@@ -6,8 +6,10 @@
  * @param data
  * @returns {Array}
  */
-export const getResultForScale = (scale, data) => {
-  const {items} = scale;
+import {getScaleItems} from '../../scales/selectors/scale-selectors';
+
+export const getScoresForScale = (scale, data) => {
+  const items = getScaleItems(scale);
   // validate items
   const maxItemIndex = data[0].length - 1;
   items.forEach(itemIndex => {
@@ -26,13 +28,13 @@ export const getResultForScale = (scale, data) => {
   });
 
   // for each row, sum the values together. That is the result of the scale
-  const results = [];
+  const scores = [];
   for (let i = 0; i < data.length - 1; i++) {
     let sum = 0;
     for (let j = 0; j < itemValues.length; j++) {
       sum += parseInt(itemValues[j][i]);
     }
-    results.push(sum);
+    scores.push(sum);
   }
-  return results;
+  return scores;
 };

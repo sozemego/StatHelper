@@ -10,6 +10,7 @@ import {
 } from './statistics';
 import {isMeasurementLevelValid} from '../../scales/model/scale';
 import {NOMINAL, RATIO} from '../../scales/model/scale-constants';
+import {getScaleMeasurementLevel, getScaleName, getScaleScores} from '../../scales/selectors/scale-selectors';
 
 export const runTest = test => {
   const runner = testRunners[test.type];
@@ -64,8 +65,8 @@ const calculateNormality = scales => {
   // first check normality of all ratio scales
   const normalDistributionResults = {};
   scales
-    .filter(scale => scale.measurementLevel === RATIO)
-    .forEach(scale => normalDistributionResults[scale.name] = checkNormal(scale.result));
+    .filter(scale => getScaleMeasurementLevel(scale) === RATIO)
+    .forEach(scale => normalDistributionResults[getScaleName(scale)] = checkNormal(getScaleScores(scale)));
   return normalDistributionResults;
 };
 

@@ -25,12 +25,9 @@ export class NominalScaleDescriptivesComponent extends React.Component {
 
     const {
       sampleSize,
-      median,
       modes,
       frequencies
     } = descriptiveResults;
-
-    const bimodalDistribution = modes.length === 2;
 
     return (
       <div style={descriptiveContainerStyle}>
@@ -40,11 +37,7 @@ export class NominalScaleDescriptivesComponent extends React.Component {
           Sample size of this scale is {sampleSize} (n = {sampleSize}).
         </div>
         <div>
-          The median was {median}.
-        </div>
-        <div>
-          Found {modes.length} mode{bimodalDistribution ? 's' : ''}.{'\u00a0'}
-          {bimodalDistribution > 1 ? 'They were ' + modes[0] + ' and ' + modes[1] : 'It\'s equal to ' + modes[0]}.
+          This scales' mode is {modes[0]}.
         </div>
         <div>
           <FrequenciesTableComponent frequencies={frequencies}/>

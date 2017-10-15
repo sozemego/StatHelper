@@ -27,7 +27,7 @@ export class RatioScaleDescriptivesComponent extends React.Component {
     } = descriptive;
 
     const {
-      results: scaleResults
+      scores
     } = scale;
 
     const {
@@ -69,7 +69,7 @@ export class RatioScaleDescriptivesComponent extends React.Component {
         </div>
         <FlatButton
           label="Show chart"
-          onTouchTap={() => showChart(HISTOGRAM_CHART, scaleResults)}
+          onTouchTap={() => showChart(HISTOGRAM_CHART, scores)}
         />
       </div>
     );

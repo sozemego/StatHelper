@@ -1,13 +1,16 @@
 import {MOUSE_UP} from '../../common/actions/common-actions';
 import {
-  ADD_SCALE, SELECT_ITEMS, SELECT_SCALE, SET_SCALE_RESULTS, SET_SCALES,
+  ADD_SCALE, REMOVE_SCALE, SELECT_ITEMS, SELECT_SCALE, SET_MEASUREMENT_LEVEL, SET_SCALE_NAME, SET_SCALE_RESULTS,
+  SET_SCALE_SCORES,
+  SET_SCALES,
   START_SELECTING_ITEMS
 } from '../actions/scales-actions';
+import {getScaleById, getScaleIndexById, getScales} from '../selectors/scale-selectors';
 
 const initialState = {
-  scales: [],
+  scaleList: [],
   selectingItems: false,
-  selectedScale: -1
+  selectedScale: null
 };
 
 const scales = (state = initialState, action) => {
@@ -17,34 +20,62 @@ const scales = (state = initialState, action) => {
     case MOUSE_UP:
       return {...state, selectingItems: false};
     case SELECT_ITEMS:
-      return {...state, scales: selectItems(state.scales, action.scaleIndex, action.selectedItems)};
+      selectItems(state, action.scaleId, action.selectedItems);
+      return {...state};
     case ADD_SCALE:
-      return {...state, scales: addScale(action.scale, state.scales)};
+      return {...state, scaleList: [...state.scaleList, action.scale]};
     case SELECT_SCALE:
-      return {...state, selectedScale: action.scaleIndex};
-    case SET_SCALES:
-      return {...state, scales: action.scales};
-    case SET_SCALE_RESULTS:
-      return {...state, scales: setResults(state.scales, action.scaleId, action.results)};
+      return {...state, selectedScale: action.scaleId};
+    case SET_SCALE_NAME:
+      setScaleName(state, action.scaleId, action.scaleName);
+      return {...state};
+    case SET_MEASUREMENT_LEVEL:
+      setMeasurementLevel(state, action.scaleId, action.measurementLevel);
+      return {...state};
+    case SET_SCALE_SCORES:
+      setScores(state, action.scaleId, action.scores);
+      return {...state};
+    case REMOVE_SCALE:
+      return {...state, scaleList: removeScale(state, action.scaleId)};
     default:
       return state;
   }
 };
 
-const selectItems = (scales, scaleIndex, selectedItems) => {
-  const selectedScale = scales[scaleIndex];
-  selectedScale.items = selectedItems;
-  return [...scales];
+const setMeasurementLevel = (state, scaleId, measurementLevel) => {
+  const scaleIndex = getScaleIndexById(state, scaleId);
+  const scales = getScales(state);
+  scales[scaleIndex] = {...scales[scaleIndex], measurementLevel};
 };
 
-const addScale = (scale, scales) => {
-  return scales.concat([scale]);
+const selectItems = (state, scaleId, selectedItems) => {
+  const scaleIndex = getScaleIndexById(state, scaleId);
+  const scales = getScales(state);
+  scales[scaleIndex] = {...scales[scaleIndex], items: selectedItems};
 };
 
-const setResults = (scales, scaleId, results) => {
-  const scale = scales.find(scale => scale.id.toString() === scaleId.toString());
-  scale.results = results;
-  return [...scales];
+const setScaleName = (state, scaleId, name) => {
+  const scale = getScaleById(state, scaleId);
+  const scaleIndex = getScaleIndexById(state, scaleId);
+  const scales = getScales(state);
+  scales[scaleIndex] = {...scale, name};
+};
+
+const setScores = (state, scaleId, scores) => {
+  const scale = getScaleById(state, scaleId);
+  const scaleIndex = getScaleIndexById(state, scaleId);
+  const scales = getScales(state);
+  scales[scaleIndex] = {...scale, scores};
+};
+
+const removeScale = (state, scaleId) => {
+  const scaleIndex = getScaleIndexById(state, scaleId);
+  if (scaleIndex === -1) {
+    return getScales(state);
+  }
+  const scales = [...getScales(state)];
+  scales.splice(scaleIndex, 1);
+  return scales;
 };
 
 export default scales;

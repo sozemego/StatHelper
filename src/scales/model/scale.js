@@ -3,18 +3,19 @@ import {MEASUREMENT_LEVELS} from './scale-constants';
 
 let scalesCreated = 0;
 
-export const createNewScale = () => {
-  const id = uuid();
-  const name = 'Scale' + ++scalesCreated;
+export const createNewScale = id => {
+  const scaleId = id || uuid();
+  const name = 'Scale ' + ++scalesCreated;
   const measurementLevel = MEASUREMENT_LEVELS[0];
   const items = [];
-  const results = [];
+  const scores = [];
+
   return {
-    id,
+    scaleId,
     name,
     measurementLevel,
     items,
-    results
+    scores
   };
 };
 

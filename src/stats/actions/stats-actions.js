@@ -1,25 +1,25 @@
 import {makeActionCreator} from '../../common/actions/utils';
-import {store} from '../../store/store-init';
 import {runTest} from '../test-runner/test-runner';
-import {getResultForScale} from '../test-runner/result-calculator';
+import {getScoresForScale} from '../test-runner/scores-calculator';
 import {copy} from '../../common/utils';
 import {getDescriptives} from '../test-runner/descriptive-statistics';
-import {setScaleResults} from '../../scales/actions/scales-actions';
+import {setScaleScores} from '../../scales/actions/scales-actions';
+import {getScaleId, getScales, scaleRootSelector} from '../../scales/selectors/scale-selectors';
 
 export const runTests = () => {
-  return dispatch => {
-    const {stats, experimentalDesign, fileProcessing} = store.getState();
-    const scales = store.getState().scales.scales;
+  return (dispatch, getState) => {
+    const {stats, experimentalDesign, fileProcessing} = getState();
+    const scales = getScales(scaleRootSelector(getState()));
     const {data} = fileProcessing;
     const {tests} = experimentalDesign;
 
     dispatch(notifyTestsRunning(tests.map(({name, type}) => ({name, type}))));
 
-    const scaleResults = {};
+    const scaleScores = {};
     scales.forEach(scale => {
-      const results = getResultForScale(scale, data);
-      scaleResults[scale.name] = results;
-      dispatch(setScaleResults(scale.id, results));
+      const scores = getScoresForScale(scale, data);
+      scaleScores[getScaleId(scale)] = scores;
+      dispatch(setScaleScores(getScaleId(scale), scores));
     });
 
     for (let i = 0; i < tests.length; i++) {
@@ -39,19 +39,22 @@ export const runTests = () => {
       }, i * 125);
     }
 
-    dispatch(notifyDescriptivesRunning(scales.map(({name, measurementLevel}) => ({name, measurementLevel}))));
+    dispatch(notifyDescriptivesRunning(scales.map(({name, scaleId, measurementLevel}) => ({
+      name,
+      scaleId,
+      measurementLevel
+    }))));
     for (let i = 0; i < scales.length; i++) {
       setTimeout(() => {
         const scale = copy(scales[i]);
-        scale.result = scaleResults[scale.name];
+        scale.scores = scaleScores[getScaleId(scale)];
         const descriptives = getDescriptives(scale);
-        dispatch(notifyDescriptivesResults(scale.name, descriptives));
+        dispatch(notifyDescriptivesResults(getScaleId(scale), descriptives));
       }, (tests.length + i) * 125);
     }
   };
 };
 
-// fired when a number of tests to run is announced (for progress bars)
 export const NOTIFY_TESTS_RUNNING = 'NOTIFY_TESTS_RUNNING';
 export const notifyTestsRunning = makeActionCreator(NOTIFY_TESTS_RUNNING, 'tests');
 
@@ -62,4 +65,4 @@ export const NOTIFY_DESCRIPTIVES_RUNNING = 'NOTIFY_DESCRIPTIVES_RUNNING';
 export const notifyDescriptivesRunning = makeActionCreator(NOTIFY_DESCRIPTIVES_RUNNING, 'descriptives');
 
 export const NOTIFY_DESCRIPTIVES_RESULTS = 'NOTIFY_DESCRIPTIVES_RESULTS';
-export const notifyDescriptivesResults = makeActionCreator(NOTIFY_DESCRIPTIVES_RESULTS, 'name', 'results');
+export const notifyDescriptivesResults = makeActionCreator(NOTIFY_DESCRIPTIVES_RESULTS, 'scaleId', 'results');

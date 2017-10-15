@@ -1,8 +1,19 @@
 import React from 'react';
-import {Chip, FlatButton, RadioButton, RadioButtonGroup, TextField} from 'material-ui';
+import {
+  Chip,
+  FlatButton,
+  RadioButton,
+  RadioButtonGroup,
+  TextField
+} from 'material-ui';
 import {ActionHelpOutline} from 'material-ui/svg-icons/index';
 import ToolTipComponent from '../../common/component/ToolTipComponent';
 import {MEASUREMENT_LEVELS} from '../model/scale-constants';
+import {
+  getScaleItems,
+  getScaleMeasurementLevel,
+  getScaleName
+} from '../selectors/scale-selectors';
 
 const configurerContainerStyle = {
   height: '100%',
@@ -69,14 +80,18 @@ export default class ScaleConfigurerComponent extends React.Component {
       scale,
       removeScale
     } = this.props;
+
     if (!scale) {
       return null;
     }
-    const {items} = scale;
+
+    const items = getScaleItems(scale);
+
     const {
       _onScaleNameChange,
       _onScaleMeasurementLevelChange
     } = this;
+
     return (
       <div style={configurerContainerStyle}>
         <div style={fieldStyle}>
@@ -84,7 +99,7 @@ export default class ScaleConfigurerComponent extends React.Component {
           <TextField
             hintText="Scale name"
             fullWidth={false}
-            value={scale.name}
+            value={getScaleName(scale)}
             underlineShow={false}
             onChange={_onScaleNameChange}/>
         </div>
@@ -93,7 +108,7 @@ export default class ScaleConfigurerComponent extends React.Component {
           <RadioButtonGroup
             name="Measurement level"
             style={measurementLevelStyle}
-            valueSelected={scale.measurementLevel}
+            valueSelected={getScaleMeasurementLevel(scale)}
             onChange={_onScaleMeasurementLevelChange}
           >
             {MEASUREMENT_LEVELS.map((level, index) => {

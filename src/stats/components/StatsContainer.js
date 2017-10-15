@@ -5,6 +5,7 @@ import {runTests} from '../actions/stats-actions';
 import {TestResultsComponent} from './TestResultsComponent';
 import {DescriptivesComponent} from './DescriptivesComponent';
 import {showChart} from '../../charts/actions/actions';
+import {getScales, scaleRootSelector} from '../../scales/selectors/scale-selectors';
 
 const statsContainerStyle = {
   margin: '0px 0px 4px 0px'
@@ -65,13 +66,13 @@ class StatsContainer extends React.Component {
 }
 
 const mapStateToProps = state => {
-  const {experimentalDesign, stats, scales} = state;
+  const {experimentalDesign, stats} = state;
   return {
     tests: experimentalDesign.tests,
     runningTests: stats.runningTests,
     minSignificance: stats.minSignificance,
     descriptives: stats.descriptives,
-    scales: scales.scales
+    scales: getScales(scaleRootSelector(state))
   };
 };
 

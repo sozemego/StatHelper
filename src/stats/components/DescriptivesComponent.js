@@ -6,6 +6,7 @@ import {NOMINAL, ORDINAL, RATIO} from '../../scales/model/scale-constants';
 import {NominalScaleDescriptivesComponent} from './NominalScaleDescriptivesComponent';
 import {OrdinalScaleDescriptivesComponent} from './OrdinalScaleDescriptivesComponent';
 import {RatioScaleDescriptivesComponent} from './RatioScaleDescriptivesComponent';
+import {getScaleName} from '../../scales/selectors/scale-selectors';
 
 const resultComponentMap = {
   [NOMINAL]: NominalScaleDescriptivesComponent,
@@ -50,7 +51,7 @@ export class DescriptivesComponent extends React.Component {
 
   _findScaleForDescriptive = (descriptive) => {
     const scaleName = descriptive.name;
-    return this.props.scales.find(scale => scale.name === scaleName);
+    return this.props.scales.find(scale => getScaleName(scale) === scaleName);
   };
 
   jumpToIndex = index => {
@@ -64,7 +65,7 @@ export class DescriptivesComponent extends React.Component {
       descriptives
     } = this.props;
 
-    const scaleNames = scales.map(scale => scale.name);
+    const scaleNames = scales.map(getScaleName);
 
     const {
       jumpToIndex,

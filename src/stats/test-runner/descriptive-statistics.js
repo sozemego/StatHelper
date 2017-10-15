@@ -1,6 +1,7 @@
 import {NOMINAL, ORDINAL, RATIO} from '../../scales/model/scale-constants';
 import {mean, median, mode, standardDeviation} from 'simple-statistics';
 import {calculateShapiroWilk, maxValue, minValue} from './statistics';
+import {getScaleMeasurementLevel, getScaleScores} from '../../scales/selectors/scale-selectors';
 
 /**
  * Returns descriptive statistics for a scale. The statistics depend on the
@@ -12,55 +13,53 @@ import {calculateShapiroWilk, maxValue, minValue} from './statistics';
  * @param scale
  */
 export const getDescriptives = scale => {
-  const handler = scaleHandlers[scale.measurementLevel];
+  const handler = scaleHandlers[getScaleMeasurementLevel(scale)];
   if (!handler) {
-    throw new Error('Invalid scale type');
+    throw new Error(`Invalid scale measurement level ${getScaleMeasurementLevel(scale)}`);
   }
   return handler(scale);
 };
 
 const nominalScaleHandler = scale => {
-  const {result} = scale;
+  const scores = getScaleScores(scale);
 
-  const frequencies = createFrequencyCount(result);
-  const modes = calculateModes(result);
-  const median = calculateMedian(result);
+  const frequencies = createFrequencyCount(scores);
+  const modes = calculateModes(scores);
 
   return {
     frequencies,
-    sampleSize: result.length,
-    modes,
-    median
+    sampleSize: scores.length,
+    modes
   };
 };
 
 const ordinalScaleHandler = scale => {
-  const {result} = scale;
+  const scores = getScaleScores(scale);
 
-  const frequencies = createFrequencyCount(result);
-  const modes = calculateModes(result);
-  const median = calculateMedian(result);
+  const frequencies = createFrequencyCount(scores);
+  const modes = calculateModes(scores);
+  const median = calculateMedian(scores);
 
   return {
     frequencies,
-    sampleSize: result.length,
+    sampleSize: scores.length,
     modes,
     median
   };
 };
 
 const ratioScaleHandler = scale => {
-  const {result} = scale;
+  const scores = getScaleScores(scale);
 
-  const mean = calculateMean(result);
-  const median = calculateMedian(result);
-  const standardDeviation = calculateStandardDeviation(result);
-  const normality = calculateNormality(result);
-  const min = calculateMin(result);
-  const max = calculateMax(result);
+  const mean = calculateMean(scores);
+  const median = calculateMedian(scores);
+  const standardDeviation = calculateStandardDeviation(scores);
+  const normality = calculateNormality(scores);
+  const min = calculateMin(scores);
+  const max = calculateMax(scores);
 
   return {
-    sampleSize: result.length,
+    sampleSize: scores.length,
     median,
     mean: Number(mean.toFixed(2)),
     standardDeviation: Number(standardDeviation.toFixed(2)),
@@ -73,13 +72,13 @@ const ratioScaleHandler = scale => {
 /**
  * Counts all occurrences of all values in an result array,
  * return a list of {value, count, percentage} objects.
- * @param results
+ * @param scores
  */
-export const createFrequencyCount = results => {
+export const createFrequencyCount = scores => {
 
   const frequencies = [];
-  for (let i = 0; i < results.length; i++) {
-    const result = results[i];
+  for (let i = 0; i < scores.length; i++) {
+    const result = scores[i];
     const index = frequencies.findIndex(frequency => frequency.value === result);
 
     if (index === -1) {
@@ -95,19 +94,19 @@ export const createFrequencyCount = results => {
 
   for (let i = 0; i < frequencies.length; i++) {
     const frequency = frequencies[i];
-    frequency.percent = Number(((frequency.count / results.length) * 100).toFixed(1));
+    frequency.percent = Number(((frequency.count / scores.length) * 100).toFixed(1));
   }
 
   frequencies.sort((a, b) => b.count - a.count);
   return frequencies;
 };
 
-const calculateModes = results => {
-  const firstMode = mode(results);
-  const secondMode = mode(results.filter(result => result !== firstMode));
+const calculateModes = scores => {
+  const firstMode = mode(scores);
+  const secondMode = mode(scores.filter(result => result !== firstMode));
 
-  const occurrencesOfFirstMode = results.filter(result => result === firstMode).length;
-  const occurrencesOfSecondMode = results.filter(result => result === secondMode).length;
+  const occurrencesOfFirstMode = scores.filter(result => result === firstMode).length;
+  const occurrencesOfSecondMode = scores.filter(result => result === secondMode).length;
   if (occurrencesOfFirstMode === occurrencesOfSecondMode) {
     return [firstMode, secondMode]; //two-modal distribution
   }
@@ -115,20 +114,20 @@ const calculateModes = results => {
   return [firstMode];
 };
 
-const calculateMedian = results => {
-  return median(results);
+const calculateMedian = scores => {
+  return median(scores);
 };
 
-const calculateMean = results => {
-  return mean(results);
+const calculateMean = scores => {
+  return mean(scores);
 };
 
-const calculateStandardDeviation = results => {
-  return standardDeviation(results);
+const calculateStandardDeviation = scores => {
+  return standardDeviation(scores);
 };
 
-const calculateNormality = results => {
-  const shapiroWilk = calculateShapiroWilk(results);
+const calculateNormality = scores => {
+  const shapiroWilk = calculateShapiroWilk(scores);
   return {
     test: 'Shapiro-Wilk',
     pValue: Number(shapiroWilk.p.toFixed(3))

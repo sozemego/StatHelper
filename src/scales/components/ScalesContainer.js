@@ -14,6 +14,11 @@ import {mouseUp} from '../../common/actions/common-actions';
 import SelectableElementCollectionComponent from '../../common/component/SelectableElementCollectionComponent';
 import {RaisedButton} from 'material-ui';
 import VerticalListComponent from '../../common/component/VerticalListComponent';
+import {
+  getScaleId,
+  getScaleIndexById, getScaleItems, getScaleName, getScales, getSelectedScale, getSelectedScaleId,
+  scaleRootSelector
+} from '../selectors/scale-selectors';
 
 const containerStyle = {
   display: 'flex'
@@ -39,12 +44,12 @@ export class ScalesContainer extends React.Component {
   }
 
   _getSelectedScale = () => {
-    return this.props.scales[this.props.selectedScale];
+    return this.props.selectedScale;
   };
 
   _getSelectedScaleItems = () => {
     const selectedScale = this._getSelectedScale();
-    return selectedScale ? selectedScale.items : [];
+    return selectedScale ? getScaleItems(selectedScale) : [];
   };
 
   render() {
@@ -62,12 +67,15 @@ export class ScalesContainer extends React.Component {
       setMeasurementLevel
     } = this.props;
 
+    const selectedScaleId = selectedScale ? getScaleId(selectedScale) : null;
+
     const {
       _getSelectedScaleItems,
       _getSelectedScale
     } = this;
 
-    const scaleNames = scales.map(scale => scale.name);
+    const scaleNames = scales.map(getScaleName);
+
     return (
       <div style={containerStyle} onMouseUp={mouseUp}>
         <div style={itemDisplayComponentContainerStyle}>
@@ -85,15 +93,15 @@ export class ScalesContainer extends React.Component {
             onTouchTap={() => createScale()}
           />
           <SelectableElementCollectionComponent
-            selectElement={selectScale}
-            selectedElementIndex={selectedScale}
+            selectElement={(index) => selectScale(getScaleId(scales[index]))}
+            selectedElementIndex={scales.findIndex(scale => getScaleId(scale) === selectedScaleId)}
             elements={scaleNames}
           />
           <ScaleConfigurerComponent
             scale={_getSelectedScale()}
-            setScaleName={(name) => setScaleName(selectedScale, name)}
-            removeScale={() => removeScale(selectedScale)}
-            setMeasurementLevel={(level) => setMeasurementLevel(selectedScale, level)}
+            setScaleName={(name) => setScaleName(selectedScaleId, name)}
+            removeScale={() => removeScale(selectedScaleId)}
+            setMeasurementLevel={(level) => setMeasurementLevel(selectedScaleId, level)}
           />
         </div>
       </div>
@@ -102,12 +110,11 @@ export class ScalesContainer extends React.Component {
 }
 
 const mapStateToProps = state => {
-  const {fileProcessing, scales} = state;
+  const {fileProcessing} = state;
   return {
-    scales: scales.scales,
+    scales: getScales(scaleRootSelector(state)),
     itemNames: fileProcessing.data[0],
-    selectedItems: scales.selectedItems,
-    selectedScale: scales.selectedScale
+    selectedScale: getSelectedScale(scaleRootSelector(state))
   };
 };
 
@@ -125,17 +132,17 @@ const dispatchToProps = dispatch => {
     createScale: () => {
       dispatch(createScale());
     },
-    selectScale: index => {
-      dispatch(selectScale(index));
+    selectScale: scaleId => {
+      dispatch(selectScale(scaleId));
     },
-    setScaleName: (scaleIndex, scaleName) => {
-      dispatch(setScaleName(scaleIndex, scaleName));
+    setScaleName: (scaleId, scaleName) => {
+      dispatch(setScaleName(scaleId, scaleName));
     },
-    removeScale: scaleIndex => {
-      dispatch(removeScale(scaleIndex));
+    removeScale: scaleId => {
+      dispatch(removeScale(scaleId));
     },
-    setMeasurementLevel: (scaleIndex, measurementLevel) => {
-      dispatch(setMeasurementLevel(scaleIndex, measurementLevel));
+    setMeasurementLevel: (scaleId, measurementLevel) => {
+      dispatch(setMeasurementLevel(scaleId, measurementLevel));
     }
   };
 };
