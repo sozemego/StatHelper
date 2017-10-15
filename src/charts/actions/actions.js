@@ -98,8 +98,7 @@ const histogramDataTransformer = maxGroups => data => {
   }
 
   const groupedData = [];
-  //TODO refactor to reduce
-  intervals.forEach(interval => {
+  intervals.forEach(interval => { //TODO refactor to reduce?
     const validValues = data.filter(datum => datum >= interval.from && datum < interval.to);
     const intervalAverage = (interval.from + interval.to) / 2;
     validValues.forEach(value => groupedData.push(intervalAverage));
@@ -113,6 +112,10 @@ const histogramDataTransformer = maxGroups => data => {
 const getEqualIntervalQuantiles = numberOfQuantiles => {
   if (numberOfQuantiles <= 0) {
     throw new Error('Number of quantiles cannot be equal or less than 0.');
+  }
+
+  if (numberOfQuantiles === 1) {
+    return [1];
   }
 
   const interval = 1 / numberOfQuantiles;
