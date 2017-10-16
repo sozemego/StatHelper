@@ -7,21 +7,21 @@ const scales = [
   {
     name: 'Scale0',
     measurementLevel: RATIO,
-    result: [1, 2, 2, 3, 4, 5, 1, 2, 3, 4, 5, 4, 4, 4, 4, 5, 5, 5, 1, 1, 1, 2, 2, 2]
+    scores: [1, 2, 2, 3, 4, 5, 1, 2, 3, 4, 5, 4, 4, 4, 4, 5, 5, 5, 1, 1, 1, 2, 2, 2]
   },
-  {name: 'Scale1', measurementLevel: ORDINAL, result: [5, 2, 2, 1, 1, 1, 1, 12, 3, 4, 5]},
-  {name: 'Scale2', measurementLevel: RATIO, result: [1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 5, 5]},
-  {name: 'Scale3', measurementLevel: RATIO, result: [1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 5, 5]},
+  {name: 'Scale1', measurementLevel: ORDINAL, scores: [5, 2, 2, 1, 1, 1, 1, 12, 3, 4, 5]},
+  {name: 'Scale2', measurementLevel: RATIO, scores: [1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 5, 5]},
+  {name: 'Scale3', measurementLevel: RATIO, scores: [1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 5, 5]},
   {
     name: 'Scale4',
     measurementLevel: RATIO,
-    result: [1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 5, 5, 5, 5, 1, 1, 1, 2, 2, 2]
+    scores: [1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 5, 5, 5, 5, 1, 1, 1, 2, 2, 2]
   },
-  {name: 'Scale5', result: []},
-  {name: 'Scale6', measurementLevel: 'ast', result: []},
-  {name: 'Scale7', measurementLevel: NOMINAL, result: [1, 1, 1, 1, 1, 4, 4, 4, 4, 4, 5, 5, 5, 5]},
-  {name: 'Scale8', measurementLevel: NOMINAL, result: [2, 2, 1, 1, 1, 2, 3, 3, 3, 4, 5, 4, 4, 4]},
-  {name: 'Scale8', measurementLevel: NOMINAL, result: [1, 1, 1, 1, 1, 2, 3, 3, 3, 1, 1]}
+  {name: 'Scale5', scores: []},
+  {name: 'Scale6', measurementLevel: 'ast', scores: []},
+  {name: 'Scale7', measurementLevel: NOMINAL, scores: [1, 1, 1, 1, 1, 4, 4, 4, 4, 4, 5, 5, 5, 5]},
+  {name: 'Scale8', measurementLevel: NOMINAL, scores: [2, 2, 1, 1, 1, 2, 3, 3, 3, 4, 5, 4, 4, 4]},
+  {name: 'Scale8', measurementLevel: NOMINAL, scores: [1, 1, 1, 1, 1, 2, 3, 3, 3, 1, 1]}
 ];
 
 describe('test runner', () => {

@@ -6,7 +6,7 @@ describe('descriptive statistics for invalid scale', () => {
     const scale = {
       name: 'scale',
       measurementLevel: 'level',
-      result: ['a', 'b', 'c']
+      scores: ['a', 'b', 'c']
     };
     expect(() => getDescriptives(scale)).toThrow();
   });
@@ -17,7 +17,7 @@ describe('descriptive statistics for nominal scale', () => {
     const scale = {
       name: 'scale',
       measurementLevel: NOMINAL,
-      result: ['cool', 'great', 'fine', 'amazing', 'cool', 'great', 'great', 'fine', 'amazing']
+      scores: ['cool', 'great', 'fine', 'amazing', 'cool', 'great', 'great', 'fine', 'amazing']
     };
     const descriptives = getDescriptives(scale);
     const {frequencies, sampleSize} = descriptives;
@@ -36,7 +36,7 @@ describe('descriptive statistics for nominal scale', () => {
     const scale = {
       name: 'scale',
       measurementLevel: NOMINAL,
-      result: ['cool', 'great', 'fine', 'amazing', 'cool', 'great', 'great', 'fine', 'amazing']
+      scores: ['cool', 'great', 'fine', 'amazing', 'cool', 'great', 'great', 'fine', 'amazing']
     };
     const descriptives = getDescriptives(scale);
     const {frequencies, sampleSize} = descriptives;
@@ -58,7 +58,7 @@ describe('descriptive statistics for ordinal scale', () => {
     const scale = {
       name: 'scale',
       measurementLevel: ORDINAL,
-      result: [1, 2, 6, 4, 1, 2, 8, 12, 1]
+      scores: [1, 2, 6, 4, 1, 2, 8, 12, 1]
     };
     const descriptives = getDescriptives(scale);
     const {frequencies, sampleSize} = descriptives;
@@ -81,7 +81,7 @@ describe('descriptive statistics for ordinal scale', () => {
     const scale = {
       name: 'scale',
       measurementLevel: ORDINAL,
-      result: [1, 2, 6, 4, 1, 2, 8, 12, 1, 1, 5, 5, 12]
+      scores: [1, 2, 6, 4, 1, 2, 8, 12, 1, 1, 5, 5, 12]
     };
     const descriptives = getDescriptives(scale);
     const {frequencies, sampleSize} = descriptives;
@@ -106,7 +106,7 @@ describe('descriptive statistics for ordinal scale', () => {
     const scale = {
       name: 'scale',
       measurementLevel: ORDINAL,
-      result: [1, 2, 6, 4, 1, 2, 8, 12, 1, 14, 14, 14, 12, 15, 1, 1, 1, 0, 2, 4, 4, 4, 4, 4, 0]
+      scores: [1, 2, 6, 4, 1, 2, 8, 12, 1, 14, 14, 14, 12, 15, 1, 1, 1, 0, 2, 4, 4, 4, 4, 4, 0]
     };
     const descriptives = getDescriptives(scale);
     const {frequencies, sampleSize} = descriptives;
@@ -135,7 +135,7 @@ describe('descriptive statistics for ordinal scale', () => {
     const scale = {
       name: 'scale',
       measurementLevel: ORDINAL,
-      result: [1, 2, 6, 4, 1, 2, 8, 12, 1]
+      scores: [1, 2, 6, 4, 1, 2, 8, 12, 1]
     };
     const descriptives = getDescriptives(scale);
     const {modes} = descriptives;
@@ -147,7 +147,7 @@ describe('descriptive statistics for ordinal scale', () => {
     const scale = {
       name: 'scale',
       measurementLevel: ORDINAL,
-      result: [1, 2, 6, 4, 1, 2, 8, 12, 1, 6, 12, 6]
+      scores: [1, 2, 6, 4, 1, 2, 8, 12, 1, 6, 12, 6]
     };
     const descriptives = getDescriptives(scale);
     const {modes} = descriptives;
@@ -160,7 +160,7 @@ describe('descriptive statistics for ordinal scale', () => {
     const scale = {
       name: 'scale',
       measurementLevel: ORDINAL,
-      result: [1, 2, 6, 4, 1, 2, 8, 12, 1]
+      scores: [1, 2, 6, 4, 1, 2, 8, 12, 1]
     };
     const descriptives = getDescriptives(scale);
     const {median} = descriptives;
@@ -171,7 +171,7 @@ describe('descriptive statistics for ordinal scale', () => {
     const scale = {
       name: 'scale',
       measurementLevel: ORDINAL,
-      result: [1, 2, 6, 4, 1, 2, 8, 12, 1, 5, 5, 5, 5, 5, 5, 5, 5, 25, 25, 25, 25, 123, 2, 2, 2, 2]
+      scores: [1, 2, 6, 4, 1, 2, 8, 12, 1, 5, 5, 5, 5, 5, 5, 5, 5, 25, 25, 25, 25, 123, 2, 2, 2, 2]
     };
     const descriptives = getDescriptives(scale);
     const {median} = descriptives;
@@ -185,7 +185,7 @@ describe('descriptive statistics for ratio scale', () => {
     const scale = {
       name: 'scale',
       measurementLevel: RATIO,
-      result: [1, 2, 6, 4, 1, 2, 8, 12, 1, 5, 5, 5, 5, 5, 5, 5, 5, 25, 25, 25, 25, 123, 2, 2, 2, 2]
+      scores: [1, 2, 6, 4, 1, 2, 8, 12, 1, 5, 5, 5, 5, 5, 5, 5, 5, 25, 25, 25, 25, 123, 2, 2, 2, 2]
     };
     const descriptives = getDescriptives(scale);
     const {mean} = descriptives;
@@ -195,7 +195,7 @@ describe('descriptive statistics for ratio scale', () => {
     const scale = {
       name: 'scale',
       measurementLevel: RATIO,
-      result: [5, 5, 123, 122, 4, 1, 4, 5, 5, 1, 2, 4, 1, -2, 4, -2, -2, -2, -100, 10]
+      scores: [5, 5, 123, 122, 4, 1, 4, 5, 5, 1, 2, 4, 1, -2, 4, -2, -2, -2, -100, 10]
     };
     const descriptives = getDescriptives(scale);
     const {mean} = descriptives;
@@ -205,7 +205,7 @@ describe('descriptive statistics for ratio scale', () => {
     const scale = {
       name: 'scale',
       measurementLevel: RATIO,
-      result: [1, 2, 6, 4, 1, 2, 8, 12, 1, 5, 5, 5, 5, 5, 5, 5, 5, 25, 25, 25, 25, 123, 2, 2, 2, 2]
+      scores: [1, 2, 6, 4, 1, 2, 8, 12, 1, 5, 5, 5, 5, 5, 5, 5, 5, 25, 25, 25, 25, 123, 2, 2, 2, 2]
     };
     const descriptives = getDescriptives(scale);
     const {median} = descriptives;
@@ -215,7 +215,7 @@ describe('descriptive statistics for ratio scale', () => {
     const scale = {
       name: 'scale',
       measurementLevel: RATIO,
-      result: [5, 5, 123, 122, 4, 1, 4, 5, 5, 1, 2, 4, 1, -2, 4, -2, -2, -2, -100, 10]
+      scores: [5, 5, 123, 122, 4, 1, 4, 5, 5, 1, 2, 4, 1, -2, 4, -2, -2, -2, -100, 10]
     };
     const descriptives = getDescriptives(scale);
     const {median} = descriptives;
@@ -225,7 +225,7 @@ describe('descriptive statistics for ratio scale', () => {
     const scale = {
       name: 'scale',
       measurementLevel: RATIO,
-      result: [1, 2, 6, 4, 1, 2, 8, 12, 1, 5, 5, 5, 5, 5, 5, 5, 5, 25, 25, 25, 25, 123, 2, 2, 2, 2]
+      scores: [1, 2, 6, 4, 1, 2, 8, 12, 1, 5, 5, 5, 5, 5, 5, 5, 5, 25, 25, 25, 25, 123, 2, 2, 2, 2]
     };
     const descriptives = getDescriptives(scale);
     const {standardDeviation} = descriptives;
@@ -235,7 +235,7 @@ describe('descriptive statistics for ratio scale', () => {
     const scale = {
       name: 'scale',
       measurementLevel: RATIO,
-      result: [5, 5, 123, 122, 4, 1, 4, 5, 5, 1, 2, 4, 1, -2, 4, -2, -2, -2, -100, 10]
+      scores: [5, 5, 123, 122, 4, 1, 4, 5, 5, 1, 2, 4, 1, -2, 4, -2, -2, -2, -100, 10]
     };
     const descriptives = getDescriptives(scale);
     const {standardDeviation} = descriptives;
@@ -245,7 +245,7 @@ describe('descriptive statistics for ratio scale', () => {
     const scale = {
       name: 'scale',
       measurementLevel: RATIO,
-      result: [1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 5, 5]
+      scores: [1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 5, 5]
     };
     const descriptives = getDescriptives(scale);
     const {normality} = descriptives;
@@ -256,7 +256,7 @@ describe('descriptive statistics for ratio scale', () => {
     const scale = {
       name: 'scale',
       measurementLevel: RATIO,
-      result: [5, 1, 1, 2, 2, 2, 1, 2, 1, 2, 1, 2, 1, 2, 50, 50, 50, 50, 50]
+      scores: [5, 1, 1, 2, 2, 2, 1, 2, 1, 2, 1, 2, 1, 2, 50, 50, 50, 50, 50]
     };
     const descriptives = getDescriptives(scale);
     const {normality} = descriptives;
@@ -267,7 +267,7 @@ describe('descriptive statistics for ratio scale', () => {
     const scale = {
       name: 'scale',
       measurementLevel: RATIO,
-      result: [1, 2, 6, 4, 1, 2, 8, 12, 1, 5, 5, 5, 5, 5, 5, 5, 5, 25, 25, 25, 25, 123, 2, 2, 2, 2]
+      scores: [1, 2, 6, 4, 1, 2, 8, 12, 1, 5, 5, 5, 5, 5, 5, 5, 5, 25, 25, 25, 25, 123, 2, 2, 2, 2]
     };
     const descriptives = getDescriptives(scale);
     const {sampleSize} = descriptives;
@@ -277,7 +277,7 @@ describe('descriptive statistics for ratio scale', () => {
     const scale = {
       name: 'scale',
       measurementLevel: RATIO,
-      result: [5, 2, 12, 125, 1, 1, 1, 1, 5, 125]
+      scores: [5, 2, 12, 125, 1, 1, 1, 1, 5, 125]
     };
     const descriptives = getDescriptives(scale);
     const {min, max} = descriptives;
@@ -288,7 +288,7 @@ describe('descriptive statistics for ratio scale', () => {
     const scale = {
       name: 'scale',
       measurementLevel: RATIO,
-      result: [-5, 2, 12, 125, 1, 1, 1, 1, 5, 12500, 65]
+      scores: [-5, 2, 12, 125, 1, 1, 1, 1, 5, 12500, 65]
     };
     const descriptives = getDescriptives(scale);
     const {min, max} = descriptives;

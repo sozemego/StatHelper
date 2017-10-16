@@ -109,7 +109,7 @@ const runCorrelations = (allPairs, normalDistributionResults) => {
     const correlationType = getCorrelationType(firstScale, secondScale, normalDistributionResults);
     const correlationCalculator = correlationCalculators[correlationType];
 
-    const result = correlationCalculator(firstScale.result, secondScale.result);
+    const result = correlationCalculator(getScaleScores(firstScale), getScaleScores(secondScale));
     result.scales = [firstScale, secondScale];
     results.push(result);
   }
