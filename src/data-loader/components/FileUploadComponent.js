@@ -8,7 +8,7 @@ export default class FileUploadComponent extends React.Component {
   }
 
   _getSpinner = () => {
-    return this.props.parsing ? <SpinnerComponent/> : null;
+    return this.props.loading ? <SpinnerComponent/> : null;
   };
 
   _extractFile = event => {
@@ -20,6 +20,7 @@ export default class FileUploadComponent extends React.Component {
       _extractFile,
       _getSpinner
     } = this;
+
     return (
       <div>
         <input type="file" onChange={_extractFile} accept=".xls,.xlsx,.csv"/>

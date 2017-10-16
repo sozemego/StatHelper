@@ -24,12 +24,13 @@ export default class DataDisplayComponent extends React.Component {
 
   render() {
     let {
-      data
+      itemNames
     } = this.props;
+
     return (
       <div style={dataContainerStyle}>
-        {data.map((item, index) => {
-          return <Chip style={elementStyle} key={index}>{item}</Chip>;
+        {itemNames.map((name, index) => {
+          return <Chip style={elementStyle} key={index}>{name}</Chip>;
         })}
       </div>
     );

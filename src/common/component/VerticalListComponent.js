@@ -77,7 +77,7 @@ export default class VerticalListComponent extends React.Component {
     return (
       <div style={dataContainerStyle}>
         <h4 style={headerStyle}>Items</h4>
-        {_getListElements()};
+        {_getListElements()}
       </div>
     );
   }

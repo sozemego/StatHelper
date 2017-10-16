@@ -1,6 +1,6 @@
 import React from 'react';
 import {Tab, Tabs} from 'material-ui';
-import DataContainer from '../file-processing/component/DataContainer';
+import DataContainer from '../data-loader/containers/DataContainer';
 import ScalesContainer from '../scales/components/ScalesContainer';
 import ExperimentalDesignContainer from '../experimental-design/components/ExperimentalDesignContainer';
 import StatsContainer from '../stats/components/StatsContainer';

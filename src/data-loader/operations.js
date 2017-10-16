@@ -1,26 +1,18 @@
-import XLSX from 'xlsx';
 import Papa from 'papaparse';
-import {makeActionCreator} from '../../common/actions/utils';
-
-export const FILE_PARSING_START = 'FILE_PARSING_START';
-const parsing = makeActionCreator(FILE_PARSING_START);
-
-export const FILE_PARSING_END = 'FILE_PARSING_END';
-const parsed = makeActionCreator(FILE_PARSING_END, 'parsedFile');
-
-export const FILE_PARSING_ERROR = 'FILE_PARSING_ERROR';
-const error = makeActionCreator(FILE_PARSING_ERROR, 'error');
+import {
+  error,
+  loaded,
+  loading
+} from './actions';
 
 export const parseFile = file => {
   return dispatch => {
-    dispatch(parsing());
+    dispatch(loading());
 
     return readFile(file)
-      .then(file => parse(getFileExtension(file), file))
-    .then(result => {
-      dispatch(parsed(result));
-    })
-    .catch(err => dispatch(error(err)));
+      .then(file => load(getFileExtension(file), file))
+      .then(result => dispatch(loaded(result)))
+      .catch(err => dispatch(error(err)));
   };
 };
 
@@ -39,20 +31,20 @@ const readFile = file => {
   });
 };
 
-const parse = (extension, file) => {
+const load = (extension, file) => {
   switch (extension) {
     case 'xlsx':
-      return parseExcel(file);
+      return loadExcel(file);
     case 'xls':
-      return parseExcel(file);
+      return loadExcel(file);
     case 'csv':
-      return parseCsv(file);
+      return loadCsv(file);
     default:
       throw new Error('Invalid extension, only .xlsx, .xls and .csv are allowed!');
   }
 };
 
-const parseExcel = file => {
+const loadExcel = file => {
   return new Promise((resolve, reject) => {
     let workbook = XLSX.read(file, {type: 'binary'});
 
@@ -65,7 +57,7 @@ const parseExcel = file => {
   });
 };
 
-const parseCsv = file => {
+const loadCsv = file => {
   return new Promise((resolve, reject) => {
     Papa.parse(file, {
       complete: ({errors, data}) => {
@@ -78,4 +70,3 @@ const parseCsv = file => {
     });
   });
 };
-

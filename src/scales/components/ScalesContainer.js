@@ -19,6 +19,7 @@ import {
   getScaleIndexById, getScaleItems, getScaleName, getScales, getSelectedScale, getSelectedScaleId,
   scaleRootSelector
 } from '../selectors/scale-selectors';
+import {dataLoaderRootSelector, getItemNames} from '../../data-loader/selectors';
 
 const containerStyle = {
   display: 'flex'
@@ -110,10 +111,10 @@ export class ScalesContainer extends React.Component {
 }
 
 const mapStateToProps = state => {
-  const {fileProcessing} = state;
+  const dataLoader = dataLoaderRootSelector(state);
   return {
     scales: getScales(scaleRootSelector(state)),
-    itemNames: fileProcessing.data[0],
+    itemNames: getItemNames(dataLoader),
     selectedScale: getSelectedScale(scaleRootSelector(state))
   };
 };
