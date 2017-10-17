@@ -157,7 +157,8 @@ export const chiSquareIndependence = (sample1, sample2) => {
     pValue: Number(pValue.toFixed(3)),
     testName: CHI_SQUARE_INDEPENDENCE,
     coefficientType,
-    crossTabs
+    crossTabs,
+    sampleSize: sample1.length
   };
 };
 

@@ -81,12 +81,12 @@ const getAllPairs = scales => {
 };
 
 const getCorrelationType = (scale1, scale2, normalDistributions) => {
-  const firstScaleLevel = scale1.measurementLevel;
-  const secondScaleLevel = scale2.measurementLevel;
+  const firstScaleLevel = getScaleMeasurementLevel(scale1);
+  const secondScaleLevel = getScaleMeasurementLevel(scale2);
 
   if (firstScaleLevel === RATIO && secondScaleLevel === RATIO) {
-    const firstScaleNormal = normalDistributions[scale1.name];
-    const secondScaleNormal = normalDistributions[scale2.name];
+    const firstScaleNormal = normalDistributions[getScaleName(scale1)];
+    const secondScaleNormal = normalDistributions[getScaleName(scale2)];
     return firstScaleNormal && secondScaleNormal ? PEARSON : SPEARMAN;
   }
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import {CHI_SQUARE_INDEPENDENCE} from '../test-runner/statistics';
+import {getScaleName} from '../../scales/selectors/scale-selectors';
 
 const containerStyle = {
   display: 'flex',
@@ -53,15 +54,16 @@ export class CorrelationTestResultComponent extends React.Component {
             testName,
             coefficient,
             pValue,
-            scales
+            scales,
+            sampleSize,
           } = result;
 
           const [firstScale, secondScale] = scales;
           return <div key={index}>
-            <div>You performed a {_getTestName(testName)} correlation on {firstScale.name}{'\u00a0'}
-              and {secondScale.name}.
+            <div>You performed a {_getTestName(testName)} correlation on {getScaleName(firstScale)}{'\u00a0'}
+              and {getScaleName(secondScale)}.
             </div>
-            <div>The sample size for this test was {firstScale.result.length}.</div>
+            <div>The sample size for this test was {sampleSize}.</div>
             <div>You obtained a correlation coefficient of {coefficient}{'\u00a0'}
               (r = {coefficient}) at a {pValue} (p = {pValue}) significance level.
             </div>

@@ -5,12 +5,14 @@ import {copy} from '../../common/utils';
 import {getDescriptives} from '../test-runner/descriptive-statistics';
 import {setScaleScores} from '../../scales/actions/scales-actions';
 import {getScaleId, getScales, scaleRootSelector} from '../../scales/selectors/scale-selectors';
+import {dataLoaderRootSelector, getData} from '../../data-loader/selectors';
 
 export const runTests = () => {
   return (dispatch, getState) => {
-    const {stats, experimentalDesign, fileProcessing} = getState();
-    const scales = getScales(scaleRootSelector(getState()));
-    const {data} = fileProcessing;
+    const state = getState();
+    const {experimentalDesign} = state;
+    const scales = getScales(scaleRootSelector(state));
+    const data = getData(dataLoaderRootSelector(state));
     const {tests} = experimentalDesign;
 
     dispatch(notifyTestsRunning(tests.map(({name, type}) => ({name, type}))));
@@ -28,6 +30,7 @@ export const runTests = () => {
         const scalesForTest = [];
         for (let j = 0; j < test.scales.length; j++) {
           const scale = copy(scales[test.scales[j]]);
+          scale.scores = [...scaleScores[getScaleId(scale)]];
           scalesForTest.push(scale);
         }
 
