@@ -5,14 +5,14 @@ import {copy} from '../../common/utils';
 import {getDescriptives} from '../test-runner/descriptive-statistics';
 import scalesOperations from '../../scales/operations';
 import scalesSelectors from '../../scales/selectors';
-import {dataLoaderRootSelector, getData} from '../../data-loader/selectors';
+import dataLoaderSelectors from '../../data-loader/selectors';
 
 export const runTests = () => {
   return (dispatch, getState) => {
     const state = getState();
     const {experimentalDesign} = state;
     const scales = scalesSelectors.getScales(scalesSelectors.scaleRootSelector(state));
-    const data = getData(dataLoaderRootSelector(state));
+    const data = dataLoaderSelectors.getData(dataLoaderSelectors.dataLoaderRootSelector(state));
     const {tests} = experimentalDesign;
 
     dispatch(notifyTestsRunning(tests.map(({name, type}) => ({name, type}))));

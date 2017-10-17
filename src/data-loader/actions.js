@@ -1,17 +1,16 @@
 import {makeActionCreator} from '../common/actions/utils';
+import types from './types';
 
-export const FILE_LOADING_START = 'FILE_LOADING_START';
-export const loading = makeActionCreator(FILE_LOADING_START);
+const loading = makeActionCreator(types.FILE_LOADING_START);
+const itemNamesLoaded = makeActionCreator(types.ITEM_NAMES_LOADED, 'itemNames');
+const dataLoaded = makeActionCreator(types.DATA_LOADED, 'data');
+const loaded = makeActionCreator(types.FILE_LOADING_END);
+const error = makeActionCreator(types.FILE_LOADING_ERROR, 'error');
 
-export const ITEM_NAMES_LOADED = 'ITEM_NAMES_LOADED';
-export const itemNamesLoaded = makeActionCreator(ITEM_NAMES_LOADED, 'itemNames');
-
-export const DATA_LOADED = 'DATA_LOADED';
-export const dataLoaded = makeActionCreator(DATA_LOADED, 'data');
-
-export const FILE_LOADING_END = 'FILE_LOADING_END';
-export const loaded = makeActionCreator(FILE_LOADING_END);
-
-export const FILE_LOADING_ERROR = 'FILE_LOADING_ERROR';
-export const error = makeActionCreator(FILE_LOADING_ERROR, 'error');
-
+export default {
+  loading,
+  itemNamesLoaded,
+  dataLoaded,
+  loaded,
+  error,
+};

@@ -1,22 +1,17 @@
 import Papa from 'papaparse';
 import XLSX from 'xlsx';
-import {
-  dataLoaded,
-  error, itemNamesLoaded,
-  loaded,
-  loading
-} from './actions';
+import actions from './actions';
 
-export const parseFile = file => {
+const loadFile = file => {
   return dispatch => {
-    dispatch(loading());
+    dispatch(actions.loading());
 
     return readFile(file)
       .then(([fileExtension, fileContent]) => load(fileExtension, fileContent))
       .then(result => {
-        dispatch(itemNamesLoaded(result.slice(0, 1)));
-        dispatch(dataLoaded(result.slice(1)));
-        dispatch(loaded());
+        dispatch(actions.itemNamesLoaded(result.slice(0, 1)));
+        dispatch(actions.dataLoaded(result.slice(1)));
+        dispatch(actions.loaded());
       })
       .catch(err => dispatch(error(err)));
   };
@@ -76,4 +71,8 @@ const loadCsv = fileContent => {
       }
     });
   });
+};
+
+export default {
+  loadFile
 };

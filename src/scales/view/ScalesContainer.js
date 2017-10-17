@@ -1,13 +1,13 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import operations from '../operations';
+import scalesOperations from '../operations';
 import ScaleConfigurerComponent from './ScaleConfigurerComponent';
 import {mouseUp} from '../../common/actions/common-actions';
 import SelectableElementCollectionComponent from '../../common/component/SelectableElementCollectionComponent';
 import {RaisedButton} from 'material-ui';
 import VerticalListComponent from '../../common/component/VerticalListComponent';
 import scaleSelectors from '../selectors';
-import {dataLoaderRootSelector, getItemNames} from '../../data-loader/selectors';
+import dataLoaderSelectors from '../../data-loader/selectors';
 
 const containerStyle = {
   display: 'flex'
@@ -99,10 +99,10 @@ export class ScalesContainer extends React.Component {
 }
 
 const mapStateToProps = state => {
-  const dataLoader = dataLoaderRootSelector(state);
+  const dataLoader = dataLoaderSelectors.dataLoaderRootSelector(state);
   return {
     scales: scaleSelectors.getScales(scaleSelectors.scaleRootSelector(state)),
-    itemNames: getItemNames(dataLoader),
+    itemNames: dataLoaderSelectors.getItemNames(dataLoader),
     selectedScale: scaleSelectors.getSelectedScale(scaleSelectors.scaleRootSelector(state))
   };
 };
@@ -110,28 +110,28 @@ const mapStateToProps = state => {
 const dispatchToProps = dispatch => {
   return {
     startSelectingItems: () => {
-      dispatch(operations.startSelectingItems());
+      dispatch(scalesOperations.startSelectingItems());
     },
     mouseUp: () => {
       dispatch(mouseUp());
     },
     toggleItem: itemIndex => {
-      dispatch(operations.toggleItem(itemIndex));
+      dispatch(scalesOperations.toggleItem(itemIndex));
     },
     createScale: () => {
-      dispatch(operations.createScale());
+      dispatch(scalesOperations.createScale());
     },
     selectScale: scaleId => {
-      dispatch(operations.selectScale(scaleId));
+      dispatch(scalesOperations.selectScale(scaleId));
     },
     setScaleName: (scaleId, scaleName) => {
-      dispatch(operations.setScaleName(scaleId, scaleName));
+      dispatch(scalesOperations.setScaleName(scaleId, scaleName));
     },
     removeScale: scaleId => {
-      dispatch(operations.removeScale(scaleId));
+      dispatch(scalesOperations.removeScale(scaleId));
     },
     setMeasurementLevel: (scaleId, measurementLevel) => {
-      dispatch(operations.setMeasurementLevel(scaleId, measurementLevel));
+      dispatch(scalesOperations.setMeasurementLevel(scaleId, measurementLevel));
     }
   };
 };

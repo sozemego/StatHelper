@@ -1,14 +1,9 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {parseFile} from '../operations';
+import operations from '../operations';
 import FileUploadComponent from './FileUploadComponent';
 import DataDisplayComponent from './DataDisplayComponent';
-import {
-  dataLoaderRootSelector,
-  getError,
-  getItemNames,
-  isLoading
-} from '../selectors';
+import selectors from '../selectors';
 
 export class DataContainer extends React.Component {
 
@@ -34,18 +29,18 @@ export class DataContainer extends React.Component {
 }
 
 const mapStateToProps = state => {
-  const dataLoader = dataLoaderRootSelector(state);
+  const dataLoader = selectors.dataLoaderRootSelector(state);
   return {
-    itemNames: getItemNames(dataLoader),
-    loading: isLoading(dataLoader),
-    error: getError(dataLoader)
+    itemNames: selectors.getItemNames(dataLoader),
+    loading: selectors.isLoading(dataLoader),
+    error: selectors.getError(dataLoader)
   };
 };
 
 const dispatchToProps = dispatch => {
   return {
     onFileUpload: file => {
-      dispatch(parseFile(file));
+      dispatch(operations.loadFile(file));
     }
   };
 };

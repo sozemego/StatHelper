@@ -1,8 +1,16 @@
 import {rootSelector} from '../common/selectors/selectors-utils';
 
-export const dataLoaderRootSelector = rootSelector('dataLoader');
+const dataLoaderRootSelector = rootSelector('dataLoader');
 
-export const getData = state => state.data;
-export const getItemNames = state => state.itemNames;
-export const isLoading = state => state.loading;
-export const getError = state => state.error;
+const getData = state => state.data;
+const getItemNames = state => state.itemNames;
+const isLoading = state => state.loading;
+const getError = state => state.error;
+
+export default {
+  dataLoaderRootSelector,
+  getData,
+  getItemNames,
+  isLoading,
+  getError
+};
