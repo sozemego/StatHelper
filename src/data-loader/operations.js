@@ -1,6 +1,8 @@
 import Papa from 'papaparse';
+import XLSX from 'xlsx';
 import {
-  error,
+  dataLoaded,
+  error, itemNamesLoaded,
   loaded,
   loading
 } from './actions';
@@ -10,10 +12,38 @@ export const parseFile = file => {
     dispatch(loading());
 
     return readFile(file)
-      .then(file => load(getFileExtension(file), file))
-      .then(result => dispatch(loaded(result)))
+      .then(([fileExtension, fileContent]) => load(fileExtension, fileContent))
+      .then(result => {
+        dispatch(itemNamesLoaded(result.slice(0, 1)));
+        dispatch(dataLoaded(result.slice(1)));
+        dispatch(loaded());
+      })
       .catch(err => dispatch(error(err)));
   };
+};
+
+const readFile = file => {
+  const fileExtension = getFileExtension(file);
+  return new Promise((resolve, reject) => {
+    const fileReader = new FileReader();
+    fileReader.addEventListener('loadend', function () {
+      resolve([fileExtension, fileReader.result]);
+    });
+    fileReader.readAsBinaryString(file);
+  });
+};
+
+const load = (fileExtension, fileContent) => {
+  switch (fileExtension) {
+    case 'xlsx':
+      return loadExcel(fileContent);
+    case 'xls':
+      return loadExcel(fileContent);
+    case 'csv':
+      return loadCsv(fileContent);
+    default:
+      throw new Error('Invalid extension, only .xlsx, .xls and .csv are allowed!');
+  }
 };
 
 const getFileExtension = ({name}) => {
@@ -21,32 +51,9 @@ const getFileExtension = ({name}) => {
   return tokens[tokens.length - 1];
 };
 
-const readFile = file => {
+const loadExcel = fileContent => {
   return new Promise((resolve, reject) => {
-    const fileReader = new FileReader();
-    fileReader.addEventListener('loadend', function () {
-      resolve(fileReader.result);
-    });
-    fileReader.readAsBinaryString(file);
-  });
-};
-
-const load = (extension, file) => {
-  switch (extension) {
-    case 'xlsx':
-      return loadExcel(file);
-    case 'xls':
-      return loadExcel(file);
-    case 'csv':
-      return loadCsv(file);
-    default:
-      throw new Error('Invalid extension, only .xlsx, .xls and .csv are allowed!');
-  }
-};
-
-const loadExcel = file => {
-  return new Promise((resolve, reject) => {
-    let workbook = XLSX.read(file, {type: 'binary'});
+    let workbook = XLSX.read(fileContent, {type: 'binary'});
 
     const rowObject = XLSX.utils.sheet_to_row_object_array(
       workbook.Sheets[workbook.SheetNames[0]], {
@@ -57,9 +64,9 @@ const loadExcel = file => {
   });
 };
 
-const loadCsv = file => {
+const loadCsv = fileContent => {
   return new Promise((resolve, reject) => {
-    Papa.parse(file, {
+    Papa.parse(fileContent, {
       complete: ({errors, data}) => {
         if (errors.length > 0) {
           return reject(errors[0].message);
