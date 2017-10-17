@@ -14,7 +14,7 @@ import {RaisedButton} from 'material-ui';
 import TestConfigurerComponent from './TestConfigurerComponent';
 import VerticalListComponent from '../../common/component/VerticalListComponent';
 import {mouseUp} from '../../common/actions/common-actions';
-import {getScaleName, getScales, scaleRootSelector} from '../../scales/selectors/scale-selectors';
+import {getScaleName, getScales, scaleRootSelector} from '../../scales/selectors';
 
 const containerStyle = {
   display: 'flex'

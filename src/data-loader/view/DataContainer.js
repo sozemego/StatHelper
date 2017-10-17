@@ -1,8 +1,8 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {parseFile} from '../operations';
-import FileUploadComponent from '../components/FileUploadComponent';
-import DataDisplayComponent from '../components/DataDisplayComponent';
+import FileUploadComponent from './FileUploadComponent';
+import DataDisplayComponent from './DataDisplayComponent';
 import {
   dataLoaderRootSelector,
   getError,
