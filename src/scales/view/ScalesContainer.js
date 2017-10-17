@@ -1,24 +1,12 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {
-  createScale,
-  removeScale,
-  selectScale,
-  setMeasurementLevel,
-  setScaleName,
-  startSelectingItems,
-  toggleItem
-} from '../actions/scales-actions';
+import operations from '../operations';
 import ScaleConfigurerComponent from './ScaleConfigurerComponent';
 import {mouseUp} from '../../common/actions/common-actions';
 import SelectableElementCollectionComponent from '../../common/component/SelectableElementCollectionComponent';
 import {RaisedButton} from 'material-ui';
 import VerticalListComponent from '../../common/component/VerticalListComponent';
-import {
-  getScaleId,
-  getScaleIndexById, getScaleItems, getScaleName, getScales, getSelectedScale, getSelectedScaleId,
-  scaleRootSelector
-} from '../selectors/scale-selectors';
+import scaleSelectors from '../selectors';
 import {dataLoaderRootSelector, getItemNames} from '../../data-loader/selectors';
 
 const containerStyle = {
@@ -50,7 +38,7 @@ export class ScalesContainer extends React.Component {
 
   _getSelectedScaleItems = () => {
     const selectedScale = this._getSelectedScale();
-    return selectedScale ? getScaleItems(selectedScale) : [];
+    return selectedScale ? scaleSelectors.getScaleItems(selectedScale) : [];
   };
 
   render() {
@@ -68,14 +56,14 @@ export class ScalesContainer extends React.Component {
       setMeasurementLevel
     } = this.props;
 
-    const selectedScaleId = selectedScale ? getScaleId(selectedScale) : null;
+    const selectedScaleId = selectedScale ? scaleSelectors.getScaleId(selectedScale) : null;
 
     const {
       _getSelectedScaleItems,
       _getSelectedScale
     } = this;
 
-    const scaleNames = scales.map(getScaleName);
+    const scaleNames = scales.map(scaleSelectors.getScaleName);
 
     return (
       <div style={containerStyle} onMouseUp={mouseUp}>
@@ -94,8 +82,8 @@ export class ScalesContainer extends React.Component {
             onTouchTap={() => createScale()}
           />
           <SelectableElementCollectionComponent
-            selectElement={(index) => selectScale(getScaleId(scales[index]))}
-            selectedElementIndex={scales.findIndex(scale => getScaleId(scale) === selectedScaleId)}
+            selectElement={(index) => selectScale(scaleSelectors.getScaleId(scales[index]))}
+            selectedElementIndex={scales.findIndex(scale => scaleSelectors.getScaleId(scale) === selectedScaleId)}
             elements={scaleNames}
           />
           <ScaleConfigurerComponent
@@ -113,37 +101,37 @@ export class ScalesContainer extends React.Component {
 const mapStateToProps = state => {
   const dataLoader = dataLoaderRootSelector(state);
   return {
-    scales: getScales(scaleRootSelector(state)),
+    scales: scaleSelectors.getScales(scaleSelectors.scaleRootSelector(state)),
     itemNames: getItemNames(dataLoader),
-    selectedScale: getSelectedScale(scaleRootSelector(state))
+    selectedScale: scaleSelectors.getSelectedScale(scaleSelectors.scaleRootSelector(state))
   };
 };
 
 const dispatchToProps = dispatch => {
   return {
     startSelectingItems: () => {
-      dispatch(startSelectingItems());
+      dispatch(operations.startSelectingItems());
     },
     mouseUp: () => {
       dispatch(mouseUp());
     },
     toggleItem: itemIndex => {
-      dispatch(toggleItem(itemIndex));
+      dispatch(operations.toggleItem(itemIndex));
     },
     createScale: () => {
-      dispatch(createScale());
+      dispatch(operations.createScale());
     },
     selectScale: scaleId => {
-      dispatch(selectScale(scaleId));
+      dispatch(operations.selectScale(scaleId));
     },
     setScaleName: (scaleId, scaleName) => {
-      dispatch(setScaleName(scaleId, scaleName));
+      dispatch(operations.setScaleName(scaleId, scaleName));
     },
     removeScale: scaleId => {
-      dispatch(removeScale(scaleId));
+      dispatch(operations.removeScale(scaleId));
     },
     setMeasurementLevel: (scaleId, measurementLevel) => {
-      dispatch(setMeasurementLevel(scaleId, measurementLevel));
+      dispatch(operations.setMeasurementLevel(scaleId, measurementLevel));
     }
   };
 };

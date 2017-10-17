@@ -9,11 +9,7 @@ import {
 import {ActionHelpOutline} from 'material-ui/svg-icons/index';
 import ToolTipComponent from '../../common/component/ToolTipComponent';
 import {MEASUREMENT_LEVELS} from '../model/scale-constants';
-import {
-  getScaleItems,
-  getScaleMeasurementLevel,
-  getScaleName
-} from '../selectors/scale-selectors';
+import scaleSelectors from '../selectors';
 
 const configurerContainerStyle = {
   height: '100%',
@@ -85,7 +81,7 @@ export default class ScaleConfigurerComponent extends React.Component {
       return null;
     }
 
-    const items = getScaleItems(scale);
+    const items = scaleSelectors.getScaleItems(scale);
 
     const {
       _onScaleNameChange,
@@ -99,7 +95,7 @@ export default class ScaleConfigurerComponent extends React.Component {
           <TextField
             hintText="Scale name"
             fullWidth={false}
-            value={getScaleName(scale)}
+            value={scaleSelectors.getScaleName(scale)}
             underlineShow={false}
             onChange={_onScaleNameChange}/>
         </div>
@@ -108,7 +104,7 @@ export default class ScaleConfigurerComponent extends React.Component {
           <RadioButtonGroup
             name="Measurement level"
             style={measurementLevelStyle}
-            valueSelected={getScaleMeasurementLevel(scale)}
+            valueSelected={scaleSelectors.getScaleMeasurementLevel(scale)}
             onChange={_onScaleMeasurementLevelChange}
           >
             {MEASUREMENT_LEVELS.map((level, index) => {

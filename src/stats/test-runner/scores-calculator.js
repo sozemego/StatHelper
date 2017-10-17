@@ -6,10 +6,10 @@
  * @param data
  * @returns {Array}
  */
-import {getScaleItems} from '../../scales/selectors/scale-selectors';
+import scalesSelectors from '../../scales/selectors';
 
 export const getScoresForScale = (scale, data) => {
-  const items = getScaleItems(scale);
+  const items = scalesSelectors.getScaleItems(scale);
   // validate items
   const maxItemIndex = data[0].length - 1;
   items.forEach(itemIndex => {

@@ -10,7 +10,7 @@ import {
 } from './statistics';
 import {isMeasurementLevelValid} from '../../scales/model/scale';
 import {NOMINAL, RATIO} from '../../scales/model/scale-constants';
-import {getScaleMeasurementLevel, getScaleName, getScaleScores} from '../../scales/selectors/scale-selectors';
+import scalesSelectors from '../../scales/selectors';
 
 export const runTest = test => {
   const runner = testRunners[test.type];
@@ -65,8 +65,10 @@ const calculateNormality = scales => {
   // first check normality of all ratio scales
   const normalDistributionResults = {};
   scales
-    .filter(scale => getScaleMeasurementLevel(scale) === RATIO)
-    .forEach(scale => normalDistributionResults[getScaleName(scale)] = checkNormal(getScaleScores(scale)));
+    .filter(scale => scalesSelectors.getScaleMeasurementLevel(scale) === RATIO)
+    .forEach(scale => {
+      normalDistributionResults[scalesSelectors.getScaleName(scale)] = checkNormal(scalesSelectors.getScaleScores(scale));
+    });
   return normalDistributionResults;
 };
 
@@ -81,12 +83,12 @@ const getAllPairs = scales => {
 };
 
 const getCorrelationType = (scale1, scale2, normalDistributions) => {
-  const firstScaleLevel = getScaleMeasurementLevel(scale1);
-  const secondScaleLevel = getScaleMeasurementLevel(scale2);
+  const firstScaleLevel = scalesSelectors.getScaleMeasurementLevel(scale1);
+  const secondScaleLevel = scalesSelectors.getScaleMeasurementLevel(scale2);
 
   if (firstScaleLevel === RATIO && secondScaleLevel === RATIO) {
-    const firstScaleNormal = normalDistributions[getScaleName(scale1)];
-    const secondScaleNormal = normalDistributions[getScaleName(scale2)];
+    const firstScaleNormal = normalDistributions[scalesSelectors.getScaleName(scale1)];
+    const secondScaleNormal = normalDistributions[scalesSelectors.getScaleName(scale2)];
     return firstScaleNormal && secondScaleNormal ? PEARSON : SPEARMAN;
   }
 
@@ -109,7 +111,7 @@ const runCorrelations = (allPairs, normalDistributionResults) => {
     const correlationType = getCorrelationType(firstScale, secondScale, normalDistributionResults);
     const correlationCalculator = correlationCalculators[correlationType];
 
-    const result = correlationCalculator(getScaleScores(firstScale), getScaleScores(secondScale));
+    const result = correlationCalculator(scalesSelectors.getScaleScores(firstScale), scalesSelectors.getScaleScores(secondScale));
     result.scales = [firstScale, secondScale];
     results.push(result);
   }

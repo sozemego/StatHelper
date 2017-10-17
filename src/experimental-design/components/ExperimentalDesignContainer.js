@@ -14,7 +14,7 @@ import {RaisedButton} from 'material-ui';
 import TestConfigurerComponent from './TestConfigurerComponent';
 import VerticalListComponent from '../../common/component/VerticalListComponent';
 import {mouseUp} from '../../common/actions/common-actions';
-import {getScaleName, getScales, scaleRootSelector} from '../../scales/selectors';
+import scaleSelectors from '../../scales/selectors';
 
 const containerStyle = {
   display: 'flex'
@@ -58,7 +58,7 @@ class ExperimentalDesignContainer extends React.Component {
       createTest
     } = this.props;
 
-    const scaleNames = scales.map(getScaleName);
+    const scaleNames = scales.map(scaleSelectors.getScaleName);
 
     return (
       <div style={containerStyle} onMouseUp={mouseUp}>
@@ -97,7 +97,7 @@ class ExperimentalDesignContainer extends React.Component {
 const mapStateToProps = (state) => {
   const {experimentalDesign} = state;
   return {
-    scales: getScales(scaleRootSelector(state)),
+    scales: scaleSelectors.getScales(scaleSelectors.scaleRootSelector(state)),
     tests: experimentalDesign.tests,
     selectedTest: experimentalDesign.selectedTest
   };

@@ -5,7 +5,7 @@ import {runTests} from '../actions/stats-actions';
 import {TestResultsComponent} from './TestResultsComponent';
 import {DescriptivesComponent} from './DescriptivesComponent';
 import {showChart} from '../../charts/actions/actions';
-import {getScales, scaleRootSelector} from '../../scales/selectors/scale-selectors';
+import scaleSelectors from '../../scales/selectors';
 
 const statsContainerStyle = {
   margin: '0px 0px 4px 0px'
@@ -72,7 +72,7 @@ const mapStateToProps = state => {
     runningTests: stats.runningTests,
     minSignificance: stats.minSignificance,
     descriptives: stats.descriptives,
-    scales: getScales(scaleRootSelector(state))
+    scales: scaleSelectors.getScales(scaleSelectors.scaleRootSelector(state))
   };
 };
 

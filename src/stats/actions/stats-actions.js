@@ -3,15 +3,15 @@ import {runTest} from '../test-runner/test-runner';
 import {getScoresForScale} from '../test-runner/scores-calculator';
 import {copy} from '../../common/utils';
 import {getDescriptives} from '../test-runner/descriptive-statistics';
-import {setScaleScores} from '../../scales/actions/scales-actions';
-import {getScaleId, getScales, scaleRootSelector} from '../../scales/selectors/scale-selectors';
+import scalesOperations from '../../scales/operations';
+import scalesSelectors from '../../scales/selectors';
 import {dataLoaderRootSelector, getData} from '../../data-loader/selectors';
 
 export const runTests = () => {
   return (dispatch, getState) => {
     const state = getState();
     const {experimentalDesign} = state;
-    const scales = getScales(scaleRootSelector(state));
+    const scales = scalesSelectors.getScales(scalesSelectors.scaleRootSelector(state));
     const data = getData(dataLoaderRootSelector(state));
     const {tests} = experimentalDesign;
 
@@ -20,8 +20,8 @@ export const runTests = () => {
     const scaleScores = {};
     scales.forEach(scale => {
       const scores = getScoresForScale(scale, data);
-      scaleScores[getScaleId(scale)] = scores;
-      dispatch(setScaleScores(getScaleId(scale), scores));
+      scaleScores[scalesSelectors.getScaleId(scale)] = scores;
+      dispatch(scalesOperations.setScaleScores(scalesSelectors.getScaleId(scale), scores));
     });
 
     for (let i = 0; i < tests.length; i++) {
@@ -30,7 +30,7 @@ export const runTests = () => {
         const scalesForTest = [];
         for (let j = 0; j < test.scales.length; j++) {
           const scale = copy(scales[test.scales[j]]);
-          scale.scores = [...scaleScores[getScaleId(scale)]];
+          scale.scores = [...scaleScores[scalesSelectors.getScaleId(scale)]];
           scalesForTest.push(scale);
         }
 
@@ -50,9 +50,9 @@ export const runTests = () => {
     for (let i = 0; i < scales.length; i++) {
       setTimeout(() => {
         const scale = copy(scales[i]);
-        scale.scores = scaleScores[getScaleId(scale)];
+        scale.scores = scaleScores[scalesSelectors.getScaleId(scale)];
         const descriptives = getDescriptives(scale);
-        dispatch(notifyDescriptivesResults(getScaleId(scale), descriptives));
+        dispatch(notifyDescriptivesResults(scalesSelectors.getScaleId(scale), descriptives));
       }, (tests.length + i) * 125);
     }
   };

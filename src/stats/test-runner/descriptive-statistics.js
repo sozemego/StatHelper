@@ -1,7 +1,7 @@
 import {NOMINAL, ORDINAL, RATIO} from '../../scales/model/scale-constants';
 import {mean, median, mode, standardDeviation} from 'simple-statistics';
 import {calculateShapiroWilk, maxValue, minValue} from './statistics';
-import {getScaleMeasurementLevel, getScaleScores} from '../../scales/selectors/scale-selectors';
+import scalesSelectors from '../../scales/selectors';
 
 /**
  * Returns descriptive statistics for a scale. The statistics depend on the
@@ -13,15 +13,15 @@ import {getScaleMeasurementLevel, getScaleScores} from '../../scales/selectors/s
  * @param scale
  */
 export const getDescriptives = scale => {
-  const handler = scaleHandlers[getScaleMeasurementLevel(scale)];
+  const handler = scaleHandlers[scalesSelectors.getScaleMeasurementLevel(scale)];
   if (!handler) {
-    throw new Error(`Invalid scale measurement level ${getScaleMeasurementLevel(scale)}`);
+    throw new Error(`Invalid scale measurement level ${scalesSelectors.getScaleMeasurementLevel(scale)}`);
   }
   return handler(scale);
 };
 
 const nominalScaleHandler = scale => {
-  const scores = getScaleScores(scale);
+  const scores = scalesSelectors.getScaleScores(scale);
 
   const frequencies = createFrequencyCount(scores);
   const modes = calculateModes(scores);
@@ -34,7 +34,7 @@ const nominalScaleHandler = scale => {
 };
 
 const ordinalScaleHandler = scale => {
-  const scores = getScaleScores(scale);
+  const scores = scalesSelectors.getScaleScores(scale);
 
   const frequencies = createFrequencyCount(scores);
   const modes = calculateModes(scores);
@@ -49,7 +49,7 @@ const ordinalScaleHandler = scale => {
 };
 
 const ratioScaleHandler = scale => {
-  const scores = getScaleScores(scale);
+  const scores = scalesSelectors.getScaleScores(scale);
 
   const mean = calculateMean(scores);
   const median = calculateMedian(scores);
