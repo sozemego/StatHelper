@@ -8,6 +8,7 @@ import {RaisedButton} from 'material-ui';
 import VerticalListComponent from '../../common/component/VerticalListComponent';
 import scaleSelectors from '../selectors';
 import dataLoaderSelectors from '../../data-loader/selectors';
+import {randomScaleId} from '../model/scale';
 
 const containerStyle = {
   display: 'flex'
@@ -119,7 +120,9 @@ const dispatchToProps = dispatch => {
       dispatch(scalesOperations.toggleItem(itemIndex));
     },
     createScale: () => {
-      dispatch(scalesOperations.createScale());
+      const scaleId = randomScaleId();
+      dispatch(scalesOperations.createScale(scaleId));
+      dispatch(scalesOperations.selectScale(scaleId));
     },
     selectScale: scaleId => {
       dispatch(scalesOperations.selectScale(scaleId));
