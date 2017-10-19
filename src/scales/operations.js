@@ -26,10 +26,10 @@ const checkScaleIdAlreadyExists = (scaleId, state) => {
 
 const toggleItem = (scaleId, itemIndex) => {
   return (dispatch, getState) => {
-    const scale = selectors.getScaleById(getRoot(getState), scaleId);
-    if (!scale) {
-      throw new Error(`Cannot toggle items of scale with id ${scaleId} because it does not exist.`);
+    if (!selectors.isSelectingItems(getRoot(getState))) {
+      return;
     }
+    const scale = validateScaleWithIdExists(scaleId, getRoot(getState));
     const selectedItems = _toggleItem(itemIndex, selectors.getScaleItems(scale));
     dispatch(actions.selectItems(scaleId, sortAsc(selectedItems)));
   };
@@ -60,6 +60,7 @@ const setScaleName = (scaleId, scaleName) => {
 const validateScaleWithIdExists = (scaleId, state) => {
   const scale = selectors.getScaleById(state, scaleId);
   if (!scale) throw Error(`Scale with id ${scaleId} does not exist!`);
+  return scale;
 };
 
 const isScaleNameValid = scaleName => {
@@ -81,7 +82,6 @@ const setMeasurementLevel = (scaleId, measurementLevel) => {
     }
     validateScaleWithIdExists(scaleId, getRoot(getState));
     dispatch(actions.setMeasurementLevel(scaleId, measurementLevel));
-
   };
 };
 

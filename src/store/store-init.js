@@ -1,6 +1,6 @@
 import dataLoader from '../data-loader/reducer';
 import scales from '../scales/reducer';
-import experimentalDesign from '../experimental-design/reducer/experimental-design-reducer';
+import experimentalDesign from '../experimental-design/reducer';
 import {applyMiddleware, combineReducers, createStore} from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import {createLogger} from 'redux-logger';

@@ -72,7 +72,7 @@ export class ScalesContainer extends React.Component {
           <VerticalListComponent
             data={itemNames}
             selectedItems={_getSelectedScaleItems()}
-            toggleItem={toggleItem}
+            toggleItem={(index) => toggleItem(selectedScaleId, index)}
             startSelectingItems={startSelectingItems}
           />
         </div>
@@ -116,8 +116,8 @@ const dispatchToProps = dispatch => {
     mouseUp: () => {
       dispatch(mouseUp());
     },
-    toggleItem: itemIndex => {
-      dispatch(scalesOperations.toggleItem(itemIndex));
+    toggleItem: (scaleId, itemIndex) => {
+      dispatch(scalesOperations.toggleItem(scaleId, itemIndex));
     },
     createScale: () => {
       const scaleId = randomScaleId();

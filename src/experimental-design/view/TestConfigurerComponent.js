@@ -1,6 +1,8 @@
 import React from 'react';
 import {Chip, FlatButton, RadioButton, RadioButtonGroup, TextField} from 'material-ui';
 import {TEST_TYPES} from '../model/test-constants';
+import selectors from '../selectors';
+import scaleSelectors from '../../scales/selectors';
 
 const configurerContainerStyle = {
   height: '100%',
@@ -61,7 +63,14 @@ export default class TestConfigurerComponent extends React.Component {
       selectedTest,
       removeTest
     } = this.props;
-    const {scales} = selectedTest;
+
+    const {
+      _onTestNameChange,
+      _onTestTypeChange
+    } = this;
+
+    const scales = selectors.getTestScales(selectedTest);
+
     return (
       <div style={configurerContainerStyle}>
         <div style={fieldStyle}>
@@ -69,17 +78,17 @@ export default class TestConfigurerComponent extends React.Component {
           <TextField
             hintText="Test name"
             fullWidth={false}
-            value={selectedTest.name}
+            value={selectors.getTestName(selectedTest)}
             underlineShow={false}
-            onChange={this._onTestNameChange}/>
+            onChange={_onTestNameChange}/>
         </div>
         <div style={fieldStyle}>
           <p style={fieldNameStyle}>Test type</p>
           <RadioButtonGroup
             name="Test type"
             style={testTypeContainerStyle}
-            valueSelected={selectedTest.type}
-            onChange={this._onTestTypeChange}
+            valueSelected={selectors.getTestType(selectedTest)}
+            onChange={_onTestTypeChange}
           >
             {TEST_TYPES.map((type, index) => {
               return <RadioButton

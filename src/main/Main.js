@@ -2,7 +2,7 @@ import React from 'react';
 import {Tab, Tabs} from 'material-ui';
 import DataContainer from '../data-loader/view/DataContainer';
 import ScalesContainer from '../scales/view/ScalesContainer';
-import ExperimentalDesignContainer from '../experimental-design/components/ExperimentalDesignContainer';
+import ExperimentalDesignContainer from '../experimental-design/view/ExperimentalDesignContainer';
 import StatsContainer from '../stats/components/StatsContainer';
 import {NavigationArrowUpward} from 'material-ui/svg-icons/index';
 import ChartsContainer from '../charts/components/ChartsContainer';
