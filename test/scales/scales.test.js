@@ -101,6 +101,7 @@ describe('scale operations', () => {
     });
 
     it('should correctly select all given items', () => {
+      store.dispatch(operations.startSelectingItems());
       store.dispatch(operations.toggleItem(scaleId, 0));
       store.dispatch(operations.toggleItem(scaleId, 1));
       store.dispatch(operations.toggleItem(scaleId, 2));
@@ -119,6 +120,7 @@ describe('scale operations', () => {
 
     it('should correctly toggle and untoggle items', () => {
       //toggle
+      store.dispatch(operations.startSelectingItems());
       store.dispatch(operations.toggleItem(scaleId, 0));
       store.dispatch(operations.toggleItem(scaleId, 1));
       store.dispatch(operations.toggleItem(scaleId, 2));
@@ -137,6 +139,7 @@ describe('scale operations', () => {
     });
 
     it('should throw error for non-existing scale', () => {
+      store.dispatch(operations.startSelectingItems());
       expect(() => store.dispatch(operations.toggleItem(-5000, 0))).toThrow();
     });
   });

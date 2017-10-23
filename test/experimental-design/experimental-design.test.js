@@ -101,6 +101,7 @@ describe('experimental design operations', () => {
     });
 
     it('should correctly select all given scales', () => {
+      store.dispatch(operations.startSelectingScales());
       store.dispatch(operations.toggleScale(testId, 0));
       store.dispatch(operations.toggleScale(testId, 1));
       store.dispatch(operations.toggleScale(testId, 2));
@@ -118,6 +119,7 @@ describe('experimental design operations', () => {
     });
 
     it('should correctly toggle and untoggle scales', () => {
+      store.dispatch(operations.startSelectingScales());
       //toggle
       store.dispatch(operations.toggleScale(testId, 0));
       store.dispatch(operations.toggleScale(testId, 1));
@@ -137,6 +139,7 @@ describe('experimental design operations', () => {
     });
 
     it('should throw error for non-existing test', () => {
+      store.dispatch(operations.startSelectingScales());
       expect(() => store.dispatch(operations.toggleScale(-5000, 0))).toThrow();
     });
   });
