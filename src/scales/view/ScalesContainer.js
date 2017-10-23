@@ -92,6 +92,7 @@ export class ScalesContainer extends React.Component {
             setScaleName={(name) => setScaleName(selectedScaleId, name)}
             removeScale={() => removeScale(selectedScaleId)}
             setMeasurementLevel={(level) => setMeasurementLevel(selectedScaleId, level)}
+            itemNames={itemNames}
           />
         </div>
       </div>

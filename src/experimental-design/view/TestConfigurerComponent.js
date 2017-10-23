@@ -61,15 +61,14 @@ export default class TestConfigurerComponent extends React.Component {
     }
     const {
       selectedTest,
-      removeTest
+      removeTest,
+      selectedScaleNames
     } = this.props;
 
     const {
       _onTestNameChange,
       _onTestTypeChange
     } = this;
-
-    const scales = selectors.getTestScales(selectedTest);
 
     return (
       <div style={configurerContainerStyle}>
@@ -103,12 +102,12 @@ export default class TestConfigurerComponent extends React.Component {
         <div style={fieldStyle}>
           <p style={fieldNameStyle}>Scales</p>
           <div style={itemsContainerStyle}>
-            {scales.map((scale, index) => {
+            {selectedScaleNames.map((scaleName, index) => {
               return <Chip
                 style={itemStyle}
                 key={index}
               >
-                {scale}
+                {scaleName}
               </Chip>
             })}
           </div>

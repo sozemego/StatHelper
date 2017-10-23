@@ -67,8 +67,10 @@ class ExperimentalDesignContainer extends React.Component {
       setTestType
     } = this.props;
 
-    const scaleNames = scales.map(scaleSelectors.getScaleName);
     const selectedTestId = selectedTest ? designSelectors.getTestId(selectedTest) : null;
+    const scaleNames = scales.map(scaleSelectors.getScaleName);
+    const selectedScaleIndices = this._getSelectedTestScales();
+    const selectedScaleNames = selectedScaleIndices.map(index => scaleSelectors.getScaleName(scales[index]));
 
     const {
       _getSelectedTest,
@@ -101,6 +103,7 @@ class ExperimentalDesignContainer extends React.Component {
             setTestName={(name) => setTestName(selectedTestId, name)}
             setTestType={(type) => setTestType(selectedTestId, type)}
             removeTest={() => removeTest(selectedTestId)}
+            selectedScaleNames={selectedScaleNames}
           />
         </div>
       </div>

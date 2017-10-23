@@ -63,7 +63,7 @@ export default class VerticalListComponent extends React.Component {
         onMouseEnter={() => toggleItem(index)}
         key={index}
       >
-        {item} [{index}]
+        {item}
       </div>
     })
   };

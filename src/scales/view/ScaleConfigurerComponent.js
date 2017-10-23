@@ -74,7 +74,8 @@ export default class ScaleConfigurerComponent extends React.Component {
   render() {
     const {
       scale,
-      removeScale
+      removeScale,
+      itemNames
     } = this.props;
 
     if (!scale) {
@@ -127,7 +128,7 @@ export default class ScaleConfigurerComponent extends React.Component {
               return <Chip
                 style={itemStyleStyle}
                 key={index}>
-                {item}
+                {itemNames[item]}
               </Chip>;
             })}
           </div>
