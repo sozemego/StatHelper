@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {FlatButton, Paper, Tab, Tabs} from 'material-ui';
-import {runTests} from '../actions/stats-actions';
+import {runTests} from '../operations';
 import {TestResultsComponent} from './TestResultsComponent';
 import {DescriptivesComponent} from './DescriptivesComponent';
 import {showChart} from '../../charts/actions/actions';
