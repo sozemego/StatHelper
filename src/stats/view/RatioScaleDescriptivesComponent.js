@@ -1,6 +1,6 @@
 import React from 'react';
 import {FlatButton} from 'material-ui';
-import {BAR_CHART, HISTOGRAM_CHART} from '../../charts/constants/chart-types';
+import {BAR_CHART, HISTOGRAM_CHART} from '../../charts/constants';
 
 const descriptiveContainerStyle = {
   display: 'flex',

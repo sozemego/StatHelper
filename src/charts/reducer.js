@@ -1,4 +1,4 @@
-import {HIDE_CHART, SHOW_CHART} from '../actions/actions';
+import types from './types';
 
 const initialState = {
   chartType: null,
@@ -8,9 +8,9 @@ const initialState = {
 
 const chartReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SHOW_CHART:
+    case types.SHOW_CHART:
       return {...state, chartType: action.chartType, data: [...action.data], show: true};
-    case HIDE_CHART:
+    case types.HIDE_CHART:
       return {...state, show: false};
     default:
       return state;

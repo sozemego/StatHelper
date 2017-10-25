@@ -5,7 +5,7 @@ import ScalesContainer from '../scales/view/ScalesContainer';
 import ExperimentalDesignContainer from '../experimental-design/view/ExperimentalDesignContainer';
 import StatsContainer from '../stats/view/StatsContainer';
 import {NavigationArrowUpward} from 'material-ui/svg-icons/index';
-import ChartsContainer from '../charts/components/ChartsContainer';
+import ChartsContainer from '../charts/view/ChartsContainer';
 
 const tabItemContainerStyle = {
   backgroundColor: '#212121'

@@ -5,7 +5,7 @@ import {applyMiddleware, combineReducers, createStore} from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import {createLogger} from 'redux-logger';
 import stats from '../stats/reducer';
-import chart from '../charts/reducer/chart-reducer';
+import chart from '../charts/reducer';
 
 const rootReducer = combineReducers({
   dataLoader,

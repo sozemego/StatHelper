@@ -1,8 +1,9 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Dialog} from 'material-ui';
-import {hideChart} from '../actions/actions';
-import {BAR_CHART, HISTOGRAM_CHART, LINE_CHART} from '../constants/chart-types';
+import chartsOperations from '../operations';
+import chartSelectors from '../selectors';
+import {BAR_CHART, HISTOGRAM_CHART, LINE_CHART} from '../constants';
 import {LineChartComponent} from './LineChartComponent';
 import {BarChartComponent} from './BarChartComponent';
 import {HistogramChartComponent} from './HistogramChartComponent';
@@ -49,17 +50,17 @@ export class ChartsContainer extends React.Component {
 }
 
 const mapStateToProps = state => {
-  const {chart} = state;
+  const chartRoot = chartSelectors.chartRootSelector(state);
   return {
-    show: chart.show,
-    chartType: chart.chartType,
-    data: chart.data
+    show: chartSelectors.showChart(chartRoot),
+    chartType: chartSelectors.getChartType(chartRoot),
+    data: chartSelectors.getData(chartRoot)
   };
 };
 
 const dispatchToProps = dispatch => {
   return {
-    hideChart: () => dispatch(hideChart())
+    hideChart: () => dispatch(chartsOperations.hideChart())
   };
 };
 

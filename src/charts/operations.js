@@ -1,14 +1,14 @@
-import {makeActionCreator} from '../../common/actions/utils';
-import {BAR_CHART, CHART_TYPES, HISTOGRAM_CHART, LINE_CHART} from '../constants/chart-types';
-import {getSet} from '../../stats/test-runner/statistics';
-import {createFrequencyCount} from '../../stats/test-runner/descriptive-statistics';
 import {quantile} from 'simple-statistics';
+import {BAR_CHART, CHART_TYPES, HISTOGRAM_CHART, LINE_CHART} from './constants';
+import actions from './actions';
+import {getSet} from '../stats/test-runner/statistics';
+import {createFrequencyCount} from '../stats/test-runner/descriptive-statistics';
 
-export const showChart = (chartType, data) => {
+const showChart = (chartType, data) => {
   return (dispatch, getState) => {
     if (isValidChartType(chartType) && isDataValid(chartType, data)) {
       const transformedData = transformData(chartType, data);
-      dispatch(_showChart(chartType, transformedData));
+      dispatch(actions.showChart(chartType, transformedData));
     }
   };
 };
@@ -70,6 +70,7 @@ const transformData = (chartType, data) => {
 const barChartDataTransformer = data => {
 
 };
+
 
 const histogramDataTransformer = maxGroups => data => {
   // 1. assume data is numeric, because it was checked before
@@ -134,8 +135,9 @@ const dataTransformers = {
   [HISTOGRAM_CHART]: histogramDataTransformer(histogramMaxBars)
 };
 
-export const SHOW_CHART = 'SHOW_CHART';
-const _showChart = makeActionCreator(SHOW_CHART, 'chartType', 'data');
+const hideChart = () => actions.hideChart();
 
-export const HIDE_CHART = 'HIDE_CHART';
-export const hideChart = makeActionCreator(HIDE_CHART);
+export default {
+  showChart,
+  hideChart
+};

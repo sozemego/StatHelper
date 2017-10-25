@@ -8,7 +8,7 @@ import dataLoaderSelectors from '../data-loader/selectors';
 import experimentalDesignSelectors from '../experimental-design/selectors';
 import actions from './actions';
 
-export const runTests = () => {
+const runTests = () => {
   return (dispatch, getState) => {
     const state = getState();
     const scalesRoot = scalesSelectors.scaleRootSelector(state);
@@ -60,3 +60,7 @@ export const runTests = () => {
     }
   };
 };
+
+export default {
+  runTests
+}
