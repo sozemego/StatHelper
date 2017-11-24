@@ -149,7 +149,10 @@ export const chiSquareIndependence = (sample1, sample2) => {
   const coefficient = calculateChiSquareCoefficient(chiSquare, totals.total, coefficientDf, coefficientType);
 
   const significanceDf = (sample1Uniques.length - 1) * (sample2Uniques.length - 1);
-  const pValue = 1 - cdf(chiSquare, significanceDf);
+  let pValue = 1;
+  if(significanceDf > 0) {
+      pValue = 1 - cdf(chiSquare, significanceDf);
+  }
 
   return {
     chiSquare: Number(chiSquare.toFixed(3)),
